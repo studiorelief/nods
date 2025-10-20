@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Rainbow Cursor Animation</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background: #1a1a1a;
+        color: white;
+      }
+
+      .section_home_projects {
+        width: 100%;
+        height: 500px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 40px;
+        box-sizing: border-box;
+        position: relative;
+        background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+      }
+
+      .section_home_projects h2 {
+        margin-top: 0;
+        font-size: 2rem;
+        text-align: center;
+      }
+
+      .section_home_projects p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .instructions {
+        background: #333;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+
+      .instructions h3 {
+        margin-top: 0;
+        color: #ffd700;
+      }
+
+      .instructions ul {
+        margin: 10px 0;
+        padding-left: 20px;
+      }
+
+      .instructions li {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Démonstration de l'animation Rainbow Cursor</h1>
+
+    <div class="instructions">
+      <h3>Instructions :</h3>
+      <ul>
+        <li>Déplacez votre souris dans la zone ci-dessous pour voir l'animation rainbow</li>
+        <li>L'animation suit le mouvement de la souris avec un effet de traînée colorée</li>
+        <li>Les couleurs changent automatiquement avec le temps</li>
+        <li>L'animation a un effet de pulsation dynamique</li>
+      </ul>
+    </div>
+
+    <div class="section_home_projects">
+      <h2>Section Home Projects</h2>
+      <p>
+        Cette section contient l'animation rainbow cursor. Déplacez votre souris dans cette zone
+        pour voir l'effet en action. L'animation utilise un canvas HTML5 pour créer des traînées
+        colorées qui suivent le mouvement de la souris.
+      </p>
+      <p>
+        L'animation est basée sur le code React original que vous avez fourni, mais adaptée pour
+        fonctionner avec du TypeScript/JavaScript vanilla et ciblée spécifiquement sur cette
+        section.
+      </p>
+    </div>
+
+    <script src="dist/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,304 @@
+/**
+ * Webflow Variables from Nods Site
+ * Auto-generated via Webflow MCP
+ * Site ID: 68df85a9e5513bf3a4149300
+ */
+
+:root {
+  /* =================================
+     BRAND COLORS (Primitives)
+     ================================= */
+
+  /* Lezar */
+  --brand--lezar-900: #db0617;
+  --brand--lezar-500: #a8000d;
+
+  /* Studio Relief */
+  --brand--studio-relief-900: #ff883a;
+  --brand--studio-relief-500: #ff6500;
+
+  /* Unfair */
+
+  --brand--unfair-900: #1500ff;
+  --brand--unfiar-500: #1100ce;
+
+  /* Ghost */
+  --brand--ghost-900: #ff15e6;
+  --brand--ghost-800: #ff58f7;
+  --brand--ghost-500: #ce00b7;
+
+  /* Glitch */
+  --brand--glitch-900: #00e4ae;
+  --brand--glitch-500: #00a980;
+
+  /* Brand Utilities */
+  --brand--green: #00a849;
+  --brand--blue: #1800ef;
+
+  /* =================================
+     NEUTRAL COLORS (Primitives)
+     ================================= */
+
+  --neutral--black: hsla(0, 0%, 0%, 1);
+  --neutral--greyscale-900: #757575;
+  --neutral--greyscale-700: #ddd;
+  --neutral--greyscale-400: #f1f1f1;
+  --neutral--white: hsla(0, 0%, 100%, 1);
+  --neutral--transparent: transparent;
+
+  /* =================================
+     BACKGROUND COLORS (Theme)
+     ================================= */
+
+  --_theme---background--primary: var(--neutral--white);
+  --_theme---background--secondary: transparent;
+  --_theme---background--tertiary: transparent;
+  --_theme---background--brand: var(--brand--blue);
+  --_theme---background--alternate: var(--neutral--black);
+  --_theme---background--success: transparent;
+  --_theme---background--warning: transparent;
+  --_theme---background--error: transparent;
+  --_theme---background--transparent: var(--neutral--transparent);
+
+  /* =================================
+     BORDER COLORS (Theme)
+     ================================= */
+
+  --_theme---border-color--primary: var(--neutral--black);
+  --_theme---border-color--secondary: transparent;
+  --_theme---border-color--alternate: var(--neutral--white);
+  --_theme---border-color--brand: transparent;
+  --_theme---border-color--transparent: var(--neutral--transparent);
+
+  /* =================================
+     LINK COLORS (Theme)
+     ================================= */
+
+  --_theme---link-color--primary: transparent;
+  --_theme---link-color--secondary: transparent;
+  --_theme---link-color--alternate: transparent;
+  --_theme---link-color--brand: transparent;
+
+  /* =================================
+     TEXT COLORS (Theme)
+     ================================= */
+
+  --_theme---text-color--primary: var(--neutral--black);
+  --_theme---text-color--secondary: transparent;
+  --_theme---text-color--alternate: var(--neutral--white);
+  --_theme---text-color--brand: transparent;
+  --_theme---text-color--success: transparent;
+  --_theme---text-color--warning: transparent;
+  --_theme---text-color--error: transparent;
+
+  /* =================================
+     SYSTEM COLORS (Theme)
+     ================================= */
+
+  --_theme---system--success-background: transparent;
+  --_theme---system--success-text: transparent;
+  --_theme---system--warning-background: transparent;
+  --_theme---system--warning-text: transparent;
+  --_theme---system--error-background: transparent;
+  --_theme---system--error-text: transparent;
+  --_theme---system--focus-state: transparent;
+  --_theme---system--selection-text: var(--neutral--white);
+  --_theme---system--selection-background: var(--brand--blue);
+
+  /* =================================
+     TYPOGRAPHY - FONT WEIGHT (Primitives)
+     ================================= */
+
+  --_theme---font-weight--thin: 100;
+  --_theme---font-weight--xlight: 200;
+  --_theme---font-weight--light: 300;
+  --_theme---font-weight--normal: 400;
+  --_theme---font-weight--medium: 500;
+  --_theme---font-weight--semi-bold: 600;
+  --_theme---font-weight--bold: 700;
+  --_theme---font-weight--xbold: 800;
+  --_theme---font-weight--black: 900;
+
+  /* =================================
+     TYPOGRAPHY - FONT FAMILY (Primitives)
+     ================================= */
+
+  --_theme---font-family--heading: 'Tt Norms Pro Mono Variable', monospace;
+  --_theme---font-family--body: 'Tt Norms Pro Variable', sans-serif;
+
+  /* =================================
+     TYPOGRAPHY - BODY (Typography)
+     ================================= */
+
+  --_typography---body--body-font-size: 1rem;
+  --_typography---body--body-font-weight: var(--_theme---font-weight--normal);
+  --_typography---body--body-line-height: 1.5;
+  --_typography---body--body-letter-spacing: 0rem;
+
+  /* =================================
+     TYPOGRAPHY - HEADINGS (Typography)
+     ================================= */
+
+  /* H1 */
+  --_typography---h1--h1-font-size: 5.75rem;
+  --_typography---h1--h1-font-weight: var(--_theme---font-weight--semi-bold);
+  --_typography---h1--h1-line-height: 1.2;
+  --_typography---h1--h1-letter-spacing: 0rem;
+
+  /* H2 */
+  --_typography---h2--h2-font-size: 5rem;
+  --_typography---h2--h2-font-weight: var(--_theme---font-weight--medium);
+  --_typography---h2--h2-line-height: 1.3;
+  --_typography---h2--h2-letter-spacing: 0rem;
+
+  /* H3 */
+  --_typography---h3--h3-font-size: 2.625rem;
+  --_typography---h3--h3-font-weight: var(--_theme---font-weight--semi-bold);
+  --_typography---h3--h3-line-height: 1.3;
+  --_typography---h3--h3-letter-spacing: 0rem;
+
+  /* H4 */
+  --_typography---h4--h4-font-size: 2.5rem;
+  --_typography---h4--h4-font-weight: var(--_theme---font-weight--semi-bold);
+  --_typography---h4--h4-line-height: 1.4;
+  --_typography---h4--h4-letter-spacing: 0rem;
+
+  /* H5 */
+  --_typography---h5--h5-font-size: 1.5rem;
+  --_typography---h5--h5-font-weight: var(--_theme---font-weight--semi-bold);
+  --_typography---h5--h5-line-height: 1.5;
+  --_typography---h5--h5-letter-spacing: 0rem;
+
+  /* H6 */
+  --_typography---h6--h6-font-size: 1.25rem;
+  --_typography---h6--h6-font-weight: var(--_theme---font-weight--medium);
+  --_typography---h6--h6-line-height: 1.4;
+  --_typography---h6--h6-letter-spacing: 0rem;
+
+  /* =================================
+     TYPOGRAPHY - FONT SIZES (Typography)
+     ================================= */
+
+  --_typography---font-size--tiny: 0.75rem;
+  --_typography---font-size--small: 0.875rem;
+  --_typography---font-size--regular: 1rem;
+  --_typography---font-size--medium: 1.25rem;
+  --_typography---font-size--large: 1.5rem;
+
+  /* =================================
+     TYPOGRAPHY - LINE HEIGHT (Typography)
+     ================================= */
+
+  --_typography---font-height--small: 1.1;
+  --_typography---font-height--medium: 1.2;
+  --_typography---font-height--large: 1.3;
+  --_typography---font-height--xlarge: 1.4;
+  --_typography---font-height--xxlarge: 1.5;
+  --_typography---font-height--xxxlarge: 1.6;
+  --_typography---font-height--huge: 1.7;
+
+  /* =================================
+     TYPOGRAPHY - LETTER SPACING (Typography)
+     ================================= */
+
+  --_typography---letter-spacing--tighter: -0.25rem;
+  --_typography---letter-spacing--tight: -0.125rem;
+  --_typography---letter-spacing--default: 0rem;
+  --_typography---letter-spacing--wide: 0.125rem;
+  --_typography---letter-spacing--wider: 0.25rem;
+
+  /* =================================
+     SPACING (Layout)
+     ================================= */
+
+  --_layout---spacing--none: 0rem;
+  --_layout---spacing--tiny: 0.125rem;
+  --_layout---spacing--xxsmall: 0.25rem;
+  --_layout---spacing--xsmall: 0.375rem;
+  --_layout---spacing--small: 0.5rem;
+  --_layout---spacing--medium: 0.75rem;
+  --_layout---spacing--large: 1rem;
+  --_layout---spacing--xlarge: 1.25rem;
+  --_layout---spacing--xxlarge: 1.5rem;
+  --_layout---spacing--huge: 2rem;
+  --_layout---spacing--xhuge: 2.5rem;
+  --_layout---spacing--xxhuge: 3rem;
+  --_layout---spacing--xxxhuge: 3.5rem;
+  --_layout---spacing--big: 4rem;
+  --_layout---spacing--global-padding: 2.5rem;
+
+  /* =================================
+     SECTION PADDING (Layout)
+     ================================= */
+
+  --_layout---section-padding--small: 5rem;
+  --_layout---section-padding--medium: 5rem;
+  --_layout---section-padding--large: 5rem;
+
+  /* =================================
+     GRID COLUMNS (Layout)
+     ================================= */
+
+  --_layout---grid-columns--default-count: 8;
+  --_layout---grid-columns--xsmall: 15rem;
+  --_layout---grid-columns--small: 20rem;
+  --_layout---grid-columns--medium: 25rem;
+  --_layout---grid-columns--large: 30rem;
+  --_layout---grid-columns--xlarge: 35rem;
+  --_layout---grid-columns--xxlarge: 40rem;
+
+  /* =================================
+     FOCUS (Primitives)
+     ================================= */
+
+  --focus--width: 0.125rem;
+  --focus--offset: 0.125rem;
+}
+
+/* =================================
+   RESPONSIVE - TABLET
+   ================================= */
+@media (max-width: 991px) {
+  :root {
+    /* Grid Columns - Tablet */
+    --_layout---grid-columns--default-count: 8;
+  }
+}
+
+/* =================================
+   RESPONSIVE - LANDSCAPE
+   ================================= */
+@media (max-width: 767px) {
+  :root {
+    /* Typography - Landscape */
+    --_typography---h1--h1-font-size: 2.25rem;
+    --_typography---h2--h2-font-size: 1.5rem;
+    --_typography---h3--h3-font-size: 1.25rem;
+    --_typography---h4--h4-font-size: 1.125rem;
+    --_typography---h5--h5-font-size: 1rem;
+
+    --_typography---font-size--large: 1.25rem;
+
+    /* Grid Columns - Landscape */
+    --_layout---grid-columns--default-count: 6;
+  }
+}
+
+/* =================================
+   RESPONSIVE - MOBILE
+   ================================= */
+@media (max-width: 478px) {
+  :root {
+    /* Typography - Mobile */
+    --_typography---h1--h1-font-size: 2.25rem;
+    --_typography---h2--h2-font-size: 1.5rem;
+    --_typography---h3--h3-font-size: 1.25rem;
+    --_typography---h4--h4-font-size: 1.125rem;
+    --_typography---h5--h5-font-size: 1rem;
+
+    --_typography---font-size--large: 1.25rem;
+
+    /* Grid Columns - Mobile */
+    --_layout---grid-columns--default-count: 4;
+  }
+}

@@ -1,0 +1,31 @@
+/* Rainbow cursor animation styles */
+.section_home_where {
+  position: relative;
+  overflow: hidden;
+  cursor: none; /* Hide default cursor in the section */
+}
+
+/* Ensure the canvas is properly positioned */
+.section_home_where canvas {
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Optional: Add a subtle background effect */
+.section_home_where::before {
+  content: '';
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ensure content is above the background effect */
+.section_home_where > * {
+  position: relative;
+  z-index: 2;
+}

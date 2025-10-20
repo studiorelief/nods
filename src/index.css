@@ -1,0 +1,11 @@
+/* Reference-only: webflow-variables.css is kept for Cursor autocomplete.
+/* @import './webflow-variables.css';  */
+/* Do NOT import it to avoid overriding Webflow-managed values at runtime. */
+
+@import './utils/animations/rainbow.css';
+@import './utils/animations/network-gradient.css';
+@import './utils/animations/skills-animation.css';
+@import './utils/animations/footer-animation.css';
+@import './utils/animations/grid-position.css';
+@import './utils/animations/works-cards.css';
+@import './utils/animations/why-animations.css';

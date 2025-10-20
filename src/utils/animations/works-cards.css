@@ -1,0 +1,19 @@
+.works_cards-hover {
+  transition: opacity 0.3s ease-out;
+}
+
+.works_cards:hover .works_cards-hover {
+  opacity: 1;
+}
+
+.works_cards .works_cards-hover-logo,
+.works_cards .works_cards-hover-headline {
+  transform: translateY(1rem);
+  transition: transform 0.3s ease-out;
+}
+
+.works_cards:hover .works_cards-hover-logo,
+.works_cards:hover .works_cards-hover-headline {
+  transform: translateY(0rem);
+  /* transition: transform 0.3s ease-out; */
+}

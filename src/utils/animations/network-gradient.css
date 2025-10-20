@@ -1,0 +1,31 @@
+.network_cards-logo-blending {
+  transition: filter 0.3s ease-out;
+}
+
+.network_partners_collection-item:hover .network_cards-logo-blending {
+  filter: invert(100%);
+}
+
+.network_cards-background-gradient {
+  transition: opacity 0.3s ease-out;
+}
+
+.network_partners_collection-item:hover .network_cards-background-gradient {
+  opacity: 1;
+}
+
+.network_cards {
+  transition: transform 0.3s ease-out;
+}
+
+.network_partners_collection-item:hover .network_cards {
+  transform: rotate(-15deg);
+}
+
+.network_cards-logo-blending {
+  transition: filter 0.3s ease-out;
+}
+
+.network_partners_collection-item:hover .network_cards-logo-blending {
+  filter: invert(100%);
+}
