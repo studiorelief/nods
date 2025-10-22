@@ -16,6 +16,7 @@
   object-fit: cover;
   border-radius: 4%;
   z-index: 5;
+  pointer-events: none;
 }
 
 .section_home_why .home_why_medias img {

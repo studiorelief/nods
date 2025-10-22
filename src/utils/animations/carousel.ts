@@ -12,7 +12,7 @@ type InitOptions = {
   rootSelector: string;
 };
 
-const BASE_SPACE = 16 * 0.75;
+const BASE_SPACE = 16 * 1.25;
 const PIXELS_PER_SECOND = 1000;
 
 function duplicateUntilWideEnough(root: HTMLElement, wrapper: HTMLElement): void {

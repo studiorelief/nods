@@ -1,0 +1,94 @@
+.swiper.is-home-studio {
+  overflow: visible;
+}
+
+.who_cards-on,
+.who_cards-off {
+  transform: rotate(0deg) scale(0.8);
+  /* transform: scale(0.8);
+  transform: rotate(0deg); */
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.6s ease-out;
+}
+
+.swiper-slide.is-home-studio.swiper-slide-active .who_cards-on {
+  opacity: 1;
+  transform: rotate(-10deg) scale(1);
+}
+
+.swiper-slide.is-home-studio.swiper-slide-active .who_cards-off {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.8);
+}
+
+.swiper-slide.is-home-studio.swiper-slide-active .who_cards_headline {
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+
+.who_cards_headline {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  /* transition-delay: 0.3s; */
+}
+
+/* Background colors */
+
+.home_who_background {
+  transition: background-color 0.3s ease-out;
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-lezar.swiper-slide-active
+  )
+  ~ .home_who_background {
+  background-color: var(--brand--lezar-900);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+  )
+  ~ .home_who_background {
+  background-color: var(--brand--studio-relief-900);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+  )
+  ~ .home_who_background {
+  background-color: var(--brand--studio-relief-900);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+  )
+  ~ .home_who_background {
+  background-color: var(--brand--studio-relief-900);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+  )
+  ~ .home_who_background {
+  background-color: var(--brand--studio-relief-900);
+}
+
+/* Round colors */
+.home_who_round {
+  transition: background-color 0.3s ease-out;
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-lezar.swiper-slide-active
+  )
+  ~ .home_who_round {
+  background-color: var(--brand--lezar-500);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+  )
+  ~ .home_who_round {
+  background-color: var(--brand--studio-relief-500);
+}

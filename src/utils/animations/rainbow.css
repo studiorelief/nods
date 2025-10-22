@@ -1,6 +1,5 @@
 /* Rainbow cursor animation styles */
 .section_home_where {
-  position: relative;
   overflow: hidden;
   cursor: none; /* Hide default cursor in the section */
 }

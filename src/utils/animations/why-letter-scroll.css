@@ -1,0 +1,4 @@
+.section_home_why .word {
+  display: inline-block;
+  transform: translate(calc(100vw - 25px), 0);
+}

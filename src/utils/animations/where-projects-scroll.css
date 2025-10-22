@@ -1,0 +1,20 @@
+.where_projects_heading .word {
+  display: inline-block;
+  white-space: nowrap;
+  height: 5rem;
+  overflow: hidden;
+}
+
+.where_projects_heading .letter-container {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.where_projects_heading .letter-wrapper {
+  display: block;
+}
+
+.where_projects_heading .letter {
+  display: block;
+}
