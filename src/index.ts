@@ -15,13 +15,14 @@ import { animFooter } from '$utils/animations/footerAnimation';
 import { initHeartBeat } from '$utils/animations/heartBeat';
 import { initHowSlider } from '$utils/animations/howSlider';
 import { initNetworkGradiant } from '$utils/animations/networkGradient';
+import { initOtherProjectsSlider } from '$utils/animations/OtherProjectsSlider';
 import { initRainbowCursor } from '$utils/animations/rainbow';
 import { initWhereProjectsScroll } from '$utils/animations/whereProjectsScroll';
 import { initWhoSlider } from '$utils/animations/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/whyAnimations';
 import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
 import { worksMouse } from '$utils/animations/worksMouse';
-
+import { loadScript } from '$utils/global/loadScript';
 // Variable pour stocker la fonction de nettoyage de worksMouse
 let cleanupWorksMouse: (() => void) | null = null;
 
@@ -31,6 +32,7 @@ const initGlobalFunctions = (): void => {
   resetVideos();
   barbaLogoRotate();
   animFooter();
+  loadScript('https://cdn.jsdelivr.net/npm/@finsweet/attributes-accordion@1/accordion.js');
 };
 
 initGlobalFunctions();
@@ -82,17 +84,6 @@ barba.init({
       },
     },
     {
-      namespace: 'skills',
-      beforeEnter() {},
-    },
-    {
-      namespace: 'network',
-      beforeEnter() {
-        initNetworkGradiant();
-      },
-    },
-
-    {
       namespace: 'works',
       beforeEnter() {
         // Nettoyer l'animation précédente si elle existe
@@ -103,6 +94,27 @@ barba.init({
         // Démarrer la nouvelle animation
         cleanupWorksMouse = worksMouse();
         initWhereProjectsScroll();
+      },
+    },
+    {
+      namespace: 'skills',
+      beforeEnter() {},
+    },
+    {
+      namespace: 'network',
+      beforeEnter() {
+        initNetworkGradiant();
+      },
+    },
+    {
+      namespace: 'pricings',
+      beforeEnter() {},
+    },
+    {
+      namespace: 'projects',
+      beforeEnter() {
+        restartWebflow();
+        initOtherProjectsSlider();
       },
     },
   ],

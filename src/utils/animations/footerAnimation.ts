@@ -25,7 +25,8 @@ export const animFooter = (rootSelector: string = '.section_footer'): (() => voi
   if (!card || !media) return () => {};
 
   // Préparer la scène 3D et l'origine des transformations
-  gsap.set(root, { transformPerspective: window.innerWidth });
+  // Perspective réduite pour un effet 3D plus marqué
+  gsap.set(root, { transformPerspective: window.innerWidth / 2 });
   gsap.set(card, { transformStyle: 'preserve-3d', transformOrigin: '50% 50%' });
   gsap.set(media, { backfaceVisibility: 'hidden', transformOrigin: '50% 50%' });
 
@@ -51,10 +52,12 @@ export const animFooter = (rootSelector: string = '.section_footer'): (() => voi
     const deltaX = e.clientX - oldPosX;
     const deltaY = e.clientY - oldPosY;
 
-    rotationYTo(deltaX);
-    rotationXTo(-deltaY);
-    mediaRotationYTo(deltaX);
-    mediaRotationXTo(-deltaY);
+    // Facteur pour amplifier l'effet de rotation 3D
+    const rotationFactor = 1.5;
+    rotationYTo(deltaX * rotationFactor);
+    rotationXTo(-deltaY * rotationFactor);
+    mediaRotationYTo(deltaX * rotationFactor);
+    mediaRotationXTo(-deltaY * rotationFactor);
 
     const cardRect = card.getBoundingClientRect();
     const cardCenterX = cardRect.left + cardRect.width / 2;
