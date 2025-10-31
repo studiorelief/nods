@@ -50,28 +50,28 @@
     .swiper-slide.is-home-studio.is-relief.swiper-slide-active
   )
   ~ .home_who_background {
-  background-color: var(--brand--studio-relief-900);
+  background-color: var(--brand--studio-relief-brown);
 }
 
 .swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
-    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+    .swiper-slide.is-home-studio.is-ghost.swiper-slide-active
   )
   ~ .home_who_background {
-  background-color: var(--brand--studio-relief-900);
+  background-color: var(--brand--ghost-900);
 }
 
 .swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
-    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+    .swiper-slide.is-home-studio.is-unfair.swiper-slide-active
   )
   ~ .home_who_background {
-  background-color: var(--brand--studio-relief-900);
+  background-color: var(--brand--unfair-900);
 }
 
 .swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
-    .swiper-slide.is-home-studio.is-relief.swiper-slide-active
+    .swiper-slide.is-home-studio.is-glitch.swiper-slide-active
   )
   ~ .home_who_background {
-  background-color: var(--brand--studio-relief-900);
+  background-color: var(--brand--glitch-900);
 }
 
 /* Round colors */
@@ -90,5 +90,26 @@
     .swiper-slide.is-home-studio.is-relief.swiper-slide-active
   )
   ~ .home_who_round {
-  background-color: var(--brand--studio-relief-500);
+  background-color: var(--brand--studio-relief-900);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-ghost.swiper-slide-active
+  )
+  ~ .home_who_round {
+  background-color: var(--brand--ghost-500);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-unfair.swiper-slide-active
+  )
+  ~ .home_who_round {
+  background-color: var(--brand--unfair-500);
+}
+
+.swiper.is-home-studio.swiper-initialized.swiper-horizontal.swiper-backface-hidden:has(
+    .swiper-slide.is-home-studio.is-glitch.swiper-slide-active
+  )
+  ~ .home_who_round {
+  background-color: var(--brand--glitch-500);
 }

@@ -76,21 +76,20 @@ function splitTextNode(node: Node, parent: HTMLElement): void {
 }
 
 /**
- * Initializes letter animation on scroll for .where_projects_heading
- * Letters will animate with yPercent transform based on scroll progress
- * Preserves existing spans like .home_projects_star and .home_projects_heart
+ * Processes a heading element by splitting text into letters
+ * Returns true if processing was successful, false if already processed or element not found
  */
-export function initWhereProjectsScroll(): void {
-  const heading = document.querySelector('.where_projects_heading') as HTMLElement;
+function processHeading(selector: string): boolean {
+  const heading = document.querySelector(selector) as HTMLElement;
 
   if (!heading) {
-    return;
+    return false;
   }
 
   // Check if already processed
   if (heading.querySelector('.letter-container')) {
-    // console.log('⚠️ .where_projects_heading already processed, skipping...');
-    return;
+    // console.log(`⚠️ ${selector} already processed, skipping...`);
+    return false;
   }
 
   // Store the original child nodes
@@ -110,26 +109,68 @@ export function initWhereProjectsScroll(): void {
     heading.appendChild(tempContainer.firstChild);
   }
 
-  // Set initial position for the letter wrappers
-  gsap.set('.where_projects_heading .letter-wrapper', {
-    yPercent: -50, // Start at -50% so first letter is visible
-  });
+  return true;
+}
 
-  // Animate letter wrappers with ScrollTrigger to create loop effect
-  gsap.to('.where_projects_heading .letter-wrapper', {
-    yPercent: 0, // Moves to 0%, showing the second letter
-    duration: 3,
-    ease: 'power1.inOut', // Non-linear motion
-    scrollTrigger: {
-      markers: true,
-      trigger: '.where_projects_heading', // Listens to the heading position
-      start: '33.33% bottom', // Animation starts when heading is 33.33% down from bottom
-      end: '100% 80%', // Animation ends when heading bottom reaches 80% of viewport
-      scrub: 1, // Progresses with the scroll, takes 1s to update
-    },
-    stagger: {
-      each: 0.05, // Delay between each letter animation
-      from: 'random', // Randomizes the animation order of letters
-    },
-  });
+/**
+ * Initializes letter animation on scroll for headings
+ * Letters will animate with yPercent transform based on scroll progress
+ * Preserves existing spans like .home_projects_star and .home_projects_heart
+ */
+export function initWhereProjectsScroll(): void {
+  // Process both headings
+  const whereProcessed = processHeading('.where_projects_heading');
+  const whyProcessed = processHeading('.home_why_heading');
+
+  // Animate .where_projects_heading if processed
+  if (whereProcessed) {
+    // Set initial position for the letter wrappers
+    gsap.set('.where_projects_heading .letter-wrapper', {
+      yPercent: -50, // Start at -50% so first letter is visible
+    });
+
+    // Animate letter wrappers with ScrollTrigger to create loop effect
+    gsap.to('.where_projects_heading .letter-wrapper', {
+      yPercent: 0, // Moves to 0%, showing the second letter
+      duration: 3,
+      ease: 'power1.inOut', // Non-linear motion
+      scrollTrigger: {
+        markers: false,
+        trigger: '.where_projects_heading', // Listens to the heading position
+        start: '33.33% bottom', // Animation starts when heading is 33.33% down from bottom
+        end: '100% 80%', // Animation ends when heading bottom reaches 80% of viewport
+        scrub: 1, // Progresses with the scroll, takes 1s to update
+      },
+      stagger: {
+        each: 0.05, // Delay between each letter animation
+        from: 'random', // Randomizes the animation order of letters
+      },
+    });
+  }
+
+  // Animate .home_why_heading if processed
+  if (whyProcessed) {
+    // Set initial position for the letter wrappers
+    gsap.set('.home_why_heading .letter-wrapper', {
+      yPercent: -50, // Start at -50% so first letter is visible
+    });
+
+    // Animate letter wrappers with ScrollTrigger to create loop effect
+    gsap.to('.home_why_heading .letter-wrapper', {
+      yPercent: 0, // Moves to 0%, showing the second letter
+      duration: 3,
+      ease: 'power1.inOut', // Non-linear motion
+      scrollTrigger: {
+        markers: false,
+        trigger: '.home_why_heading', // Listens to the heading position
+        start: '33.33% bottom', // Animation starts when heading is 33.33% down from bottom
+        end: '100% 80%', // Animation ends when heading bottom reaches 80% of viewport
+        scrub: 1, // Progresses with the scroll, takes 1s to update
+      },
+      stagger: {
+        each: 0.05, // Delay between each letter animation
+        from: 'random', // Randomizes the animation order of letters
+      },
+    });
+  }
 }

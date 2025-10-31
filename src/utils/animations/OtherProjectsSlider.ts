@@ -1,6 +1,6 @@
 /*
  *============================================================================
- * COMPONENT : SECTION / HOW
+ * COMPONENT : SECTION / MORE WORK
  *============================================================================
  */
 
@@ -18,18 +18,19 @@ export function initOtherProjectsSlider() {
 
   new Swiper(swiperEl as HTMLElement, {
     direction: 'horizontal',
-    // loop: true,
-    centeredSlides: true,
+    loop: true,
+    initialSlide: 1,
+    centeredSlides: false,
     slidesPerView: 3,
     spaceBetween: 3 * 16,
     speed: 1000,
     grabCursor: true,
     allowTouchMove: true,
     keyboard: true,
-    // autoplay: {
-    //   delay: 3000,
-    //   disableOnInteraction: false,
-    // },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
     mousewheel: {
       forceToAxis: true,
       sensitivity: 1,

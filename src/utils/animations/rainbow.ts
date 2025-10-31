@@ -191,6 +191,7 @@ class RainbowCursor {
     this.canvas.style.left = '0px';
     this.canvas.style.pointerEvents = 'none';
     this.canvas.style.position = hasWrapperEl ? 'absolute' : 'fixed';
+    this.canvas.style.zIndex = '0';
 
     if (hasWrapperEl && this.options.element) {
       this.options.element.appendChild(this.canvas);
@@ -231,7 +232,7 @@ export const initRainbowCursor = (selector: string = '.section_home_where'): voi
     const rainbowCursor = new RainbowCursor({
       element: sectionElement,
       length: 120,
-      colors: ['#DB0617', '#FF883A', '#FF15E6', '#1500FF', '#00E4AE'],
+      colors: ['#DB0617', '#ff883a', '#FF15E6', '#1500FF', '#00E4AE'],
       size: 12.5,
       trailSpeed: 0.4,
       colorCycleSpeed: 0.002,

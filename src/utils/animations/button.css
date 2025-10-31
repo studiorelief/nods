@@ -1,0 +1,15 @@
+.button_main_icon {
+  transition: transform 0.3s ease-out;
+}
+
+.button_main_wrap:hover .button_main_icon {
+  transform: rotateZ(-45deg);
+}
+
+.button_nav_wrap .svg-component {
+  transition: transform 0.3s ease-out;
+}
+
+.button_nav_wrap:hover .svg-component {
+  transform: translateX(100%);
+}

@@ -53,7 +53,7 @@ export const animFooter = (rootSelector: string = '.section_footer'): (() => voi
     const deltaY = e.clientY - oldPosY;
 
     // Facteur pour amplifier l'effet de rotation 3D
-    const rotationFactor = 1.5;
+    const rotationFactor = 2.5;
     rotationYTo(deltaX * rotationFactor);
     rotationXTo(-deltaY * rotationFactor);
     mediaRotationYTo(deltaX * rotationFactor);

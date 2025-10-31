@@ -14,24 +14,31 @@ import { initLoopStudiosSwiper, initLoopWordSwiper } from '$utils/animations/car
 import { animFooter } from '$utils/animations/footerAnimation';
 import { initHeartBeat } from '$utils/animations/heartBeat';
 import { initHowSlider } from '$utils/animations/howSlider';
+import { initIntroParallax } from '$utils/animations/introParallax';
 import { initNetworkGradiant } from '$utils/animations/networkGradient';
 import { initOtherProjectsSlider } from '$utils/animations/OtherProjectsSlider';
+import { initProjectsNav } from '$utils/animations/projectsNav';
 import { initRainbowCursor } from '$utils/animations/rainbow';
 import { initWhereProjectsScroll } from '$utils/animations/whereProjectsScroll';
 import { initWhoSlider } from '$utils/animations/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/whyAnimations';
-import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
+// import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
 import { worksMouse } from '$utils/animations/worksMouse';
+import { loadModelViewerScript } from '$utils/global/loadModalViewer';
 import { loadScript } from '$utils/global/loadScript';
+import { initMarker } from '$utils/global/marker';
+
 // Variable pour stocker la fonction de nettoyage de worksMouse
 let cleanupWorksMouse: (() => void) | null = null;
 
 // Group all page enhancements to call on first load and after Barba navigations
 const initGlobalFunctions = (): void => {
+  initMarker();
   initLoopWordSwiper();
   resetVideos();
   barbaLogoRotate();
   animFooter();
+  loadModelViewerScript();
   loadScript('https://cdn.jsdelivr.net/npm/@finsweet/attributes-accordion@1/accordion.js');
 };
 
@@ -49,6 +56,11 @@ barba.init({
         });
       },
       enter(data: { next: { container: HTMLElement } }) {
+        gsap.from('section h1', {
+          scale: 2,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
         gsap.from(data.next.container, {
           y: -16 * 2,
           opacity: 0,
@@ -72,15 +84,17 @@ barba.init({
         whyAssetAnimations();
         initWhoSlider();
         initHowSlider();
+        initIntroParallax();
 
         requestAnimationFrame(() => {
           initWhereProjectsScroll();
           initHeartBeat();
+          initIntroParallax();
         });
 
-        requestAnimationFrame(() => {
-          initWhyLetterScroll();
-        });
+        // requestAnimationFrame(() => {
+        //   initWhyLetterScroll();
+        // });
       },
     },
     {
@@ -114,7 +128,15 @@ barba.init({
       namespace: 'projects',
       beforeEnter() {
         restartWebflow();
+        initProjectsNav();
         initOtherProjectsSlider();
+      },
+      afterLeave() {
+        gsap.to('.nav_component', {
+          yPercent: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
       },
     },
   ],

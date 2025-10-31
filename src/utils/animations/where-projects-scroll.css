@@ -11,10 +11,26 @@
   vertical-align: top;
 }
 
-.where_projects_heading .letter-wrapper {
+.where_projects_heading .letter-wrapper,
+.home_why_heading .letter-wrapper {
   display: block;
 }
 
-.where_projects_heading .letter {
+.where_projects_heading .letter,
+.home_why_heading .letter {
   display: block;
+}
+
+/* Why */
+.home_why_heading .word {
+  display: inline-block;
+  white-space: nowrap;
+  height: 5rem;
+  overflow: hidden;
+}
+
+.home_why_heading .letter-container {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
 }
