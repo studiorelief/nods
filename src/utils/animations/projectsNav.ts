@@ -13,10 +13,13 @@ export function initProjectsNav() {
     return;
   }
 
-  // Set initial state (hidden above viewport)
-  gsap.set(navComponent, {
-    yPercent: -100,
-    // duration: 1,
-    ease: 'power2.out',
-  });
+  // Only hide navbar if URL contains /projects/ (project detail page)
+  if (window.location.pathname.includes('/projects/')) {
+    // Set initial state (hidden above viewport)
+    gsap.to(navComponent, {
+      yPercent: -100,
+      duration: 0.5,
+      ease: 'power2.out',
+    });
+  }
 }

@@ -131,11 +131,19 @@ barba.init({
       namespace: 'projects',
       beforeEnter() {
         restartWebflow();
-        initProjectsNav();
         initOtherProjectsSlider();
-        initWorksParallax();
+      },
+      afterEnter() {
+        requestAnimationFrame(() => {
+          initWorksParallax();
+        });
+        initProjectsNav();
       },
       afterLeave() {
+        /*
+        ! FIX Issue - First Load on projects -> Back = no navbar
+         Works if not first load
+        */
         gsap.to('.nav_component', {
           yPercent: 0,
           duration: 0.5,
@@ -168,6 +176,15 @@ barba.hooks.beforeEnter((data: { next: { namespace: string } }) => {
   if (cleanupWorksMouse && data.next.namespace !== 'works') {
     cleanupWorksMouse();
     cleanupWorksMouse = null;
+  }
+
+  // Ensure navbar is visible when entering any page except projects
+  // This fixes the issue when first loading on projects then navigating away
+  if (data.next.namespace !== 'projects') {
+    const navComponent = document.querySelector('.nav_component');
+    if (navComponent) {
+      gsap.set(navComponent, { clearProps: 'yPercent' });
+    }
   }
 });
 
