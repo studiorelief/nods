@@ -17,3 +17,21 @@
   transform: translateY(0rem);
   /* transition: transform 0.3s ease-out; */
 }
+
+/* Inner Cards */
+
+.projects_others_slide_asset:hover .works_cards-hover {
+  opacity: 1;
+}
+
+.projects_others_slide_asset .works_cards-hover-logo,
+.projects_others_slide_asset .works_cards-hover-headline {
+  transform: translateY(1rem);
+  transition: transform 0.3s ease-out;
+}
+
+.projects_others_slide_asset:hover .works_cards-hover-logo,
+.projects_others_slide_asset:hover .works_cards-hover-headline {
+  transform: translateY(0rem);
+  /* transition: transform 0.3s ease-out; */
+}

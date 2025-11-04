@@ -191,7 +191,8 @@ class RainbowCursor {
     this.canvas.style.left = '0px';
     this.canvas.style.pointerEvents = 'none';
     this.canvas.style.position = hasWrapperEl ? 'absolute' : 'fixed';
-    this.canvas.style.zIndex = '0';
+    // Param Index for the canvass
+    // this.canvas.style.zIndex = '0';
 
     if (hasWrapperEl && this.options.element) {
       this.options.element.appendChild(this.canvas);

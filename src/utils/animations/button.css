@@ -13,3 +13,13 @@
 .button_nav_wrap:hover .svg-component {
   transform: translateX(100%);
 }
+
+/* Projects back button */
+
+.projects_hero_back-link .icon-1x1-small {
+  transition: transform 0.3s ease-out;
+}
+
+.projects_hero_back-link:hover .icon-1x1-small {
+  transform: translateX(-0.5rem);
+}

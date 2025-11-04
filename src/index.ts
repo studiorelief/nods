@@ -11,17 +11,19 @@ gsap.registerPlugin(ScrollTrigger);
 import { barbaLogoRotate } from '$utils/animations/barba/barbaLogoRotate';
 import { resetVideos } from '$utils/animations/barba/barbaResetVideo';
 import { initLoopStudiosSwiper, initLoopWordSwiper } from '$utils/animations/carousel';
+import { initCloudLoop } from '$utils/animations/cloudLoop';
 import { animFooter } from '$utils/animations/footerAnimation';
 import { initHeartBeat } from '$utils/animations/heartBeat';
 import { initHowSlider } from '$utils/animations/howSlider';
 import { initIntroParallax } from '$utils/animations/introParallax';
 import { initNetworkGradiant } from '$utils/animations/networkGradient';
-import { initOtherProjectsSlider } from '$utils/animations/OtherProjectsSlider';
 import { initProjectsNav } from '$utils/animations/projectsNav';
 import { initRainbowCursor } from '$utils/animations/rainbow';
 import { initWhereProjectsScroll } from '$utils/animations/whereProjectsScroll';
 import { initWhoSlider } from '$utils/animations/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/whyAnimations';
+import { initOtherProjectsSlider } from '$utils/animations/works/OtherProjectsSlider';
+import { initWorksParallax } from '$utils/animations/works/parallaxWorks';
 // import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
 import { worksMouse } from '$utils/animations/worksMouse';
 import { loadModelViewerScript } from '$utils/global/loadModalViewer';
@@ -33,6 +35,7 @@ let cleanupWorksMouse: (() => void) | null = null;
 
 // Group all page enhancements to call on first load and after Barba navigations
 const initGlobalFunctions = (): void => {
+  initCloudLoop();
   initMarker();
   initLoopWordSwiper();
   resetVideos();
@@ -84,7 +87,7 @@ barba.init({
         whyAssetAnimations();
         initWhoSlider();
         initHowSlider();
-        initIntroParallax();
+        initCloudLoop();
 
         requestAnimationFrame(() => {
           initWhereProjectsScroll();
@@ -130,6 +133,7 @@ barba.init({
         restartWebflow();
         initProjectsNav();
         initOtherProjectsSlider();
+        initWorksParallax();
       },
       afterLeave() {
         gsap.to('.nav_component', {
