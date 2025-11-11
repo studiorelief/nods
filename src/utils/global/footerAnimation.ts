@@ -13,6 +13,10 @@ export const animFooter = (rootSelector: string = '.section_footer'): (() => voi
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (prefersReducedMotion.matches) return () => {};
 
+  // Animation uniquement sur les écrans > 991px
+  const isDesktop = window.matchMedia('(min-width: 992px)');
+  if (!isDesktop.matches) return () => {};
+
   const root = document.querySelector(rootSelector) as HTMLElement | null;
   if (!root) return () => {};
 

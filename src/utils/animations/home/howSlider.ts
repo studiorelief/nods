@@ -34,7 +34,7 @@ export function initHowSlider() {
     keyboard: true,
     mousewheel: {
       forceToAxis: true,
-      sensitivity: 1,
+      sensitivity: 0.5,
       releaseOnEdges: true,
       eventsTarget: 'container',
     },
@@ -49,5 +49,21 @@ export function initHowSlider() {
     //   prevEl: '.swiper-button-prev',
     // },
     touchEventsTarget: 'wrapper',
+    breakpoints: {
+      992: {
+        slidesPerView: 'auto',
+        centeredSlides: true,
+      },
+      240: {
+        slidesPerView: 'auto',
+        centeredSlides: false,
+        freeMode: {
+          enabled: true,
+          sticky: false,
+          momentumRatio: 0.5,
+        },
+        spaceBetween: 1.5 * 16,
+      },
+    },
   });
 }

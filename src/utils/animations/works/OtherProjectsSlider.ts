@@ -48,5 +48,16 @@ export function initOtherProjectsSlider() {
     //   prevEl: '.swiper-button-prev',
     // },
     touchEventsTarget: 'wrapper',
+    breakpoints: {
+      992: {
+        slidesPerView: 3,
+        spaceBetween: 3 * 16,
+      },
+      240: {
+        slidesPerView: 1,
+        centeredSlides: true,
+        spaceBetween: 2.5 * 16,
+      },
+    },
   });
 }

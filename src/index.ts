@@ -8,33 +8,37 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger);
 
-import { barbaLogoRotate } from '$utils/animations/barba/barbaLogoRotate';
-import { resetVideos } from '$utils/animations/barba/barbaResetVideo';
-import { initLoopStudiosSwiper, initLoopWordSwiper } from '$utils/animations/carousel';
-import { initCloudLoop } from '$utils/animations/cloudLoop';
-import { animFooter } from '$utils/animations/footerAnimation';
-import { initHeartBeat } from '$utils/animations/heartBeat';
-import { initHowSlider } from '$utils/animations/howSlider';
-import { initIntroParallax } from '$utils/animations/introParallax';
-import { initNetworkGradiant } from '$utils/animations/networkGradient';
-import { initProjectsNav } from '$utils/animations/projectsNav';
-import { initRainbowCursor } from '$utils/animations/rainbow';
-import { initWhereProjectsScroll } from '$utils/animations/whereProjectsScroll';
-import { initWhoSlider } from '$utils/animations/whoSlider';
-import { whyAssetAnimations } from '$utils/animations/whyAnimations';
+import { initHowSlider } from '$utils/animations/home/howSlider';
+import { initCloudLoop } from '$utils/animations/home/introCloudLoop';
+import { initHeartBeat } from '$utils/animations/home/whereHeartBeat';
+import { initWhereProjectsScroll } from '$utils/animations/home/whereProjectsScroll';
+import { initRainbowCursor } from '$utils/animations/home/whereRainbow';
+import { initWhoSlider } from '$utils/animations/home/whoSlider';
+import { whyAssetAnimations } from '$utils/animations/home/whyAnimations';
+import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
+import { initIntroParallax } from '$utils/animations/projects/introParallax';
+import { initProjectsNav } from '$utils/animations/projects/projectsNav';
 import { initOtherProjectsSlider } from '$utils/animations/works/OtherProjectsSlider';
 import { initWorksParallax } from '$utils/animations/works/parallaxWorks';
 // import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
-import { worksMouse } from '$utils/animations/worksMouse';
+import { worksMouse } from '$utils/animations/works/worksMouse';
+import { barbaLogoRotate } from '$utils/barba/barbaLogoRotate';
+import { resetVideos } from '$utils/barba/barbaResetVideo';
+import { initLoopStudiosSwiper, initLoopWordSwiper } from '$utils/global/carousel';
+import { animFooter } from '$utils/global/footerAnimation';
 import { loadModelViewerScript } from '$utils/global/loadModalViewer';
 import { loadScript } from '$utils/global/loadScript';
 import { initMarker } from '$utils/global/marker';
+import { closeNavMobile, navMobile } from '$utils/global/navbarMobile';
+import { popupContact } from '$utils/global/popupContact';
 
 // Variable pour stocker la fonction de nettoyage de worksMouse
 let cleanupWorksMouse: (() => void) | null = null;
 
 // Group all page enhancements to call on first load and after Barba navigations
 const initGlobalFunctions = (): void => {
+  navMobile();
+  popupContact();
   initCloudLoop();
   initMarker();
   initLoopWordSwiper();
@@ -163,6 +167,9 @@ barba.init({
 */
 
 barba.hooks.beforeLeave(() => {
+  // Fermer la navigation mobile si elle est ouverte
+  closeNavMobile();
+
   // Kill all ScrollTriggers and reset inline styles
   ScrollTrigger.getAll().forEach((trigger) => {
     trigger.kill(true); // true = revert inline styles

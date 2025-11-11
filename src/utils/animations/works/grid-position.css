@@ -1,4 +1,4 @@
-@media (min-width: 1090px) {
+@media (min-width: 991px) {
   /* Offset effect for 3-column grid */
   .works_collection-list .works_collection-item:nth-child(3n + 1) {
     /* Première colonne - pas de décalage */
@@ -8,5 +8,13 @@
   .works_collection-list .works_collection-item:nth-child(3n + 3) {
     /* Première colonne - pas de décalage */
     margin-top: -15rem;
+  }
+}
+
+@media (max-width: 991px) {
+  /* Offset effect for 3-column grid */
+  .works_collection-list .works_collection-item:nth-child(2n + 1) {
+    /* Première colonne - pas de décalage */
+    margin-top: -9rem;
   }
 }

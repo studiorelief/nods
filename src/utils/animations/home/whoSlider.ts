@@ -47,6 +47,14 @@ export function initWhoSlider() {
         nextEl: '.swiper-right',
       },
       touchEventsTarget: 'wrapper',
+      breakpoints: {
+        992: {
+          slidesPerView: 2,
+        },
+        240: {
+          slidesPerView: 1,
+        },
+      },
     });
   });
 }

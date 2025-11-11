@@ -5,6 +5,12 @@
   overflow: hidden;
 }
 
+@media (max-width: 767px) {
+  .where_projects_heading .word {
+    height: 2.25rem;
+  }
+}
+
 .where_projects_heading .letter-container {
   display: inline-block;
   overflow: hidden;

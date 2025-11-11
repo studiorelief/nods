@@ -2,15 +2,15 @@
 /* @import './webflow-variables.css';  */
 /* Do NOT import it to avoid overriding Webflow-managed values at runtime. */
 
-@import './utils/animations/rainbow.css';
-@import './utils/animations/network-gradient.css';
-@import './utils/animations/skills-animation.css';
-@import './utils/animations/footer-animation.css';
-@import './utils/animations/grid-position.css';
-@import './utils/animations/works-cards.css';
-@import './utils/animations/why-animations.css';
-@import './utils/animations/why-letter-scroll.css';
-@import './utils/animations/where-projects-scroll.css';
-@import './utils/animations/how-slider.css';
-@import './utils/animations/who-slider.css';
-@import './utils/animations/button.css';
+@import './utils/animations/network/network-gradient.css';
+@import './utils/animations/skills/skills-animation.css';
+@import './utils/global/footer-animation.css';
+@import './utils/animations/works/grid-position.css';
+@import './utils/animations/works/works-cards.css';
+@import './utils/animations/home/why-animations.css';
+@import './utils/animations/home/why-letter-scroll.css';
+@import './utils/animations/home/where-projects-scroll.css';
+@import './utils/animations/home/how-slider.css';
+@import './utils/animations/home/who-slider.css';
+@import './utils/global/button.css';
+@import './utils/animations/home/where-rainbow.css';
