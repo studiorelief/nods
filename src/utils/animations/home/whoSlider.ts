@@ -52,7 +52,8 @@ export function initWhoSlider() {
           slidesPerView: 2,
         },
         240: {
-          slidesPerView: 1,
+          slidesPerView: 1.5,
+          spaceBetween: 1.5 * 16,
         },
       },
     });

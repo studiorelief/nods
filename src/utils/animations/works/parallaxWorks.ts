@@ -5,20 +5,33 @@ export const initWorksParallax = (): void => {
   const heroLogo = document.querySelector('.projects_hero_logo');
 
   if (heroSection) {
-    gsap.fromTo(
-      [heroSection, heroLogo],
+    const mm = gsap.matchMedia();
+
+    mm.add(
       {
-        y: '0rem',
+        isMobile: '(max-width: 991px)',
+        isDesktop: '(min-width: 992px)',
       },
-      {
-        y: '10rem',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.section_projects_hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
+      (context) => {
+        const { isMobile } = context.conditions as { isMobile: boolean };
+        const yValue = isMobile ? '10rem' : '10rem';
+
+        gsap.fromTo(
+          [heroSection, heroLogo],
+          {
+            y: '0rem',
+          },
+          {
+            y: yValue,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.section_projects_hero',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
       }
     );
   }
@@ -28,20 +41,34 @@ export const initWorksParallax = (): void => {
   const contentTrigger = document.querySelector('.section_projects_content');
 
   if (contentParallax && contentTrigger) {
-    gsap.fromTo(
-      contentParallax,
+    const mm = gsap.matchMedia();
+
+    mm.add(
       {
-        y: '-15rem',
+        isMobile: '(max-width: 991px)',
+        isDesktop: '(min-width: 992px)',
       },
-      {
-        y: '15rem',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.section_projects_content',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
+      (context) => {
+        const { isMobile } = context.conditions as { isMobile: boolean };
+        const yStartValue = isMobile ? '0rem' : '-5rem';
+        const yEndValue = isMobile ? '0em' : '5rem';
+
+        gsap.fromTo(
+          contentParallax,
+          {
+            y: yStartValue,
+          },
+          {
+            y: yEndValue,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.projects_content_main-parallax',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
       }
     );
   }

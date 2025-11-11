@@ -1,37 +1,62 @@
-.works_cards-hover {
-  transition: opacity 0.3s ease-out;
+/* Mobile: Initially hide hover state, toggle with JS */
+@media (max-width: 991px) {
+  .projects_others_slide_asset .works_cards-hover {
+    opacity: 1;
+  }
+
+  .works_cards .works_cards-hover {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  .projects_others_slide_asset .works_cards-hover-logo,
+  .projects_others_slide_asset .works_cards-hover-headline {
+    transform: translateY(0rem);
+  }
+
+  .works_cards .works_cards-hover-logo,
+  .works_cards .works_cards-hover-headline {
+    transform: translateY(0rem);
+  }
 }
 
-.works_cards:hover .works_cards-hover {
-  opacity: 1;
-}
+/* Desktop: Hover effects */
+@media (min-width: 992px) {
+  .works_cards-hover {
+    transition: opacity 0.3s ease-out;
+  }
 
-.works_cards .works_cards-hover-logo,
-.works_cards .works_cards-hover-headline {
-  transform: translateY(1rem);
-  transition: transform 0.3s ease-out;
-}
+  .works_cards:hover .works_cards-hover {
+    opacity: 1;
+  }
 
-.works_cards:hover .works_cards-hover-logo,
-.works_cards:hover .works_cards-hover-headline {
-  transform: translateY(0rem);
-  /* transition: transform 0.3s ease-out; */
-}
+  .works_cards .works_cards-hover-logo,
+  .works_cards .works_cards-hover-headline {
+    transform: translateY(1rem);
+    transition: transform 0.3s ease-out;
+  }
 
-/* Inner Cards */
+  .works_cards:hover .works_cards-hover-logo,
+  .works_cards:hover .works_cards-hover-headline {
+    transform: translateY(0rem);
+    /* transition: transform 0.3s ease-out; */
+  }
 
-.projects_others_slide_asset:hover .works_cards-hover {
-  opacity: 1;
-}
+  /* Inner Cards */
 
-.projects_others_slide_asset .works_cards-hover-logo,
-.projects_others_slide_asset .works_cards-hover-headline {
-  transform: translateY(1rem);
-  transition: transform 0.3s ease-out;
-}
+  .projects_others_slide_asset:hover .works_cards-hover {
+    opacity: 1;
+  }
 
-.projects_others_slide_asset:hover .works_cards-hover-logo,
-.projects_others_slide_asset:hover .works_cards-hover-headline {
-  transform: translateY(0rem);
-  /* transition: transform 0.3s ease-out; */
+  .projects_others_slide_asset .works_cards-hover-logo,
+  .projects_others_slide_asset .works_cards-hover-headline {
+    transform: translateY(1rem);
+    transition: transform 0.3s ease-out;
+  }
+
+  .projects_others_slide_asset:hover .works_cards-hover-logo,
+  .projects_others_slide_asset:hover .works_cards-hover-headline {
+    transform: translateY(0rem);
+    /* transition: transform 0.3s ease-out; */
+  }
 }

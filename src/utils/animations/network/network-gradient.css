@@ -22,6 +22,16 @@
   transform: rotate(-15deg) scale(1.1);
 }
 
+@media (max-width: 479px) {
+  .network_cards-logo-blending {
+    transition: padding 0.3s ease-out;
+  }
+
+  .network_partners_collection-item:hover .network_cards-logo-blending {
+    padding: 0.75rem;
+  }
+}
+
 .network_cards-logo-blending {
   transition: filter 0.3s ease-out;
 }

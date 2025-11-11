@@ -6,15 +6,20 @@ export const initIntroParallax = (): void => {
   if (!trigger) return;
 
   // Cloud 1 - Y from 10rem to -10rem
+  const isMobile = window.innerWidth < 991;
+
   const cloud1 = document.querySelector('.home_intro_cloud-decorative-loop.is-1');
   if (cloud1) {
+    const fromY = isMobile ? `${40 / 4}rem` : '40rem';
+    const toY = isMobile ? `${-50 / 4}rem` : '-50rem';
+
     gsap.fromTo(
       cloud1,
       {
-        y: '40rem',
+        y: fromY,
       },
       {
-        y: '-50rem',
+        y: toY,
         ease: 'none',
         scrollTrigger: {
           trigger: trigger,
@@ -29,13 +34,16 @@ export const initIntroParallax = (): void => {
   // Cloud 2 - Y from 7.5rem to -7.5rem
   const cloud2 = document.querySelector('.home_intro_cloud-decorative-loop.is-2');
   if (cloud2) {
+    const fromY2 = isMobile ? `${40 / 4}rem` : '40rem';
+    const toY2 = isMobile ? `${-40 / 4}rem` : '-40rem';
+
     gsap.fromTo(
       cloud2,
       {
-        y: '40rem',
+        y: fromY2,
       },
       {
-        y: '-40rem',
+        y: toY2,
         ease: 'none',
 
         scrollTrigger: {
@@ -51,13 +59,16 @@ export const initIntroParallax = (): void => {
   // Cloud 3 - Y from 5rem to -5rem
   const cloud3 = document.querySelector('.home_intro_cloud-decorative-loop.is-3');
   if (cloud3) {
+    const fromY3 = isMobile ? `${30 / 4}rem` : '30rem';
+    const toY3 = isMobile ? `${-30 / 4}rem` : '-30rem';
+
     gsap.fromTo(
       cloud3,
       {
-        y: '30rem',
+        y: fromY3,
       },
       {
-        y: '-30rem',
+        y: toY3,
         ease: 'none',
         scrollTrigger: {
           trigger: trigger,
@@ -71,13 +82,16 @@ export const initIntroParallax = (): void => {
 
   const background = document.querySelector('.home_intro_background');
   if (background) {
+    const fromYBg = isMobile ? `${-25 / 4}rem` : '-25rem';
+    const toYBg = isMobile ? `${25 / 4}rem` : '25rem';
+
     gsap.fromTo(
       background,
       {
-        y: '-25rem',
+        y: fromYBg,
       },
       {
-        y: '25rem',
+        y: toYBg,
         ease: 'none',
         scrollTrigger: {
           trigger: trigger,

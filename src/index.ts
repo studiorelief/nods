@@ -10,16 +10,17 @@ gsap.registerPlugin(ScrollTrigger);
 
 import { initHowSlider } from '$utils/animations/home/howSlider';
 import { initCloudLoop } from '$utils/animations/home/introCloudLoop';
+import { initIntroParallax } from '$utils/animations/home/introParallax';
 import { initHeartBeat } from '$utils/animations/home/whereHeartBeat';
 import { initWhereProjectsScroll } from '$utils/animations/home/whereProjectsScroll';
 import { initRainbowCursor } from '$utils/animations/home/whereRainbow';
 import { initWhoSlider } from '$utils/animations/home/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/home/whyAnimations';
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
-import { initIntroParallax } from '$utils/animations/projects/introParallax';
 import { initProjectsNav } from '$utils/animations/projects/projectsNav';
 import { initOtherProjectsSlider } from '$utils/animations/works/OtherProjectsSlider';
 import { initWorksParallax } from '$utils/animations/works/parallaxWorks';
+import { initShowWorkName } from '$utils/animations/works/showWorkName';
 // import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
 import { worksMouse } from '$utils/animations/works/worksMouse';
 import { barbaLogoRotate } from '$utils/barba/barbaLogoRotate';
@@ -115,6 +116,7 @@ barba.init({
         // Démarrer la nouvelle animation
         cleanupWorksMouse = worksMouse();
         initWhereProjectsScroll();
+        initShowWorkName();
       },
     },
     {
@@ -136,6 +138,7 @@ barba.init({
       beforeEnter() {
         restartWebflow();
         initOtherProjectsSlider();
+        initShowWorkName();
       },
       afterEnter() {
         requestAnimationFrame(() => {

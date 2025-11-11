@@ -35,6 +35,12 @@
   overflow: hidden;
 }
 
+@media (max-width: 767px) {
+  .home_why_heading .word {
+    height: 2.25rem;
+  }
+}
+
 .home_why_heading .letter-container {
   display: inline-block;
   overflow: hidden;
