@@ -10,8 +10,8 @@ export const initIntroParallax = (): void => {
 
   const cloud1 = document.querySelector('.home_intro_cloud-decorative-loop.is-1');
   if (cloud1) {
-    const fromY = isMobile ? `${40 / 4}rem` : '40rem';
-    const toY = isMobile ? `${-50 / 4}rem` : '-50rem';
+    const fromY = isMobile ? `${40 / 4}rem` : '20rem';
+    const toY = isMobile ? `${-50 / 4}rem` : '-250rem';
 
     gsap.fromTo(
       cloud1,
@@ -34,8 +34,8 @@ export const initIntroParallax = (): void => {
   // Cloud 2 - Y from 7.5rem to -7.5rem
   const cloud2 = document.querySelector('.home_intro_cloud-decorative-loop.is-2');
   if (cloud2) {
-    const fromY2 = isMobile ? `${40 / 4}rem` : '40rem';
-    const toY2 = isMobile ? `${-40 / 4}rem` : '-40rem';
+    const fromY2 = isMobile ? `${40 / 4}rem` : '20rem';
+    const toY2 = isMobile ? `${-40 / 4}rem` : '-20rem';
 
     gsap.fromTo(
       cloud2,

@@ -1,20 +1,42 @@
 /* Gestion du popup premium avec animations */
+import gsap from 'gsap';
+
 export function popupContact() {
   // Sélectionner les éléments nécessaires
   const popupComponent = document.querySelector('[popup="contact"]') as HTMLElement;
   const popupWrapper = document.querySelector('.contact_cards') as HTMLElement;
   const popupBackground = document.querySelector('.contact_background-close') as HTMLElement;
   const triggers = document.querySelectorAll('[trigger="popup-contact"]');
+  const navComponent = document.querySelector('.nav_component') as HTMLElement;
 
   if (!popupComponent || !popupWrapper || !popupBackground) {
     // console.warn('Éléments popup premium non trouvés');
     return;
   }
 
+  // Variable pour stocker l'état de la navbar avant l'ouverture du popup
+  let navWasHidden = false;
+
   // Fonction pour ouvrir le popup
   function openPopup() {
     // Empêcher le scroll de la page
     document.body.style.overflow = 'hidden';
+
+    // Vérifier si la navbar est cachée (sur les pages projets)
+    if (navComponent) {
+      const styles = window.getComputedStyle(navComponent);
+      const { transform } = styles;
+      // Si la navbar a une transformation (elle est cachée)
+      if (transform !== 'none') {
+        navWasHidden = true;
+        // Remettre temporairement la navbar à sa position normale
+        gsap.to(navComponent, {
+          yPercent: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      }
+    }
 
     // Réinitialiser les styles
     popupComponent.style.display = 'flex';
@@ -53,6 +75,16 @@ export function popupContact() {
       popupComponent.style.display = 'none';
       // Réactiver le scroll de la page
       document.body.style.overflow = '';
+
+      // Remettre la navbar à son état caché si elle l'était avant (pages projets)
+      if (navWasHidden && navComponent && window.location.pathname.includes('/projects/')) {
+        gsap.to(navComponent, {
+          yPercent: -100,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      }
+      navWasHidden = false;
     }, 300);
   }
 

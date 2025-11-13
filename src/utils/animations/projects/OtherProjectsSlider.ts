@@ -8,7 +8,20 @@ import 'swiper/css/bundle';
 
 import Swiper from 'swiper/bundle';
 
+// Store the swiper instance to destroy it on subsequent calls
+let swiperInstance: Swiper | null = null;
+
 export function initOtherProjectsSlider() {
+  // Destroy previous instance if it exists
+  if (swiperInstance) {
+    try {
+      swiperInstance.destroy(true, true);
+    } catch (e) {
+      console.error('Error destroying swiper:', e);
+    }
+    swiperInstance = null;
+  }
+
   // Get the parent .swiper element
   const swiperEl = document.querySelector('.swiper.is-projects-other');
 
@@ -16,7 +29,14 @@ export function initOtherProjectsSlider() {
     return;
   }
 
-  new Swiper(swiperEl as HTMLElement, {
+  // Clean any remaining swiper artifacts from the DOM
+  const wrapper = swiperEl.querySelector('.swiper-wrapper');
+  if (wrapper) {
+    // Remove any duplicate slides that might have been created by loop mode
+    wrapper.querySelectorAll('.swiper-slide-duplicate').forEach((el) => el.remove());
+  }
+
+  swiperInstance = new Swiper(swiperEl as HTMLElement, {
     direction: 'horizontal',
     loop: true,
     initialSlide: 1,

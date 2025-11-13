@@ -49,7 +49,7 @@ export function initWhoSlider() {
       touchEventsTarget: 'wrapper',
       breakpoints: {
         992: {
-          slidesPerView: 2,
+          slidesPerView: 2.5,
         },
         240: {
           slidesPerView: 1.5,

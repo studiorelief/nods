@@ -1,13 +1,30 @@
 import gsap from 'gsap';
 
+// Store matchMedia instances to clean them up properly
+let heroMatchMedia: gsap.MatchMedia | null = null;
+let contentMatchMedia: gsap.MatchMedia | null = null;
+
 export const initWorksParallax = (): void => {
+  // Clean up previous instances
+  if (heroMatchMedia) {
+    heroMatchMedia.kill();
+    heroMatchMedia = null;
+  }
+  if (contentMatchMedia) {
+    contentMatchMedia.kill();
+    contentMatchMedia = null;
+  }
+
   const heroSection = document.querySelector('.projets_hero_background');
   const heroLogo = document.querySelector('.projects_hero_logo');
 
   if (heroSection) {
-    const mm = gsap.matchMedia();
+    // Reset inline styles before animating
+    gsap.set([heroSection, heroLogo], { clearProps: 'all' });
 
-    mm.add(
+    heroMatchMedia = gsap.matchMedia();
+
+    heroMatchMedia.add(
       {
         isMobile: '(max-width: 991px)',
         isDesktop: '(min-width: 992px)',
@@ -41,9 +58,12 @@ export const initWorksParallax = (): void => {
   const contentTrigger = document.querySelector('.section_projects_content');
 
   if (contentParallax && contentTrigger) {
-    const mm = gsap.matchMedia();
+    // Reset inline styles before animating
+    gsap.set(contentParallax, { clearProps: 'all' });
 
-    mm.add(
+    contentMatchMedia = gsap.matchMedia();
+
+    contentMatchMedia.add(
       {
         isMobile: '(max-width: 991px)',
         isDesktop: '(min-width: 992px)',
@@ -62,10 +82,12 @@ export const initWorksParallax = (): void => {
             y: yEndValue,
             ease: 'none',
             scrollTrigger: {
+              markers: false,
               trigger: '.projects_content_main-parallax',
               start: 'top bottom',
               end: 'bottom top',
               scrub: true,
+              invalidateOnRefresh: true,
             },
           }
         );

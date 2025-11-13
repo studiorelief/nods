@@ -10,6 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 import { initHowSlider } from '$utils/animations/home/howSlider';
 import { initCloudLoop } from '$utils/animations/home/introCloudLoop';
+import { initAnimGLB } from '$utils/animations/home/introGlb';
+import { resetGlbPosition } from '$utils/animations/home/introGlb';
 import { initIntroParallax } from '$utils/animations/home/introParallax';
 import { initHeartBeat } from '$utils/animations/home/whereHeartBeat';
 import { initWhereProjectsScroll } from '$utils/animations/home/whereProjectsScroll';
@@ -17,15 +19,19 @@ import { initRainbowCursor } from '$utils/animations/home/whereRainbow';
 import { initWhoSlider } from '$utils/animations/home/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/home/whyAnimations';
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
+import { initOtherProjectsSlider } from '$utils/animations/projects/OtherProjectsSlider';
+import { initWorksParallax } from '$utils/animations/projects/parallaxWorks';
 import { initProjectsNav } from '$utils/animations/projects/projectsNav';
-import { initOtherProjectsSlider } from '$utils/animations/works/OtherProjectsSlider';
-import { initWorksParallax } from '$utils/animations/works/parallaxWorks';
 import { initShowWorkName } from '$utils/animations/works/showWorkName';
 // import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
 import { worksMouse } from '$utils/animations/works/worksMouse';
-import { barbaLogoRotate } from '$utils/barba/barbaLogoRotate';
+import { barbaLogoRotate, setupLogoHover } from '$utils/barba/barbaLogoRotate';
 import { resetVideos } from '$utils/barba/barbaResetVideo';
-import { initLoopStudiosSwiper, initLoopWordSwiper } from '$utils/global/carousel';
+import {
+  destroyAllCarousels,
+  initLoopStudiosSwiper,
+  initLoopWordSwiper,
+} from '$utils/global/carousel';
 import { animFooter } from '$utils/global/footerAnimation';
 import { loadModelViewerScript } from '$utils/global/loadModalViewer';
 import { loadScript } from '$utils/global/loadScript';
@@ -51,6 +57,7 @@ const initGlobalFunctions = (): void => {
 };
 
 initGlobalFunctions();
+setupLogoHover();
 
 barba.init({
   transitions: [
@@ -93,6 +100,8 @@ barba.init({
         initWhoSlider();
         initHowSlider();
         initCloudLoop();
+        initAnimGLB();
+        resetGlbPosition();
 
         requestAnimationFrame(() => {
           initWhereProjectsScroll();
@@ -137,14 +146,20 @@ barba.init({
       namespace: 'projects',
       beforeEnter() {
         restartWebflow();
-        initOtherProjectsSlider();
         initShowWorkName();
       },
       afterEnter() {
-        requestAnimationFrame(() => {
-          initWorksParallax();
-        });
         initProjectsNav();
+
+        // Délai pour s'assurer que le DOM et ses dimensions sont stabilisés
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            initWorksParallax();
+            initOtherProjectsSlider();
+            // Force ScrollTrigger à recalculer avec les vraies dimensions
+            ScrollTrigger.refresh();
+          }, 100);
+        });
       },
       afterLeave() {
         /*
@@ -172,6 +187,10 @@ barba.init({
 barba.hooks.beforeLeave(() => {
   // Fermer la navigation mobile si elle est ouverte
   closeNavMobile();
+
+  // Détruire tous les carousels avec un délai pour correspondre à l'animation de sortie
+  // L'animation opacity dure 500ms, on destroy à 300ms quand c'est bien caché
+  destroyAllCarousels(350);
 
   // Kill all ScrollTriggers and reset inline styles
   ScrollTrigger.getAll().forEach((trigger) => {

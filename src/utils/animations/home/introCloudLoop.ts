@@ -5,17 +5,17 @@ const cloudConfigs = [
   {
     wrapperClass: 'is-1',
     cloudClass: 'home_intro_cloud-1',
-    duration: 10, // Durée en secondes - modifiable
+    duration: 20, // Durée en secondes - modifiable
   },
   {
     wrapperClass: 'is-2',
     cloudClass: 'home_intro_cloud-2',
-    duration: 15, // Durée en secondes - modifiable
+    duration: 30, // Durée en secondes - modifiable
   },
   {
     wrapperClass: 'is-3',
     cloudClass: 'home_intro_cloud-3',
-    duration: 20, // Durée en secondes - modifiable
+    duration: 40, // Durée en secondes - modifiable
   },
 ];
 

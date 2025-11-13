@@ -16,10 +16,10 @@
 
 /* Projects back button */
 
-.projects_hero_back-link .icon-1x1-small {
+.projects_hero_back-link .button_back {
   transition: transform 0.3s ease-out;
 }
 
-.projects_hero_back-link:hover .icon-1x1-small {
-  transform: translateX(-0.5rem);
+.projects_hero_back-link:hover .button_back {
+  transform: scale(0.9);
 }
