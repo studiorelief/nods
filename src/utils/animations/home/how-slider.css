@@ -1,0 +1,5 @@
+.home_how_navigation .swiper-right.swiper-button-disabled,
+.home_how_navigation .swiper-left.swiper-button-disabled {
+  opacity: 0.15;
+  pointer-events: none;
+}

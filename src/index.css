@@ -9,7 +9,7 @@
 @import './utils/animations/works/works-cards.css';
 @import './utils/animations/home/why-animations.css';
 @import './utils/animations/home/where-projects-scroll.css';
-/* @import './utils/animations/home/how-slider.css'; */
+@import './utils/animations/home/how-slider.css';
 @import './utils/animations/home/who-slider.css';
 @import './utils/global/button.css';
 @import './utils/animations/home/where-rainbow.css';

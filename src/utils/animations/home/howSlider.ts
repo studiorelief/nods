@@ -108,7 +108,7 @@ export function initHowSlider() {
     if (!textElement) return;
 
     // Add transition CSS
-    textElement.style.transition = 'opacity 0.3s ease-in-out';
+    textElement.style.transition = 'opacity 0.3s ease-out';
 
     // Slide text mapping
     const slideTexts = ['Company (re)branding', 'Product Design', 'Marketing Campaign'];
@@ -128,9 +128,14 @@ export function initHowSlider() {
       }
     };
 
-    // Set initial text without animation
+    // Set initial text with fade in animation
     textElement.textContent = slideTexts[swiper.activeIndex];
-    textElement.style.opacity = '1';
+    textElement.style.opacity = '0';
+
+    // Fade in after a short delay
+    setTimeout(() => {
+      textElement.style.opacity = '1';
+    }, 100);
 
     // Update text on slide change
     swiper.on('slideChange', () => {
