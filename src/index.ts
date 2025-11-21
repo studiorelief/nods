@@ -19,6 +19,7 @@ import { initRainbowCursor } from '$utils/animations/home/whereRainbow';
 import { initWhoSlider } from '$utils/animations/home/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/home/whyAnimations';
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
+import { initCardsBorder } from '$utils/animations/pricing/cardsBorder';
 import { initOtherProjectsSlider } from '$utils/animations/projects/OtherProjectsSlider';
 import { initWorksParallax } from '$utils/animations/projects/parallaxWorks';
 import { initProjectsNav } from '$utils/animations/projects/projectsNav';
@@ -145,7 +146,9 @@ barba.init({
     },
     {
       namespace: 'pricings',
-      beforeEnter() {},
+      beforeEnter() {
+        initCardsBorder();
+      },
     },
     {
       namespace: 'projects',
