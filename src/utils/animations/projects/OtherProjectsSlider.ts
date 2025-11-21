@@ -41,7 +41,7 @@ export function initOtherProjectsSlider() {
     loop: true,
     initialSlide: 1,
     centeredSlides: false,
-    slidesPerView: 3,
+    slidesPerView: 4,
     spaceBetween: 3 * 16,
     speed: 1000,
     grabCursor: true,
@@ -70,8 +70,12 @@ export function initOtherProjectsSlider() {
     touchEventsTarget: 'wrapper',
     breakpoints: {
       992: {
-        slidesPerView: 3,
+        slidesPerView: 4,
         spaceBetween: 3 * 16,
+      },
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 2.5 * 16,
       },
       240: {
         slidesPerView: 1,
