@@ -63,6 +63,10 @@ export function initHowSlider() {
           eventsTarget: 'container',
         },
         touchEventsTarget: 'wrapper',
+        navigation: {
+          prevEl: '.home_how_navigation .swiper-left',
+          nextEl: '.home_how_navigation .swiper-right',
+        },
       });
     } else {
       // Mobile: slide effect with free mode
@@ -85,62 +89,53 @@ export function initHowSlider() {
         },
         slidesOffsetAfter: 1.5 * 16,
         touchEventsTarget: 'wrapper',
+        navigation: {
+          prevEl: '.home_how_navigation .swiper-left',
+          nextEl: '.home_how_navigation .swiper-right',
+        },
       });
     }
 
-    setupTriggers();
+    setupSlideText();
   };
 
-  const setupTriggers = () => {
+  const setupSlideText = () => {
     if (!swiperInstance) return;
 
     const swiper = swiperInstance;
+    const textElement = document.querySelector('.home_how_text') as HTMLElement;
 
-    // Add click handlers for triggers
-    const trigger1 = document.querySelector('#trigger-1');
-    const trigger2 = document.querySelector('#trigger-2');
-    const trigger3 = document.querySelector('#trigger-3');
+    if (!textElement) return;
 
-    const triggers = [trigger1, trigger2, trigger3];
+    // Add transition CSS
+    textElement.style.transition = 'opacity 0.3s ease-in-out';
 
-    // Function to update active trigger
-    const updateActiveTrigger = (activeIndex: number) => {
-      triggers.forEach((trigger, index) => {
-        if (trigger) {
-          if (index === activeIndex) {
-            trigger.classList.add('w--current');
-          } else {
-            trigger.classList.remove('w--current');
-          }
-        }
-      });
+    // Slide text mapping
+    const slideTexts = ['Company (re)branding', 'Product Design', 'Marketing Campaign'];
+
+    // Function to update text based on active slide with fade effect
+    const updateSlideText = (activeIndex: number) => {
+      if (slideTexts[activeIndex]) {
+        // Fade out
+        textElement.style.opacity = '0';
+
+        // Change text after fade out
+        setTimeout(() => {
+          textElement.textContent = slideTexts[activeIndex];
+          // Fade in
+          textElement.style.opacity = '1';
+        }, 300);
+      }
     };
 
-    // Set initial active state
-    updateActiveTrigger(swiper.activeIndex);
+    // Set initial text without animation
+    textElement.textContent = slideTexts[swiper.activeIndex];
+    textElement.style.opacity = '1';
 
-    // Update active trigger on slide change
+    // Update text on slide change
     swiper.on('slideChange', () => {
-      updateActiveTrigger(swiper.activeIndex);
+      updateSlideText(swiper.activeIndex);
     });
-
-    if (trigger1) {
-      trigger1.addEventListener('click', () => {
-        swiper.slideTo(0);
-      });
-    }
-
-    if (trigger2) {
-      trigger2.addEventListener('click', () => {
-        swiper.slideTo(1);
-      });
-    }
-
-    if (trigger3) {
-      trigger3.addEventListener('click', () => {
-        swiper.slideTo(2);
-      });
-    }
   };
 
   // Initialize swiper

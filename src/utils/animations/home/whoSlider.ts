@@ -43,8 +43,8 @@ export function initWhoSlider() {
       //   clickable: true,
       // },
       navigation: {
-        prevEl: '.swiper-left',
-        nextEl: '.swiper-right',
+        prevEl: '.home_who_navigation .swiper-left',
+        nextEl: '.home_who_navigation .swiper-right',
       },
       touchEventsTarget: 'wrapper',
       breakpoints: {

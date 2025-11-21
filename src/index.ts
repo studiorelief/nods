@@ -38,6 +38,7 @@ import { loadScript } from '$utils/global/loadScript';
 import { initMarker } from '$utils/global/marker';
 import { closeNavMobile, navMobile } from '$utils/global/navbarMobile';
 import { popupContact } from '$utils/global/popupContact';
+import { initStaggerTop } from '$utils/global/staggerTop';
 
 // Variable pour stocker la fonction de nettoyage de worksMouse
 let cleanupWorksMouse: (() => void) | null = null;
@@ -117,6 +118,7 @@ barba.init({
     {
       namespace: 'works',
       beforeEnter() {
+        initStaggerTop();
         // Nettoyer l'animation précédente si elle existe
         if (cleanupWorksMouse) {
           cleanupWorksMouse();
@@ -130,12 +132,15 @@ barba.init({
     },
     {
       namespace: 'skills',
-      beforeEnter() {},
+      beforeEnter() {
+        initStaggerTop();
+      },
     },
     {
       namespace: 'network',
       beforeEnter() {
         initNetworkGradiant();
+        initStaggerTop();
       },
     },
     {
