@@ -47,6 +47,10 @@ export function navMobile() {
   // Marquer comme initialisé
   isNavMobileInitialized = true;
 
+  // Initialiser la position du menu (caché en haut)
+  navMenu.style.transform = 'translateY(-100%)';
+  navMenu.style.transition = 'none'; // Pas de transition pour l'état initial
+
   // Media query pour détecter les écrans < 991px
   const mobileMediaQuery = window.matchMedia('(max-width: 991px)');
 
