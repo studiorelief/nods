@@ -23,12 +23,13 @@
 }
 
 @media (max-width: 479px) {
-  .network_cards-logo-blending {
-    transition: padding 0.3s ease-out;
+  .network_cards-logo-blending,
+  .network_cards-logo {
+    transition: all 0.3s ease-out;
   }
 
-  .network_partners_collection-item:hover .network_cards-logo-blending {
-    padding: 0.75rem;
+  .network_partners_collection-item:hover .network_cards-logo {
+    transform: scale(0.75);
   }
 }
 

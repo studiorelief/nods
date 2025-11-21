@@ -17,7 +17,7 @@ export function closeNavMobile() {
   navMenu.style.transition = 'transform 0.3s ease-out';
 
   // Déclencher l'animation de fermeture
-  navMenu.style.transform = 'translateX(-100%)';
+  navMenu.style.transform = 'translateY(-100%)';
 
   // Retirer la classe is-active du bouton
   navButton.classList.remove('is-active');
@@ -67,7 +67,7 @@ export function navMobile() {
     // Déclencher l'animation
     requestAnimationFrame(() => {
       if (navMenu) {
-        navMenu.style.transform = 'translateX(0%)';
+        navMenu.style.transform = 'translateY(0%)';
       }
     });
   }
