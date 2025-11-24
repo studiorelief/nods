@@ -13,3 +13,19 @@
 @import './utils/animations/home/who-slider.css';
 @import './utils/global/button.css';
 @import './utils/animations/home/where-rainbow.css';
+
+[data-wf--button-main--variant='footer']:hover .button_main_background {
+  background-color: black;
+}
+
+[data-wf--button-main--variant='footer']:hover .button_main_text {
+  color: var(--_theme---text-color--alternate);
+}
+
+[data-wf--button-main--variant='footer'] .button_main_background {
+  transition: background-color 0.3s ease-out;
+}
+
+[data-wf--button-main--variant='footer'] .button_main_text {
+  transition: color 0.3s ease-out;
+}

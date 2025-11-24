@@ -23,3 +23,20 @@
 .projects_hero_back-link:hover .button_back {
   transform: scale(0.9);
 }
+
+/* Footer button */
+[data-wf--button-main--variant='footer']:hover .button_main_background {
+  background-color: black;
+}
+
+[data-wf--button-main--variant='footer']:hover .button_main_text {
+  color: var(--_theme---text-color--alternate);
+}
+
+[data-wf--button-main--variant='footer'] .button_main_background {
+  transition: background-color 0.3s ease-out;
+}
+
+[data-wf--button-main--variant='footer'] .button_main_text {
+  transition: color 0.3s ease-out;
+}
