@@ -2,18 +2,15 @@
   overflow: visible !important;
 }
 
-.studios-loop_hover-wrapper {
-  transition:
-    opacity 0s ease-out,
-    transform 0s ease-out;
+.studios-loop_cards {
+  overflow: visible;
 }
 
-.studios-loop_cards:hover .studios-loop_hover-wrapper {
-  opacity: 1;
-  transform: translateY(-2.5rem);
-  transition:
-    opacity 0.3s ease-out,
-    transform 0.3s ease-out;
+/* État initial du hover wrapper - animation gérée par GSAP dans studiosHover.ts */
+.studios-loop_hover-wrapper {
+  opacity: 0;
+  transform: translateY(0);
+  will-change: opacity, transform;
 }
 
 .studios-loop_hover-image {
