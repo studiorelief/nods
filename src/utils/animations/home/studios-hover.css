@@ -1,0 +1,21 @@
+.swiper.is-studios-loop {
+  overflow: visible !important;
+}
+
+.studios-loop_hover-wrapper {
+  transition:
+    opacity 0s ease-out,
+    transform 0s ease-out;
+}
+
+.studios-loop_cards:hover .studios-loop_hover-wrapper {
+  opacity: 1;
+  transform: translateY(-2.5rem);
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.3s ease-out;
+}
+
+.studios-loop_hover-image {
+  transform: translateX(-3rem) translateY(-5rem);
+}

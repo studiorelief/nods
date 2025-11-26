@@ -44,7 +44,7 @@ export function initHowSlider() {
       // Desktop: fade effect
       swiperInstance = new Swiper(swiperEl as HTMLElement, {
         direction: 'horizontal',
-        loop: false,
+        loop: true,
         centeredSlides: true,
         slidesPerView: 'auto',
         spaceBetween: 2.5 * 16,
@@ -72,7 +72,7 @@ export function initHowSlider() {
       // Mobile: slide effect with free mode
       swiperInstance = new Swiper(swiperEl as HTMLElement, {
         direction: 'horizontal',
-        loop: false,
+        loop: true,
         centeredSlides: false,
         slidesPerView: 0.4,
         spaceBetween: 1.5 * 16,
@@ -129,7 +129,7 @@ export function initHowSlider() {
     };
 
     // Set initial text with fade in animation
-    textElement.textContent = slideTexts[swiper.activeIndex];
+    textElement.textContent = slideTexts[swiper.realIndex];
     textElement.style.opacity = '0';
 
     // Fade in after a short delay
@@ -139,7 +139,7 @@ export function initHowSlider() {
 
     // Update text on slide change
     swiper.on('slideChange', () => {
-      updateSlideText(swiper.activeIndex);
+      updateSlideText(swiper.realIndex);
     });
   };
 

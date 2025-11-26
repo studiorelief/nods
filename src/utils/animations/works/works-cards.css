@@ -30,7 +30,11 @@
     opacity: 1;
   }
 
-  .works_cards .works_cards-hover-logo,
+  .works_cards .works_cards-hover-logo {
+    transform: translateY(-1rem);
+    transition: transform 0.3s ease-out;
+  }
+
   .works_cards .works_cards-hover-headline {
     transform: translateY(1rem);
     transition: transform 0.3s ease-out;
@@ -48,7 +52,11 @@
     opacity: 1;
   }
 
-  .projects_others_slide_asset .works_cards-hover-logo,
+  .projects_others_slide_asset .works_cards-hover-logo {
+    transform: translateY(-1rem);
+    transition: transform 0.3s ease-out;
+  }
+
   .projects_others_slide_asset .works_cards-hover-headline {
     transform: translateY(1rem);
     transition: transform 0.3s ease-out;
