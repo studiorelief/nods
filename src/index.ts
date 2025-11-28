@@ -29,6 +29,7 @@ import { initShowWorkName } from '$utils/animations/works/showWorkName';
 import { worksMouse } from '$utils/animations/works/worksMouse';
 import { barbaLogoRotate, setupLogoHover } from '$utils/barba/barbaLogoRotate';
 import { resetVideos } from '$utils/barba/barbaResetVideo';
+import { enterAnimation, leaveAnimation } from '$utils/barba/barbaTransition';
 import {
   destroyAllCarousels,
   initLoopStudiosSwiper,
@@ -40,6 +41,7 @@ import { loadScript } from '$utils/global/loadScript';
 import { initMarker } from '$utils/global/marker';
 import { closeNavMobile, navMobile } from '$utils/global/navbarMobile';
 import { popupContact } from '$utils/global/popupContact';
+import { initPreloader } from '$utils/global/preloader';
 import { initStaggerTop } from '$utils/global/staggerTop';
 
 // Variable pour stocker la fonction de nettoyage de worksMouse
@@ -59,6 +61,9 @@ const initGlobalFunctions = (): void => {
   loadScript('https://cdn.jsdelivr.net/npm/@finsweet/attributes-accordion@1/accordion.js');
 };
 
+// Initialiser le preloader avant tout le reste (uniquement première visite)
+initPreloader();
+
 initGlobalFunctions();
 setupLogoHover();
 
@@ -67,29 +72,10 @@ barba.init({
     {
       name: 'opacity-transition',
       leave(data: { current: { container: HTMLElement } }) {
-        return gsap.to(data.current.container, {
-          opacity: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-        });
+        return leaveAnimation(data);
       },
       enter(data: { next: { container: HTMLElement } }) {
-        gsap.from('section h1', {
-          scale: 2,
-          duration: 0.5,
-          ease: 'power2.out',
-        });
-        gsap.from(data.next.container, {
-          y: -16 * 2,
-          opacity: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          onComplete: () => {
-            // Nettoyer TOUS les styles inline appliqués par GSAP sur le container
-            // C'est crucial pour que position: sticky fonctionne
-            gsap.set(data.next.container, { clearProps: 'all' });
-          },
-        });
+        return enterAnimation(data);
       },
     },
   ],
