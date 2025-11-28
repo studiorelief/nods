@@ -194,3 +194,4 @@ Les fichiers modifiés/créés :
 - ✅ `src/index.css` - Import du CSS
 
 Le preloader est maintenant intégré et prêt à fonctionner ! 🎉
+

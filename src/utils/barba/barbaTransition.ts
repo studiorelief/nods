@@ -91,7 +91,26 @@ export const enterAnimation = (data: { next: { container: HTMLElement } }) => {
   tl.set(path, { attr: { d: enter_start } });
 
   // Scroll to top before revealing the new page
-  window.scrollTo(0, 0);
+  // Use GSAP to force scroll at the right time in the timeline
+  tl.call(() => {
+    // Force scroll using multiple methods for maximum compatibility
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      if (document.documentElement) {
+        document.documentElement.scrollTop = 0;
+        document.documentElement.scrollLeft = 0;
+      }
+      if (document.body) {
+        document.body.scrollTop = 0;
+        document.body.scrollLeft = 0;
+      }
+      // Also try scrollingElement for modern browsers
+      if (document.scrollingElement) {
+        (document.scrollingElement as HTMLElement).scrollTop = 0;
+        (document.scrollingElement as HTMLElement).scrollLeft = 0;
+      }
+    });
+  });
 
   // 2. Logo scale down (after 0.2s pause)
   if (logo) {

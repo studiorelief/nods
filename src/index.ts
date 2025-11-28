@@ -63,11 +63,11 @@ const initGlobalFunctions = (): void => {
 
 // Initialiser le preloader avant tout le reste (uniquement première visite)
 initPreloader();
-
 initGlobalFunctions();
 setupLogoHover();
 
 barba.init({
+  preventRunning: true,
   transitions: [
     {
       name: 'opacity-transition',
@@ -214,7 +214,25 @@ barba.hooks.beforeEnter((data: { next: { namespace: string } }) => {
 
 // Ensure Webflow and custom animations are fully re-initialized
 barba.hooks.afterEnter(() => {
-  window.scrollTo(0, 0);
+  // Ensure scroll is at top (backup in case transition scroll didn't work)
+  // Use multiple requestAnimationFrame to ensure it happens after all DOM updates
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      if (document.documentElement) {
+        document.documentElement.scrollTop = 0;
+        document.documentElement.scrollLeft = 0;
+      }
+      if (document.body) {
+        document.body.scrollTop = 0;
+        document.body.scrollLeft = 0;
+      }
+      if (document.scrollingElement) {
+        (document.scrollingElement as HTMLElement).scrollTop = 0;
+        (document.scrollingElement as HTMLElement).scrollLeft = 0;
+      }
+    });
+  });
   initGlobalFunctions();
   restartWebflow();
   // Refresh ScrollTrigger to recalculate positions after DOM changes
