@@ -143,10 +143,9 @@ barba.init({
       beforeEnter() {
         restartWebflow();
         initShowWorkName();
+        initProjectsNav();
       },
       afterEnter() {
-        initProjectsNav();
-
         // Délai pour s'assurer que le DOM et ses dimensions sont stabilisés
         requestAnimationFrame(() => {
           setTimeout(() => {
@@ -157,7 +156,7 @@ barba.init({
           }, 100);
         });
       },
-      afterLeave() {
+      beforeLeave() {
         /*
         ! FIX Issue - First Load on projects -> Back = no navbar
          Works if not first load
