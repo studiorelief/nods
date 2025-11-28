@@ -1,0 +1,17 @@
+.transition--triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* Crucial for the path to stretch to full screen */
+  display: block;
+}
+
+/* The SVG Path (The Curtain) */
+.overlay--background {
+  fill: var(--black, #1a1a1a); /* Default to dark if var not defined */
+  stroke: none;
+  vector-effect: non-scaling-stroke;
+}

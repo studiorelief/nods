@@ -1,141 +1,127 @@
 import gsap from 'gsap';
 
 /**
- * Animation de transition inspirée du site Analogue
- * Le logo NODS scale pendant la transition de page
+ * Animation de transition "Curved Curtain"
+ * Direction: Bas vers Haut (Bottom -> Top)
  *
- * Structure DOM:
- * - .transition_component : wrapper fixe
- * - .transition_logo : logo à animer (scale)
- * - .transition_background : background coloré
+ * Le rideau monte pour couvrir l'écran (Leave),
+ * puis continue de monter (le bas du rideau remonte) pour dévoiler la nouvelle page (Enter).
  */
 
-const DURATION = 0.7; // Même durée que l'ancienne animation
+// --- PATHS POUR LEAVE (Montée) ---
+// Ancrés en bas (M 0 100 ... L 0 100 Z)
+// La courbe est sur l'arête SUPÉRIEURE.
 
-/**
- * Animation de sortie (leave)
- * 1. Affiche le composant de transition
- * 2. Scale up du logo de 0 → 1
- * 3. Fade out de la page actuelle
- */
+const leave_start = 'M 0 100 V 100 Q 50 100 100 100 V 100 L 0 100 Z'; // Plat en bas (Caché)
+const leave_mid = 'M 0 100 V 50 Q 50 0 100 50 V 100 L 0 100 Z'; // Montagne (En mouvement)
+const leave_end = 'M 0 100 V 0 Q 50 0 100 0 V 100 L 0 100 Z'; // Plein écran (Top plat)
+
+// --- PATHS POUR ENTER (Sortie vers le haut) ---
+// Ancrés en haut (M 0 0 ... L 0 0 Z)
+// La courbe est sur l'arête INFÉRIEURE.
+// On switche de path au moment où l'écran est plein.
+
+const enter_start = 'M 0 0 V 100 Q 50 100 100 100 V 0 L 0 0 Z'; // Plein écran (Bottom plat)
+const enter_mid = 'M 0 0 V 50 Q 50 100 100 50 V 0 L 0 0 Z'; // Stalactite (En mouvement)
+const enter_end = 'M 0 0 V 0 Q 50 0 100 0 V 0 L 0 0 Z'; // Plat en haut (Caché)
+
 export const leaveAnimation = (data: { current: { container: HTMLElement } }) => {
   const tl = gsap.timeline();
 
   const transitionComponent = document.querySelector('.transition_component') as HTMLElement;
-  const transitionLogo = document.querySelector('.transition_logo') as HTMLElement;
-  const transitionBackground = document.querySelector('.transition_background') as HTMLElement;
+  const path = document.querySelector('.overlay--background') as SVGPathElement;
+  const logo = document.querySelector('.transition_logo') as HTMLElement;
 
-  if (!transitionComponent || !transitionLogo) {
-    // Fallback si éléments non trouvés
-    return gsap.to(data.current.container, {
-      opacity: 0,
-      duration: DURATION,
-      ease: 'power2.out',
-    });
+  if (!transitionComponent || !path) return tl;
+
+  // 1. Setup
+  tl.set(transitionComponent, { display: 'flex', autoAlpha: 1 });
+  tl.set(path, { attr: { d: leave_start } }); // Départ du bas
+
+  if (logo) {
+    tl.set(logo, { autoAlpha: 0, y: 20 });
   }
 
-  // Afficher le composant de transition
-  tl.set(transitionComponent, {
-    display: 'flex',
+  // 2. Montée (Cover)
+  tl.to(path, {
+    attr: { d: leave_mid },
+    duration: 0.4,
+    ease: 'power2.in',
+  });
+  tl.to(path, {
+    attr: { d: leave_end },
+    duration: 0.3,
+    ease: 'power2.out',
   });
 
-  // État initial du logo et background
-  tl.set(transitionLogo, {
-    scale: 0,
-    opacity: 1,
-  });
-
-  if (transitionBackground) {
-    tl.set(transitionBackground, {
-      y: '100%',
-    });
-
-    // Slide up du background
-    tl.to(transitionBackground, {
-      y: '0%',
-      duration: DURATION - 0.1,
-      ease: 'power2.out',
-      delay: 0.1,
-    });
+  // 3. Logo
+  if (logo) {
+    tl.to(
+      logo,
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.4,
+        ease: 'power2.out',
+      },
+      '-=0.4'
+    );
   }
 
-  // Scale up du logo
-  tl.to(
-    transitionLogo,
-    {
-      scale: 1,
-      duration: DURATION - 0.1,
-      ease: 'power2.out',
-    },
-    0.1
-  );
-
-  // Fade out de la page actuelle
-  tl.to(
-    data.current.container,
-    {
-      opacity: 0,
-      duration: DURATION,
-      ease: 'power2.out',
-    },
-    0
-  );
+  // 4. Hide current container (Restore functionality)
+  tl.set(data.current.container, { display: 'none' });
 
   return tl;
 };
 
-/**
- * Animation d'entrée (enter)
- * 1. Fade in de la nouvelle page
- * 2. Scale up du logo jusqu'à disparition
- * 3. Cache le composant de transition
- */
 export const enterAnimation = (data: { next: { container: HTMLElement } }) => {
-  const transitionComponent = document.querySelector('.transition_component') as HTMLElement;
-  const transitionLogo = document.querySelector('.transition_logo') as HTMLElement;
-  const transitionBackground = document.querySelector('.transition_background') as HTMLElement;
-
-  if (!transitionComponent || !transitionLogo) {
-    // Fallback si éléments non trouvés - même comportement que l'ancienne animation
-    gsap.from(data.next.container, {
-      opacity: 0,
-      duration: DURATION,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.set(data.next.container, { clearProps: 'all' });
-      },
-    });
-    return;
-  }
-
-  // Scale out du logo (continue de grandir puis disparaît)
-  gsap.to(transitionLogo, {
-    scale: 0,
-    opacity: 0,
-    duration: DURATION - 0.2,
-    ease: 'power2.in',
-  });
-
-  // Slide down du background
-  if (transitionBackground) {
-    gsap.to(transitionBackground, {
-      y: '-100%',
-      duration: DURATION - 0.1,
-      ease: 'power2.in',
-      delay: 0.1,
-    });
-  }
-
-  // Fade in de la nouvelle page - comme l'ancienne animation
-  gsap.from(data.next.container, {
-    opacity: 0,
-    duration: DURATION,
-    ease: 'power2.out',
+  const tl = gsap.timeline({
     onComplete: () => {
-      // Cacher le composant de transition
-      gsap.set(transitionComponent, { display: 'none' });
-      // Nettoyer les styles GSAP - crucial pour position: sticky
+      const transitionComponent = document.querySelector('.transition_component') as HTMLElement;
+      if (transitionComponent) {
+        gsap.set(transitionComponent, { display: 'none', autoAlpha: 0 });
+      }
       gsap.set(data.next.container, { clearProps: 'all' });
     },
   });
+
+  const path = document.querySelector('.overlay--background') as SVGPathElement;
+  const logo = document.querySelector('.transition_logo') as HTMLElement;
+
+  if (!path) return tl;
+
+  // 1. Swap Path (Invisible car les deux sont plein écran)
+  tl.set(path, { attr: { d: enter_start } });
+
+  // Scroll to top before revealing the new page
+  window.scrollTo(0, 0);
+
+  // 2. Logo Out
+  if (logo) {
+    tl.to(logo, {
+      y: -20,
+      autoAlpha: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+    });
+  }
+
+  // 3. Sortie vers le haut (Uncover)
+  tl.to(
+    path,
+    {
+      attr: { d: enter_mid },
+      duration: 0.3,
+      ease: 'power2.in',
+    },
+    logo ? '>-0.1' : '0'
+  );
+
+  tl.to(path, {
+    attr: { d: enter_end },
+    duration: 0.3,
+    ease: 'power2.out',
+  });
+
+  return tl;
 };
