@@ -185,6 +185,7 @@ barba.init({
 
 barba.hooks.beforeLeave(() => {
   // Fermer la navigation mobile si elle est ouverte
+  restartWebflow();
   closeNavMobile();
 
   // Détruire tous les carousels avec un délai pour correspondre à l'animation de sortie
@@ -195,8 +196,6 @@ barba.hooks.beforeLeave(() => {
   ScrollTrigger.getAll().forEach((trigger) => {
     trigger.kill(true); // true = revert inline styles
   });
-
-  restartWebflow();
 });
 
 barba.hooks.beforeEnter((data: { next: { namespace: string } }) => {

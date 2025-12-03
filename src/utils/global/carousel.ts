@@ -39,7 +39,6 @@
 
 import 'swiper/css/bundle';
 
-import gsap from 'gsap';
 import Swiper from 'swiper/bundle';
 
 type InitOptions = {
@@ -50,10 +49,6 @@ const BASE_SPACE = 16 * 1.25;
 const PIXELS_PER_SECOND = 50; // Vitesse constante en pixels/seconde pour tous les marquees
 const DUPLICATION_MULTIPLIER = 4; // Multiplier pour assurer un loop fluide
 const MAX_DUPLICATION_ITERATIONS = 100; // Limite de sécurité pour la duplication
-
-// Animation timing constants
-const FADE_IN_DURATION = 0.6; // Duration for fade-in animation in seconds
-const FADE_IN_DELAY = 300; // Delay before starting fade-in and autoplay in milliseconds
 
 // Store instances globally for cleanup
 const swiperInstances = new Map<HTMLElement, Swiper>();
@@ -131,6 +126,50 @@ function destroySwiperInstance(root: HTMLElement): void {
 }
 
 /**
+ * Met l'opacité à 1 sur tous les slides du carousel avec un fade-in
+ * Fonction séparée pour éviter les bugs et garder le code propre
+ * Attend que le DOM soit chargé, puis fait un fade-in de 0.3s après 100ms de délai
+ */
+function setSlidesOpacity(root: HTMLElement): void {
+  try {
+    // Attendre que le DOM soit complètement chargé
+    const initFadeIn = () => {
+      const wrapper = root.querySelector('.swiper-wrapper') as HTMLElement | null;
+      if (!wrapper) return;
+
+      const allSlides = wrapper.querySelectorAll('.swiper-slide') as NodeListOf<HTMLElement>;
+      if (allSlides.length === 0) return;
+
+      // Initialiser les slides à opacity 0
+      allSlides.forEach((slide) => {
+        slide.style.opacity = '0';
+        slide.style.transition = 'opacity 0.3s ease-out';
+      });
+
+      // Attendre 100ms puis faire le fade-in
+      setTimeout(() => {
+        allSlides.forEach((slide) => {
+          slide.style.opacity = '1';
+        });
+      }, 100);
+    };
+
+    // Vérifier si le DOM est déjà chargé
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFadeIn);
+    } else {
+      // DOM déjà chargé, exécuter directement
+      initFadeIn();
+    }
+  } catch (error) {
+    // Silently catch errors to avoid breaking the carousel initialization
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      console.error('Error setting slides opacity:', error);
+    }
+  }
+}
+
+/**
  * Initialise un swiper en mode marquee pour un élément root
  */
 function initLoopSwiperForRoot(root: HTMLElement): void {
@@ -198,28 +237,8 @@ function initLoopSwiperForRoot(root: HTMLElement): void {
     }, 150);
   });
 
-  // Initialiser tous les slides à opacity 0
-  const allSlides = wrapper.querySelectorAll('.swiper-slide') as NodeListOf<HTMLElement>;
-  if (allSlides.length > 0) {
-    gsap.set(allSlides, { opacity: 0 });
-  }
-
-  // Arrêter l'autoplay temporairement pour le fade-in
-  swiper.autoplay.stop();
-
-  // Attendre le délai puis démarrer la loop et mettre l'opacité à 1 en même temps
-  setTimeout(() => {
-    // Mettre l'opacité à 1 juste avant de démarrer la loop
-    if (allSlides.length > 0) {
-      gsap.to(allSlides, {
-        opacity: 1,
-        duration: FADE_IN_DURATION,
-        ease: 'ease.out',
-      });
-    }
-    // Démarrer l'autoplay (la loop) en même temps
-    swiper.autoplay.start();
-  }, FADE_IN_DELAY);
+  // Mettre l'opacité à 1 sur tous les slides au chargement
+  setSlidesOpacity(root);
 }
 
 /**
