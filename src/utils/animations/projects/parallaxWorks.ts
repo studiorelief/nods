@@ -19,8 +19,9 @@ export const initWorksParallax = (): void => {
   const heroLogo = document.querySelector('.projects_hero_logo');
 
   if (heroSection) {
-    // Reset inline styles before animating
-    gsap.set([heroSection, heroLogo], { clearProps: 'all' });
+    // Set initial state before animating to avoid visual glitches
+    // Don't clear all props as it can cause jumps if page is already visible
+    gsap.set([heroSection, heroLogo], { y: '0rem' });
 
     heroMatchMedia = gsap.matchMedia();
 
@@ -58,8 +59,11 @@ export const initWorksParallax = (): void => {
   const contentTrigger = document.querySelector('.section_projects_content');
 
   if (contentParallax && contentTrigger) {
-    // Reset inline styles before animating
-    gsap.set(contentParallax, { clearProps: 'all' });
+    // Set initial state before animating to avoid visual glitches
+    // Don't clear all props as it can cause jumps if page is already visible
+    const isMobile = window.matchMedia('(max-width: 991px)').matches;
+    const yStartValue = isMobile ? '0rem' : '-5rem';
+    gsap.set(contentParallax, { y: yStartValue });
 
     contentMatchMedia = gsap.matchMedia();
 

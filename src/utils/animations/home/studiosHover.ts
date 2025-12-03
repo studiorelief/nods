@@ -30,7 +30,7 @@ export const initStudiosHover = (): (() => void) => {
       const tl = gsap.timeline();
       tl.to(hoverWrapper, {
         opacity: 1,
-        y: '-2.5rem',
+        y: window.matchMedia('(max-width: 991px)').matches ? '0rem' : '-2.5rem',
         duration: 0.3,
         ease: 'power2.out',
         overwrite: 'auto',
@@ -50,7 +50,7 @@ export const initStudiosHover = (): (() => void) => {
       const tl = gsap.timeline();
       tl.to(hoverWrapper, {
         opacity: 0,
-        y: 0,
+        y: window.matchMedia('(max-width: 991px)').matches ? '1.5rem' : '0rem',
         duration: 0.3,
         ease: 'power2.out',
         overwrite: 'auto',

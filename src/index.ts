@@ -144,16 +144,20 @@ barba.init({
         restartWebflow();
         initShowWorkName();
         initProjectsNav();
+        // Initialiser les animations AVANT que la page soit visible pour éviter les glitches
+        // Utiliser requestAnimationFrame pour s'assurer que le DOM est prêt
+        requestAnimationFrame(() => {
+          initWorksParallax();
+        });
       },
       afterEnter() {
-        // Délai pour s'assurer que le DOM et ses dimensions sont stabilisés
+        // Force ScrollTrigger à recalculer avec les vraies dimensions après le rendu complet
+        // Double requestAnimationFrame pour s'assurer que les dimensions sont calculées
         requestAnimationFrame(() => {
-          setTimeout(() => {
-            initWorksParallax();
+          requestAnimationFrame(() => {
             initOtherProjectsSlider();
-            // Force ScrollTrigger à recalculer avec les vraies dimensions
             ScrollTrigger.refresh();
-          }, 100);
+          });
         });
       },
       beforeLeave() {

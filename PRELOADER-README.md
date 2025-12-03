@@ -195,3 +195,4 @@ Les fichiers modifiés/créés :
 
 Le preloader est maintenant intégré et prêt à fonctionner ! 🎉
 
+

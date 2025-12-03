@@ -39,6 +39,7 @@
 
 import 'swiper/css/bundle';
 
+import gsap from 'gsap';
 import Swiper from 'swiper/bundle';
 
 type InitOptions = {
@@ -49,6 +50,10 @@ const BASE_SPACE = 16 * 1.25;
 const PIXELS_PER_SECOND = 50; // Vitesse constante en pixels/seconde pour tous les marquees
 const DUPLICATION_MULTIPLIER = 4; // Multiplier pour assurer un loop fluide
 const MAX_DUPLICATION_ITERATIONS = 100; // Limite de sécurité pour la duplication
+
+// Animation timing constants
+const FADE_IN_DURATION = 0.6; // Duration for fade-in animation in seconds
+const FADE_IN_DELAY = 300; // Delay before starting fade-in and autoplay in milliseconds
 
 // Store instances globally for cleanup
 const swiperInstances = new Map<HTMLElement, Swiper>();
@@ -192,6 +197,29 @@ function initLoopSwiperForRoot(root: HTMLElement): void {
       s.update();
     }, 150);
   });
+
+  // Initialiser tous les slides à opacity 0
+  const allSlides = wrapper.querySelectorAll('.swiper-slide') as NodeListOf<HTMLElement>;
+  if (allSlides.length > 0) {
+    gsap.set(allSlides, { opacity: 0 });
+  }
+
+  // Arrêter l'autoplay temporairement pour le fade-in
+  swiper.autoplay.stop();
+
+  // Attendre le délai puis démarrer la loop et mettre l'opacité à 1 en même temps
+  setTimeout(() => {
+    // Mettre l'opacité à 1 juste avant de démarrer la loop
+    if (allSlides.length > 0) {
+      gsap.to(allSlides, {
+        opacity: 1,
+        duration: FADE_IN_DURATION,
+        ease: 'ease.out',
+      });
+    }
+    // Démarrer l'autoplay (la loop) en même temps
+    swiper.autoplay.start();
+  }, FADE_IN_DELAY);
 }
 
 /**
