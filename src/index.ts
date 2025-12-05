@@ -13,6 +13,7 @@ import { initCloudLoop } from '$utils/animations/home/introCloudLoop';
 import { initAnimGLB } from '$utils/animations/home/introGlb';
 import { resetGlbPosition } from '$utils/animations/home/introGlb';
 import { initIntroParallax } from '$utils/animations/home/introParallax';
+import { initServicesParallax } from '$utils/animations/home/servicesParallax';
 import { initStudiosHover } from '$utils/animations/home/studiosHover';
 import { initHeartBeat } from '$utils/animations/home/whereHeartBeat';
 import { initWhereProjectsScroll } from '$utils/animations/home/whereProjectsScroll';
@@ -97,6 +98,7 @@ barba.init({
           initWhereProjectsScroll();
           initHeartBeat();
           initIntroParallax();
+          initServicesParallax();
         });
 
         // requestAnimationFrame(() => {
