@@ -25,6 +25,7 @@ export const initServicesParallax = (): void => {
     {
       y: '-50rem',
       ease: 'none',
+      force3D: true,
       scrollTrigger: {
         markers: false,
         trigger: card1,
@@ -43,8 +44,8 @@ export const initServicesParallax = (): void => {
       },
       {
         scale: 0.75,
-        borderBottom: '0rem',
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           markers: false,
           trigger: card1,
@@ -64,6 +65,7 @@ export const initServicesParallax = (): void => {
     {
       y: '-50rem',
       ease: 'none',
+      force3D: true,
       scrollTrigger: {
         markers: false,
         trigger: card2,
@@ -82,8 +84,8 @@ export const initServicesParallax = (): void => {
       },
       {
         scale: 0.75,
-        borderBottom: '0rem',
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           markers: false,
           trigger: card2,
@@ -103,6 +105,7 @@ export const initServicesParallax = (): void => {
     {
       y: '-50rem',
       ease: 'none',
+      force3D: true,
       scrollTrigger: {
         markers: false,
         trigger: card3,
@@ -121,8 +124,8 @@ export const initServicesParallax = (): void => {
       },
       {
         scale: 0.75,
-        borderBottom: '0rem',
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           markers: false,
           trigger: card3,

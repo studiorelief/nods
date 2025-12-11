@@ -76,6 +76,7 @@ barba.init({
         return leaveAnimation(data);
       },
       enter(data: { next: { container: HTMLElement } }) {
+        window.scrollTo(0, 0);
         return enterAnimation(data);
       },
     },
