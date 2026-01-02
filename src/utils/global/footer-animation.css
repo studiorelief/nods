@@ -18,3 +18,24 @@
     transform: scale(1.2, 1.2);
   }
 }
+
+@media (min-width: 992px) {
+  .section_footer-2 {
+    perspective: 100vw;
+    overflow: hidden;
+  }
+
+  .section_footer-2 .footer_cards {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .section_footer-2 .footer_cards-asset {
+    position: absolute;
+    object-fit: cover;
+    transform: scale(1.2, 1.2);
+  }
+}

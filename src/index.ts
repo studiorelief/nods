@@ -37,10 +37,13 @@ import {
   initLoopWordSwiper,
 } from '$utils/global/carousel';
 import { animFooter } from '$utils/global/footerAnimation';
+import { destroyGlassEffect, initGlassEffect } from '$utils/global/glassEffect';
 import { loadModelViewerScript } from '$utils/global/loadModalViewer';
 import { loadScript } from '$utils/global/loadScript';
 import { initMarker } from '$utils/global/marker';
 import { closeNavMobile, navMobile } from '$utils/global/navbarMobile';
+import { initNavbarSlider } from '$utils/global/navbarSlider';
+import { closeNavbarV2, navbarV2 } from '$utils/global/navbarV2';
 import { popupContact } from '$utils/global/popupContact';
 import { initPreloader } from '$utils/global/preloader';
 import { initStaggerTop } from '$utils/global/staggerTop';
@@ -51,6 +54,8 @@ let cleanupWorksMouse: (() => void) | null = null;
 // Group all page enhancements to call on first load and after Barba navigations
 const initGlobalFunctions = (): void => {
   navMobile();
+  navbarV2();
+  initNavbarSlider();
   popupContact();
   initCloudLoop();
   initMarker();
@@ -58,6 +63,7 @@ const initGlobalFunctions = (): void => {
   resetVideos();
   barbaLogoRotate();
   animFooter();
+  initGlassEffect();
   loadModelViewerScript();
   loadScript('https://cdn.jsdelivr.net/npm/@finsweet/attributes-accordion@1/accordion.js');
 };
@@ -76,22 +82,46 @@ barba.init({
         return leaveAnimation(data);
       },
       enter(data: { next: { container: HTMLElement } }) {
-        window.scrollTo(0, 0);
         return enterAnimation(data);
       },
     },
   ],
   views: [
+    // {
+    //   namespace: 'home',
+    //   beforeEnter() {
+    //     initRainbowCursor();
+    //     initLoopStudiosSwiper();
+    //     initStudiosHover();
+    //     whyAssetAnimations();
+    //     initWhoSlider();
+    //     initHowSlider();
+    //     initCloudLoop();
+    //     initAnimGLB();
+    //     resetGlbPosition();
+
+    //     requestAnimationFrame(() => {
+    //       initWhereProjectsScroll();
+    //       initHeartBeat();
+    //       initIntroParallax();
+    //       initServicesParallax();
+    //     });
+
+    //     // requestAnimationFrame(() => {
+    //     //   initWhyLetterScroll();
+    //     // });
+    //   },
+    // },
     {
-      namespace: 'home',
+      namespace: 'home-v2',
       beforeEnter() {
         initRainbowCursor();
         initLoopStudiosSwiper();
         initStudiosHover();
         whyAssetAnimations();
-        initWhoSlider();
-        initHowSlider();
-        initCloudLoop();
+        // initWhoSlider();
+        // initHowSlider();
+        // initCloudLoop();
         initAnimGLB();
         resetGlbPosition();
 
@@ -126,6 +156,8 @@ barba.init({
       namespace: 'skills',
       beforeEnter() {
         initStaggerTop();
+        initWhoSlider();
+        initHowSlider();
       },
     },
     {
@@ -139,6 +171,9 @@ barba.init({
       namespace: 'pricings',
       beforeEnter() {
         initCardsBorder();
+        requestAnimationFrame(() => {
+          initServicesParallax();
+        });
       },
     },
     {
@@ -190,10 +225,14 @@ barba.hooks.beforeLeave(() => {
   // Fermer la navigation mobile si elle est ouverte
   restartWebflow();
   closeNavMobile();
+  closeNavbarV2();
 
   // Détruire tous les carousels avec un délai pour correspondre à l'animation de sortie
   // L'animation opacity dure 500ms, on destroy à 300ms quand c'est bien caché
   destroyAllCarousels(350);
+
+  // Nettoyer les effets glass
+  destroyGlassEffect();
 
   // Kill all ScrollTriggers and reset inline styles
   ScrollTrigger.getAll().forEach((trigger) => {

@@ -8,7 +8,7 @@ import gsap from 'gsap';
  * - `.card` : élément animé en position/rotation
  * - `.media` : élément zoomé (scale)
  */
-export const animFooter = (rootSelector: string = '.section_footer'): (() => void) => {
+export const animFooter = (rootSelector: string = '.section_footer-2'): (() => void) => {
   // Respecte les préférences d'accessibilité
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (prefersReducedMotion.matches) return () => {};
@@ -24,8 +24,8 @@ export const animFooter = (rootSelector: string = '.section_footer'): (() => voi
   if (root.dataset.animFooterInited === 'true') return () => {};
   root.dataset.animFooterInited = 'true';
 
-  const card = root.querySelector('.footer_cards') as HTMLElement | null;
-  const media = root.querySelector('.footer_cards-asset') as HTMLElement | null;
+  const card = root.querySelector('.footer-2_cards') as HTMLElement | null;
+  const media = root.querySelector('.footer-2_cards-asset') as HTMLElement | null;
   if (!card || !media) return () => {};
 
   // Préparer la scène 3D et l'origine des transformations
