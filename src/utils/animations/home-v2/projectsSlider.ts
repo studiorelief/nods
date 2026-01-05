@@ -11,7 +11,7 @@ import Swiper from 'swiper/bundle';
 // Store the swiper instances to destroy them on subsequent calls
 const swiperInstances = new Map<HTMLElement, Swiper>();
 
-export function initNavbarSlider() {
+export function initHomeProjectsSlider() {
   // Destroy previous instances if they exist
   swiperInstances.forEach((instance) => {
     try {
@@ -23,7 +23,7 @@ export function initNavbarSlider() {
   swiperInstances.clear();
 
   // Get all .swiper elements with is-navbar class
-  const swiperElements = document.querySelectorAll('.swiper.is-navbar');
+  const swiperElements = document.querySelectorAll('.swiper.is-home-projects');
 
   if (swiperElements.length === 0) {
     return;

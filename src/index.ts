@@ -12,7 +12,8 @@ import { initHowSlider } from '$utils/animations/home/howSlider';
 import { initCloudLoop } from '$utils/animations/home/introCloudLoop';
 import { initAnimGLB } from '$utils/animations/home/introGlb';
 import { resetGlbPosition } from '$utils/animations/home/introGlb';
-import { initIntroParallax } from '$utils/animations/home/introParallax';
+import { initSentenceScroll } from '$utils/animations/home/sentenceScroll';
+// import { initIntroParallax } from '$utils/animations/home/introParallax';
 import { initServicesParallax } from '$utils/animations/home/servicesParallax';
 import { initStudiosHover } from '$utils/animations/home/studiosHover';
 import { initHeartBeat } from '$utils/animations/home/whereHeartBeat';
@@ -20,6 +21,7 @@ import { initWhereProjectsScroll } from '$utils/animations/home/whereProjectsScr
 import { initRainbowCursor } from '$utils/animations/home/whereRainbow';
 import { initWhoSlider } from '$utils/animations/home/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/home/whyAnimations';
+import { initHomeProjectsSlider } from '$utils/animations/home-v2/projectsSlider';
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
 import { initCardsBorder } from '$utils/animations/pricing/cardsBorder';
 import { initOtherProjectsSlider } from '$utils/animations/projects/OtherProjectsSlider';
@@ -124,11 +126,13 @@ barba.init({
         // initCloudLoop();
         initAnimGLB();
         resetGlbPosition();
+        initSentenceScroll();
+        initHomeProjectsSlider();
 
         requestAnimationFrame(() => {
           initWhereProjectsScroll();
           initHeartBeat();
-          initIntroParallax();
+          // initIntroParallax();
           initServicesParallax();
         });
 

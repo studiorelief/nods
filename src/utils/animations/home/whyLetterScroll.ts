@@ -38,14 +38,26 @@ export function initWhyLetterScroll(): void {
     return;
   }
 
-  // Wrap words in spans
-  wrapWordsInSpan(paragraph);
+  // Check if heading has div children (multiple lines structure)
+  const divChildren = Array.from(paragraph.children).filter(
+    (child) => child.tagName.toLowerCase() === 'div'
+  );
+
+  if (divChildren.length > 0) {
+    // Process each div as a separate line
+    divChildren.forEach((div) => {
+      wrapWordsInSpan(div as HTMLElement);
+    });
+  } else {
+    // Original behavior: wrap words directly in the paragraph
+    wrapWordsInSpan(paragraph);
+  }
 
   const words = paragraph.querySelectorAll('.word');
 
   // Pin the container while scrolling through the section
   ScrollTrigger.create({
-    markers: false,
+    markers: true,
     trigger: pinHeight, // We listen to .section_home_why position
     start: 'top top',
     end: 'bottom bottom',

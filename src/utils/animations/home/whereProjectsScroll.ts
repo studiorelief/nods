@@ -77,6 +77,7 @@ function splitTextNode(node: Node, parent: HTMLElement): void {
 
 /**
  * Processes a heading element by splitting text into letters
+ * Handles multiple div children as separate lines
  * Returns true if processing was successful, false if already processed or element not found
  */
 function processHeading(selector: string): boolean {
@@ -92,21 +93,44 @@ function processHeading(selector: string): boolean {
     return false;
   }
 
-  // Store the original child nodes
-  const childNodes = Array.from(heading.childNodes);
+  // Check if heading has div children (multiple lines structure)
+  const divChildren = Array.from(heading.children).filter(
+    (child) => child.tagName.toLowerCase() === 'div'
+  );
 
-  // Create a temporary container to build the new structure
-  const tempContainer = document.createElement('div');
+  if (divChildren.length > 0) {
+    // Process each div as a separate line
+    divChildren.forEach((div) => {
+      const divElement = div as HTMLElement;
+      const childNodes = Array.from(divElement.childNodes);
+      const tempContainer = document.createElement('div');
 
-  // Process each child node
-  childNodes.forEach((node) => {
-    splitTextNode(node, tempContainer);
-  });
+      // Process each child node within the div
+      childNodes.forEach((node) => {
+        splitTextNode(node, tempContainer);
+      });
 
-  // Replace the heading content with the processed content
-  heading.innerHTML = '';
-  while (tempContainer.firstChild) {
-    heading.appendChild(tempContainer.firstChild);
+      // Replace the div content with the processed content
+      divElement.innerHTML = '';
+      while (tempContainer.firstChild) {
+        divElement.appendChild(tempContainer.firstChild);
+      }
+    });
+  } else {
+    // Original behavior: process direct child nodes
+    const childNodes = Array.from(heading.childNodes);
+    const tempContainer = document.createElement('div');
+
+    // Process each child node
+    childNodes.forEach((node) => {
+      splitTextNode(node, tempContainer);
+    });
+
+    // Replace the heading content with the processed content
+    heading.innerHTML = '';
+    while (tempContainer.firstChild) {
+      heading.appendChild(tempContainer.firstChild);
+    }
   }
 
   return true;
