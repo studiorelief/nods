@@ -86,7 +86,7 @@ export const initSentenceScroll = (): void => {
     yPercent: '-=100', // Move up by 100% of their height
     ease: 'power2.inOut', // Smoother non-linear movement
     scrollTrigger: {
-      markers: true,
+      markers: false,
       trigger: sectionEl,
       start: '10% center', // Starts when section center reaches viewport center (50% of section)
       end: 'center bottom', // Ends when section bottom reaches viewport bottom

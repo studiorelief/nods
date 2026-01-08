@@ -1,0 +1,20 @@
+.clients_collection-item:first-child .clients_cards {
+  height: 10rem;
+}
+
+.clients_collection-item:not(:first-child) .clients_cards {
+  height: 4rem;
+}
+
+.clients_collection-item .clients_cards {
+  height: 4rem;
+}
+
+.clients_logo-wrapper {
+  transition: transform 0.2s ease-in-out;
+  transform-origin: left center;
+}
+
+.clients_collection-item:hover .clients_logo-wrapper {
+  transform: scale(1.25);
+}

@@ -8,7 +8,7 @@ import gsap from 'gsap';
  * - `.card` : élément animé en position/rotation
  * - `.media` : élément zoomé (scale)
  */
-export const animFooter = (rootSelector: string = '.section_footer-2'): (() => void) => {
+export const animFooter = (rootSelector: string = '.footer-2_content'): (() => void) => {
   // Respecte les préférences d'accessibilité
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (prefersReducedMotion.matches) return () => {};

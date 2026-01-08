@@ -15,7 +15,17 @@
   position: absolute;
   object-fit: cover;
   border-radius: 4%;
-  z-index: 5;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.home_why_component img {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  position: static;
+  object-fit: cover;
+  border-radius: auto;
+  z-index: auto;
   pointer-events: none;
 }
 

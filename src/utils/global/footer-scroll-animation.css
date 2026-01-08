@@ -1,0 +1,29 @@
+/* .footer-2_scroll {
+  overflow: hidden;
+}
+
+.footer-2_scroll .footer-2_assets {
+  height: 500vh;
+} */
+
+/* .footer-2_scroll .footer-2_container {
+  position: relative;
+  width: 18%;
+  aspect-ratio: 1;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */
+
+.footer-2_scroll .footer-2_media-wrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.footer-2_scroll .footer-2_media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2%;
+  transform: translate(60vw, 0);
+}

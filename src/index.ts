@@ -8,13 +8,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger);
 
+import { initClientsAnimation } from '$utils/animations/home/clientsAnimation';
 import { initHowSlider } from '$utils/animations/home/howSlider';
 import { initCloudLoop } from '$utils/animations/home/introCloudLoop';
 import { initAnimGLB } from '$utils/animations/home/introGlb';
 import { resetGlbPosition } from '$utils/animations/home/introGlb';
 import { initSentenceScroll } from '$utils/animations/home/sentenceScroll';
 // import { initIntroParallax } from '$utils/animations/home/introParallax';
-import { initServicesParallax } from '$utils/animations/home/servicesParallax';
+// import { initServicesParallax } from '$utils/animations/home/servicesParallax';
+import { initServicesParallaxV2 } from '$utils/animations/home/servicesParallaxV2';
 import { initStudiosHover } from '$utils/animations/home/studiosHover';
 import { initHeartBeat } from '$utils/animations/home/whereHeartBeat';
 import { initWhereProjectsScroll } from '$utils/animations/home/whereProjectsScroll';
@@ -25,7 +27,6 @@ import { initHomeProjectsSlider } from '$utils/animations/home-v2/projectsSlider
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
 import { initCardsBorder } from '$utils/animations/pricing/cardsBorder';
 import { initOtherProjectsSlider } from '$utils/animations/projects/OtherProjectsSlider';
-import { initWorksParallax } from '$utils/animations/projects/parallaxWorks';
 import { initProjectsNav } from '$utils/animations/projects/projectsNav';
 import { initShowWorkName } from '$utils/animations/works/showWorkName';
 // import { initWhyLetterScroll } from '$utils/animations/whyLetterScroll';
@@ -39,6 +40,7 @@ import {
   initLoopWordSwiper,
 } from '$utils/global/carousel';
 import { animFooter } from '$utils/global/footerAnimation';
+import { initFooterScrollAnimation } from '$utils/global/footerScrollAnimation';
 import { destroyGlassEffect, initGlassEffect } from '$utils/global/glassEffect';
 import { loadModelViewerScript } from '$utils/global/loadModalViewer';
 import { loadScript } from '$utils/global/loadScript';
@@ -53,6 +55,9 @@ import { initStaggerTop } from '$utils/global/staggerTop';
 // Variable pour stocker la fonction de nettoyage de worksMouse
 let cleanupWorksMouse: (() => void) | null = null;
 
+// Variable pour stocker la fonction de nettoyage de footerScrollAnimation
+let cleanupFooterScrollAnimation: (() => void) | null = null;
+
 // Group all page enhancements to call on first load and after Barba navigations
 const initGlobalFunctions = (): void => {
   navMobile();
@@ -65,6 +70,13 @@ const initGlobalFunctions = (): void => {
   resetVideos();
   barbaLogoRotate();
   animFooter();
+  // Nettoyer l'animation footerScrollAnimation précédente si elle existe
+  if (cleanupFooterScrollAnimation) {
+    cleanupFooterScrollAnimation();
+    cleanupFooterScrollAnimation = null;
+  }
+  // Initialiser l'animation du footer scroll
+  cleanupFooterScrollAnimation = initFooterScrollAnimation();
   initGlassEffect();
   loadModelViewerScript();
   loadScript('https://cdn.jsdelivr.net/npm/@finsweet/attributes-accordion@1/accordion.js');
@@ -128,12 +140,13 @@ barba.init({
         resetGlbPosition();
         initSentenceScroll();
         initHomeProjectsSlider();
+        initClientsAnimation();
 
         requestAnimationFrame(() => {
           initWhereProjectsScroll();
           initHeartBeat();
           // initIntroParallax();
-          initServicesParallax();
+          // initServicesParallaxV2();
         });
 
         // requestAnimationFrame(() => {
@@ -176,7 +189,7 @@ barba.init({
       beforeEnter() {
         initCardsBorder();
         requestAnimationFrame(() => {
-          initServicesParallax();
+          initServicesParallaxV2();
         });
       },
     },
@@ -186,11 +199,6 @@ barba.init({
         restartWebflow();
         initShowWorkName();
         initProjectsNav();
-        // Initialiser les animations AVANT que la page soit visible pour éviter les glitches
-        // Utiliser requestAnimationFrame pour s'assurer que le DOM est prêt
-        requestAnimationFrame(() => {
-          initWorksParallax();
-        });
       },
       afterEnter() {
         // Force ScrollTrigger à recalculer avec les vraies dimensions après le rendu complet
@@ -237,6 +245,12 @@ barba.hooks.beforeLeave(() => {
 
   // Nettoyer les effets glass
   destroyGlassEffect();
+
+  // Nettoyer l'animation footerScrollAnimation
+  if (cleanupFooterScrollAnimation) {
+    cleanupFooterScrollAnimation();
+    cleanupFooterScrollAnimation = null;
+  }
 
   // Kill all ScrollTriggers and reset inline styles
   ScrollTrigger.getAll().forEach((trigger) => {
