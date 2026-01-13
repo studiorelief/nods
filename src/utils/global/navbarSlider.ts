@@ -54,10 +54,10 @@ export function initNavbarSlider() {
         delay: 0,
         disableOnInteraction: false,
       },
-      freeMode: {
-        enabled: true,
-        momentum: false,
-      },
+      // freeMode: {
+      //   enabled: true,
+      //   momentum: false,
+      // },
       on: {
         init: function () {
           const wrapper = element.querySelector('.swiper-wrapper') as HTMLElement;

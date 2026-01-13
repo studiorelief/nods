@@ -25,6 +25,13 @@ export const initFooterScrollAnimation = (): (() => void) => {
     return () => {};
   }
 
+  // Vérifier que l'élément est visible (pas en display: none)
+  const computedStyle = window.getComputedStyle(root);
+  if (computedStyle.display === 'none') {
+    console.error('[FooterScrollAnimation] .footer-2_scroll is hidden (display: none)');
+    return () => {};
+  }
+
   // Évite les ré-initialisations multiples
   if (root.dataset.footerScrollAnimInited === 'true') {
     console.error('[FooterScrollAnimation] Already initialized');
@@ -57,18 +64,22 @@ export const initFooterScrollAnimation = (): (() => void) => {
   // Configuration initiale du container
   gsap.set(container, {
     y: '-50vh', // Position initiale
+    force3D: true,
+    willChange: 'transform',
   });
 
   // Animation séparée du container de y: -50vh à y: 50vh
   const containerAnimation = gsap.to(container, {
     y: '50vh', // Position finale
     ease: 'power1.out',
+    force3D: true,
+    willChange: 'transform',
     scrollTrigger: {
       trigger: root,
       start: '0% top',
       end: 'bottom bottom',
       scrub: true, // Progression avec le scroll
-      markers: true, // Debug markers
+      markers: false, // Debug markers
     },
   });
 
@@ -81,6 +92,8 @@ export const initFooterScrollAnimation = (): (() => void) => {
     gsap.set(wrapper, {
       rotation: -angle * index,
       transformOrigin: 'center center',
+      force3D: true,
+      willChange: 'transform',
     });
     // Assigner l'angle opposé à l'enfant du wrapper
     // Position initiale : tous les médias commencent à x: 60vw (hors écran à droite)
@@ -91,6 +104,8 @@ export const initFooterScrollAnimation = (): (() => void) => {
         autoAlpha: 1, // S'assurer qu'ils sont visibles au début
         x: '60vw', // Position X initiale (tous à la même position)
         y: 0, // Position Y initiale
+        force3D: true,
+        willChange: 'transform',
       });
     }
   });
@@ -102,7 +117,7 @@ export const initFooterScrollAnimation = (): (() => void) => {
       start: '-25% top',
       end: 'bottom bottom',
       scrub: true, // Progression avec le scroll
-      markers: true, // Debug markers
+      markers: false, // Debug markers
     },
   });
 
@@ -112,6 +127,8 @@ export const initFooterScrollAnimation = (): (() => void) => {
     rotation: '+=180', // += ajoute 180 à l'angle actuel
     stagger: 0.04, // Délai d'animation entre chaque élément
     ease: 'power1.out', // Non-linéaire
+    force3D: true,
+    willChange: 'transform',
   });
 
   tl.to(
@@ -121,6 +138,8 @@ export const initFooterScrollAnimation = (): (() => void) => {
       rotation: '-=180', // -= soustrait 180 de l'angle actuel
       ease: 'power1.out',
       stagger: 0.04, // Délai d'animation entre chaque élément
+      force3D: true,
+      willChange: 'transform',
     },
     '<' // L'animation commence au début du tween précédent
   );
@@ -131,6 +150,8 @@ export const initFooterScrollAnimation = (): (() => void) => {
       autoAlpha: 0, // L'élément est initialement invisible et caché
       duration: 0.03, // Joue rapidement
       stagger: 0.04, // Délai d'animation entre chaque élément
+      force3D: true,
+      willChange: 'transform',
     },
     '<' // L'animation commence au début du tween précédent
   );

@@ -1,5 +1,4 @@
-.swiper-wrapper.is-home-projects,
-.swiper.is-home-projects {
+.home_projects_component {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%);
 }
 

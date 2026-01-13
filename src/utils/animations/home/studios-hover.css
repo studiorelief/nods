@@ -11,8 +11,11 @@
   opacity: 0;
   transform: translateY(0);
   will-change: opacity, transform;
+  pointer-events: none; /* Permet au hover de fonctionner sur la carte */
+  /* position: relative; */
+  z-index: 1; /* S'assure que l'élément est au-dessus */
 }
 
 .studios-loop_hover-image {
-  transform: translateX(-3rem) translateY(-5rem);
+  transform: translateX(-2rem) translateY(-2.5rem);
 }

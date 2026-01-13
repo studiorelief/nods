@@ -26,22 +26,27 @@
     transition: opacity 0.3s ease-out;
   }
 
-  .works_cards:hover .works_cards-hover {
+  .works_cards:hover .works_cards-hover,
+  .home_projects_cards:hover .works_cards-hover {
     opacity: 1;
   }
 
-  .works_cards .works_cards-hover-logo {
+  .works_cards .works_cards-hover-logo,
+  .home_projects_cards .works_cards-hover-logo {
     transform: translateY(-1rem);
     transition: transform 0.3s ease-out;
   }
 
-  .works_cards .works_cards-hover-headline {
+  .works_cards .works_cards-hover-headline,
+  .home_projects_cards .works_cards-hover-headline {
     transform: translateY(1rem);
     transition: transform 0.3s ease-out;
   }
 
   .works_cards:hover .works_cards-hover-logo,
-  .works_cards:hover .works_cards-hover-headline {
+  .works_cards:hover .works_cards-hover-headline,
+  .home_projects_cards:hover .works_cards-hover-logo,
+  .home_projects_cards:hover .works_cards-hover-headline {
     transform: translateY(0rem);
     /* transition: transform 0.3s ease-out; */
   }

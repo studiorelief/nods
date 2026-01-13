@@ -6,7 +6,7 @@
 export function worksMouse(): () => void {
   const mouseComponent = document.querySelector('.works-mouse_component') as HTMLElement;
   const collectionItems = document.querySelectorAll('.works_collection-item');
-  const navComponent = document.querySelector('.nav_component') as HTMLElement | null;
+  const navComponent = document.querySelector('.nav-2_component') as HTMLElement | null;
 
   if (!mouseComponent) {
     // console.warn('Element .works-mouse_component not found');
@@ -49,7 +49,7 @@ export function worksMouse(): () => void {
       }
 
       // Vérifier si la souris est dans .section_footer
-      const footerSection = document.querySelector('.section_footer');
+      const footerSection = document.querySelector('.section_footer-2');
       if (footerSection) {
         const footerRect = footerSection.getBoundingClientRect();
         const isInFooter =
@@ -59,14 +59,16 @@ export function worksMouse(): () => void {
           e.clientY <= footerRect.bottom;
 
         if (isInFooter) {
-          // Cacher le composant curseur dans le footer
+          // Cacher le composant curseur dans le footer et restaurer le curseur classique
           mouseComponent.style.opacity = '0';
+          document.body.style.cursor = 'auto';
           return;
         }
       }
 
-      // Afficher le composant curseur
+      // Afficher le composant curseur et cacher le curseur classique
       mouseComponent.style.opacity = '1';
+      document.body.style.cursor = 'none';
       mouseX = e.clientX;
       mouseY = e.clientY;
     };

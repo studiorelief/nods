@@ -16,5 +16,5 @@
 }
 
 .clients_collection-item:hover .clients_logo-wrapper {
-  transform: scale(1.25);
+  transform: scale(2);
 }

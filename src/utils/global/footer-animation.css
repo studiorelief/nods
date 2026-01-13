@@ -1,7 +1,7 @@
 @media (min-width: 992px) {
   .section_footer {
     perspective: 100vw;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   .section_footer .footer_cards {
@@ -22,7 +22,7 @@
 @media (min-width: 992px) {
   .section_footer-2 {
     perspective: 100vw;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   .section_footer-2 .footer_cards {

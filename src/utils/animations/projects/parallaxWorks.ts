@@ -15,13 +15,40 @@ export const initWorksParallax = (): void => {
     contentMatchMedia = null;
   }
 
-  const heroSection = document.querySelector('.projets_hero_background');
-  const heroLogo = document.querySelector('.projects_hero_logo');
+  // Try multiple possible class names
+  const heroSection =
+    document.querySelector('.projets_hero_background') ||
+    document.querySelector('.projects_hero_background') ||
+    document.querySelector('[class*="hero_background"]');
+  const heroLogo =
+    document.querySelector('.projects_hero_logo') || document.querySelector('[class*="hero_logo"]');
+  const heroTrigger =
+    document.querySelector('.section_projects_hero') ||
+    document.querySelector('.section-projects-hero') ||
+    document.querySelector('[class*="projects_hero"]') ||
+    document.querySelector('[class*="section_projects"]');
 
-  if (heroSection) {
+  // Debug logs
+  console.error('[ParallaxWorks] heroSection:', heroSection);
+  console.error('[ParallaxWorks] heroLogo:', heroLogo);
+  console.error('[ParallaxWorks] heroTrigger:', heroTrigger);
+
+  // Log all elements with "hero" in class name for debugging
+  if (!heroSection || !heroTrigger) {
+    const allHeroElements = document.querySelectorAll('[class*="hero"]');
+    console.error(
+      '[ParallaxWorks] All elements with "hero" in class:',
+      Array.from(allHeroElements).map((el) => el.className)
+    );
+  }
+
+  if (heroSection && heroTrigger) {
+    // Filter out null values to avoid issues
+    const heroElements = [heroSection, heroLogo].filter(Boolean) as HTMLElement[];
+
     // Set initial state before animating to avoid visual glitches
     // Don't clear all props as it can cause jumps if page is already visible
-    gsap.set([heroSection, heroLogo], { y: '0rem' });
+    gsap.set(heroElements, { y: '0rem' });
 
     heroMatchMedia = gsap.matchMedia();
 
@@ -32,10 +59,11 @@ export const initWorksParallax = (): void => {
       },
       (context) => {
         const { isMobile } = context.conditions as { isMobile: boolean };
-        const yValue = isMobile ? '10rem' : '10rem';
+        // Different values for mobile and desktop
+        const yValue = isMobile ? '8rem' : '12rem';
 
-        gsap.fromTo(
-          [heroSection, heroLogo],
+        const animation = gsap.fromTo(
+          heroElements,
           {
             y: '0rem',
           },
@@ -43,15 +71,24 @@ export const initWorksParallax = (): void => {
             y: yValue,
             ease: 'none',
             scrollTrigger: {
-              trigger: '.section_projects_hero',
+              trigger: heroTrigger,
               start: 'top top',
               end: 'bottom top',
               scrub: true,
+              markers: false,
             },
           }
         );
+
+        console.error('[ParallaxWorks] Animation created:', animation);
+        console.error('[ParallaxWorks] ScrollTrigger:', animation.scrollTrigger);
       }
     );
+  } else {
+    console.error('[ParallaxWorks] Missing elements:', {
+      heroSection: !!heroSection,
+      heroTrigger: !!heroTrigger,
+    });
   }
 
   // Animation 2: .projects_content_main-parallax avec trigger .section_projects_content

@@ -49,15 +49,15 @@ export function initHomeProjectsSlider() {
       speed: 5000,
       grabCursor: true,
       allowTouchMove: true,
-      keyboard: true,
+      // keyboard: true,
       autoplay: {
         delay: 0,
         disableOnInteraction: false,
       },
-      freeMode: {
-        enabled: true,
-        momentum: false,
-      },
+      // freeMode: {
+      //   enabled: true,
+      //   momentum: false,
+      // },
       on: {
         init: function () {
           const wrapper = element.querySelector('.swiper-wrapper') as HTMLElement;

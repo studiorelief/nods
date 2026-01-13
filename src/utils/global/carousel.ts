@@ -45,7 +45,7 @@ type InitOptions = {
   rootSelector: string;
 };
 
-const BASE_SPACE = 16 * 1.25;
+const BASE_SPACE = 32;
 const PIXELS_PER_SECOND = 50; // Vitesse constante en pixels/seconde pour tous les marquees
 const DUPLICATION_MULTIPLIER = 4; // Multiplier pour assurer un loop fluide
 const MAX_DUPLICATION_ITERATIONS = 100; // Limite de sécurité pour la duplication
