@@ -17401,49 +17401,94 @@
   gsapWithCSS.registerPlugin(ScrollTrigger2);
   var initSentenceScroll = () => {
     const section = document.querySelector(".section_home_baseline");
-    const container = document.querySelector(".section_home_baseline .home_baseline_container");
+    const container = document.querySelector(".home_baseline_container");
     const sentence1 = document.querySelector(".is-sentence1");
     const sentence2 = document.querySelector(".is-sentence2");
-    if (!section || !container || !sentence1 || !sentence2) {
+    const sentence3 = document.querySelector(".is-sentence3");
+    const sentence4 = document.querySelector(".is-sentence4");
+    if (!section || !container || !sentence1 || !sentence2 || !sentence3 || !sentence4) {
       return;
     }
-    const sectionEl = section;
+    const containerEl = container;
+    gsapWithCSS.set(sentence1, { yPercent: 0 });
+    gsapWithCSS.set(sentence2, { yPercent: 0 });
+    gsapWithCSS.set(sentence3, { yPercent: 0 });
+    gsapWithCSS.set(sentence4, { yPercent: 0 });
+    const duplicateContent = (element, copies = 3) => {
+      if (element.dataset.duplicated === "true") {
+        return;
+      }
+      const children = Array.from(element.children);
+      if (children.length === 0) {
+        return;
+      }
+      for (let i = 0; i < copies; i++) {
+        children.forEach((child) => {
+          const clone = child.cloneNode(true);
+          element.appendChild(clone);
+        });
+      }
+      element.dataset.duplicated = "true";
+    };
     document.fonts.ready.then(() => {
       const sentence1El = sentence1;
       const sentence2El = sentence2;
-      gsapWithCSS.to(sentence1El, {
-        x: -sentence1El.clientWidth / 2,
-        // Move by half the width to create seamless loop
-        ease: "none",
-        // Linear movement
-        duration: 10,
-        repeat: -1
-        // Infinite repetition
-      });
-      gsapWithCSS.from(sentence2El, {
-        x: -sentence2El.clientWidth / 2,
-        ease: "none",
-        // Linear movement
-        duration: 10,
-        repeat: -1
-        // Infinite repetition
-      });
-      const icons1 = document.querySelectorAll(
-        ".home_baseline_sentence.is-sentence1 .home_baseline_icon"
-      );
-      if (icons1.length > 0) {
-        gsapWithCSS.to(icons1, {
-          rotation: 360,
-          ease: "none",
-          duration: 5,
-          repeat: -1
+      const sentence3El = sentence3;
+      const sentence4El = sentence4;
+      duplicateContent(sentence1El, 3);
+      duplicateContent(sentence2El, 3);
+      duplicateContent(sentence3El, 3);
+      duplicateContent(sentence4El, 3);
+      void containerEl.offsetHeight;
+      const getOriginalWidth = (element) => {
+        const children = Array.from(element.children);
+        if (children.length === 0) {
+          return element.offsetWidth;
+        }
+        const totalChildren = children.length;
+        const originalCount = Math.floor(totalChildren / 4);
+        const firstSet = children.slice(0, originalCount);
+        let width = 0;
+        firstSet.forEach((child) => {
+          width += child.offsetWidth;
         });
-      }
-      const icons2 = document.querySelectorAll(
-        ".home_baseline_sentence.is-sentence2 .home_baseline_icon"
-      );
-      if (icons2.length > 0) {
-        gsapWithCSS.to(icons2, {
+        return width;
+      };
+      const originalWidth1 = getOriginalWidth(sentence1El);
+      const originalWidth2 = getOriginalWidth(sentence2El);
+      const originalWidth3 = getOriginalWidth(sentence3El);
+      const originalWidth4 = getOriginalWidth(sentence4El);
+      gsapWithCSS.set(sentence1El, { x: 0 });
+      gsapWithCSS.to(sentence1El, {
+        x: -originalWidth1,
+        ease: "none",
+        duration: 30,
+        repeat: -1
+      });
+      gsapWithCSS.set(sentence3El, { x: 0 });
+      gsapWithCSS.to(sentence3El, {
+        x: -originalWidth3,
+        ease: "none",
+        duration: 30,
+        repeat: -1
+      });
+      gsapWithCSS.set(sentence2El, { x: -originalWidth2 });
+      gsapWithCSS.to(sentence2El, {
+        x: 0,
+        ease: "none",
+        duration: 30,
+        repeat: -1
+      });
+      gsapWithCSS.set(sentence4El, { x: -originalWidth4 });
+      gsapWithCSS.to(sentence4El, {
+        x: 0,
+        ease: "none",
+        duration: 30,
+        repeat: -1
+      });
+      const icons4 = document.querySelectorAll(".home_baseline_icon");
+      if (icons4.length > 0) {
+        gsapWithCSS.to(icons4, {
           rotation: -360,
           ease: "none",
           duration: 5,
@@ -17451,21 +17496,30 @@
         });
       }
     });
-    gsapWithCSS.to([sentence1, sentence2], {
-      yPercent: "-=100",
-      // Move up by 100% of their height
-      ease: "power2.inOut",
-      // Smoother non-linear movement
-      scrollTrigger: {
-        markers: false,
-        trigger: sectionEl,
-        start: "10% center",
-        // Starts when section center reaches viewport center (50% of section)
-        end: "center bottom",
-        // Ends when section bottom reaches viewport bottom
-        scrub: 2
-        // Higher value = smoother, more fluid transition
-      }
+    const containerTimeline = gsapWithCSS.timeline({
+      repeat: -1
+      // Infinite loop
+    });
+    gsapWithCSS.set(containerEl, { y: "0rem" });
+    containerTimeline.to(containerEl, {
+      y: "-10rem",
+      ease: "power4.inOut",
+      duration: 2
+    });
+    containerTimeline.to(containerEl, {
+      y: "-20rem",
+      ease: "power4.inOut",
+      duration: 2
+    });
+    containerTimeline.to(containerEl, {
+      y: "-30rem",
+      ease: "power4.inOut",
+      duration: 2
+    });
+    containerTimeline.to(containerEl, {
+      y: "0rem",
+      ease: "power4.inOut",
+      duration: 2
     });
   };
 
