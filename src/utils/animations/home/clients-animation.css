@@ -12,7 +12,7 @@
 
 .clients_logo-wrapper {
   transition: transform 0.2s ease-in-out;
-  transform-origin: left center;
+  transform-origin: center center;
 }
 
 .clients_collection-item:hover .clients_logo-wrapper {

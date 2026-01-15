@@ -14,6 +14,7 @@ let navMenu: HTMLElement | null = null;
 let logoComponent: HTMLElement | null = null;
 let isMenuOpen = false;
 let navBackground: HTMLElement | null = null;
+let navProjectWrapper: HTMLElement | null = null;
 let navLinks: HTMLElement[] = [];
 let logoScrollTrigger: ScrollTrigger | null = null;
 let logoAnimation: gsap.core.Tween | null = null;
@@ -28,34 +29,103 @@ export function closeNavbarV2() {
 
   isMenuOpen = false;
 
-  // Réinitialiser les animations des liens et du background
+  // S'assurer que les références sont à jour
+  if (!navBackground) {
+    navBackground = document.querySelector('.nav-2_menu-side-background') as HTMLElement | null;
+  }
+  if (!navProjectWrapper) {
+    navProjectWrapper = document.querySelector(
+      '.nav-2_menu-side_project-wrapper'
+    ) as HTMLElement | null;
+  }
+  if (!navLinks.length && navMenu) {
+    navLinks = gsap.utils.toArray<HTMLElement>(navMenu.querySelectorAll('.nav-2_menu_link'));
+  }
+
+  // Stopper les animations en cours sans réinitialiser les styles
   if (navLinks.length > 0) {
     gsap.killTweensOf(navLinks);
-    gsap.set(navLinks, { clearProps: 'all' });
   }
   if (navBackground) {
     gsap.killTweensOf(navBackground);
-    gsap.set(navBackground, { clearProps: 'all' });
+  }
+  if (navProjectWrapper) {
+    gsap.killTweensOf(navProjectWrapper);
   }
 
-  // Remettre le logo à sa taille selon la position de scroll
-  if (logoComponent && logoScrollTrigger) {
-    // Réactiver le ScrollTrigger et forcer la mise à jour
-    logoScrollTrigger.enable();
-    // Forcer le recalcul pour appliquer les bonnes valeurs selon le scroll actuel
-    logoScrollTrigger.refresh();
-    // Mettre à jour immédiatement les valeurs selon la position de scroll
-    logoScrollTrigger.update();
+  // Timeline de fermeture : stagger inverse sur les liens + fade-out du background et du project wrapper
+  const tl = gsap.timeline({
+    onComplete: () => {
+      // Réinitialiser les styles des liens, du background et du project wrapper après l'anim
+      if (navLinks.length > 0) {
+        gsap.set(navLinks, { clearProps: 'all' });
+      }
+      if (navBackground) {
+        gsap.set(navBackground, { clearProps: 'all' });
+      }
+      if (navProjectWrapper) {
+        gsap.set(navProjectWrapper, { clearProps: 'all' });
+      }
+
+      // Remettre le logo à sa taille selon la position de scroll
+      if (logoComponent && logoScrollTrigger) {
+        // Réactiver le ScrollTrigger et forcer la mise à jour
+        logoScrollTrigger.enable();
+        // Forcer le recalcul pour appliquer les bonnes valeurs selon le scroll actuel
+        logoScrollTrigger.refresh();
+        // Mettre à jour immédiatement les valeurs selon la position de scroll
+        logoScrollTrigger.update();
+      }
+
+      // Retirer la classe is-active du bouton
+      navButton!.classList.remove('is-active');
+
+      // Masquer la nav avec display: none
+      navMenu!.style.display = 'none';
+
+      // Réactiver le scroll de la page
+      document.body.style.overflow = '';
+    },
+  });
+
+  if (navLinks.length > 0) {
+    tl.to(navLinks, {
+      opacity: 0,
+      x: '100%',
+      duration: 0.6,
+      ease: 'power2.in',
+      stagger: {
+        each: 0.1,
+        from: 'end', // stagger inverse
+      },
+    });
   }
 
-  // Retirer la classe is-active du bouton
-  navButton.classList.remove('is-active');
+  if (navBackground) {
+    // Fade-out du background, en parallèle avec les liens
+    tl.to(
+      navBackground,
+      {
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.in',
+      },
+      0
+    );
+  }
 
-  // Masquer la nav avec display: none
-  navMenu.style.display = 'none';
-
-  // Réactiver le scroll de la page
-  document.body.style.overflow = '';
+  if (navProjectWrapper) {
+    // Fade-out du project wrapper, en parallèle avec les liens
+    tl.to(
+      navProjectWrapper,
+      {
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.in',
+      },
+      0
+    );
+  }
 }
 
 // Fonction pour ouvrir le side nav (appelable depuis l'extérieur)
@@ -69,8 +139,11 @@ export function openNavbarV2() {
   // Afficher la nav avec display: flex
   navMenu.style.display = 'flex';
 
-  // Mettre à jour les références du background et des liens à chaque ouverture
+  // Mettre à jour les références du background, du project wrapper et des liens à chaque ouverture
   navBackground = document.querySelector('.nav-2_menu-side-background') as HTMLElement | null;
+  navProjectWrapper = document.querySelector(
+    '.nav-2_menu-side_project-wrapper'
+  ) as HTMLElement | null;
   navLinks = gsap.utils.toArray<HTMLElement>(navMenu.querySelectorAll('.nav-2_menu_link'));
 
   // Empêcher le scroll de la page
@@ -79,14 +152,35 @@ export function openNavbarV2() {
   // Ajouter la classe is-active au bouton
   navButton.classList.add('is-active');
 
-  // Animer le background de la nav (opacité 0 -> 1 en 0.3s)
+  // Timeline d'ouverture pour synchroniser tous les fade-in
+  const tl = gsap.timeline();
+
+  // État de départ pour le background
   if (navBackground) {
     gsap.set(navBackground, { opacity: 0 });
-    gsap.to(navBackground, {
-      opacity: 1,
-      // duration: 0.3,
-      ease: 'power2.out',
-    });
+    tl.to(
+      navBackground,
+      {
+        opacity: 1,
+        duration: 0.6,
+        ease: 'power2.out',
+      },
+      0
+    );
+  }
+
+  // État de départ pour le project wrapper
+  if (navProjectWrapper) {
+    gsap.set(navProjectWrapper, { opacity: 0 });
+    tl.to(
+      navProjectWrapper,
+      {
+        opacity: 1,
+        duration: 0.6,
+        ease: 'power2.out',
+      },
+      0
+    );
   }
 
   // Animer les liens de la nav avec le même stagger que le footer (x + opacité)
@@ -97,16 +191,20 @@ export function openNavbarV2() {
       x: '100%',
     });
 
-    gsap.to(navLinks, {
-      opacity: 1,
-      x: '0%',
-      duration: 0.6,
-      ease: 'power2.out',
-      stagger: {
-        each: 0.1,
-        from: 'start',
+    tl.to(
+      navLinks,
+      {
+        opacity: 1,
+        x: '0%',
+        duration: 0.6,
+        ease: 'power2.out',
+        stagger: {
+          each: 0.1,
+          from: 'start',
+        },
       },
-    });
+      0
+    );
   }
 
   // Animer le logo

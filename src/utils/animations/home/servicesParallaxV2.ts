@@ -30,7 +30,7 @@ export const initServicesParallaxV2 = (): void => {
           start: '0% top',
           end: '100% top',
           scrub: true,
-          markers: true,
+          markers: false,
         },
       }
     );

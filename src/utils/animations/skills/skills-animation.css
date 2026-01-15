@@ -58,3 +58,11 @@
     border-color: var(--_theme---border-color--transparent);
   }
 }
+
+#unfair-bullet {
+  transition: fill 0.3s ease-out;
+}
+
+.skills_studios-top:hover .skills_studios-logo-a.is-unfair #unfair-bullet {
+  fill: #eaff00;
+}

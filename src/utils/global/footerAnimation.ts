@@ -28,26 +28,87 @@ export const animFooter = (rootSelector: string = '.footer-2_content'): (() => v
   const media = root.querySelector('.footer-2_cards-asset') as HTMLElement | null;
   if (!card || !media) return () => {};
 
+  // Récupérer les éléments déclencheurs
+  const trigger = document.querySelector('.footer-2_cards-trigger') as HTMLElement | null;
+  const navbar = document.querySelector('.nav-2_component') as HTMLElement | null;
+
   // Préparer la scène 3D et l'origine des transformations
   // Perspective réduite pour un effet 3D plus marqué
   gsap.set(root, { transformPerspective: window.innerWidth / 2 });
-  gsap.set(card, { transformStyle: 'preserve-3d', transformOrigin: '50% 50%' });
-  gsap.set(media, { backfaceVisibility: 'hidden', transformOrigin: '50% 50%' });
+  gsap.set(card, {
+    transformStyle: 'preserve-3d',
+    transformOrigin: '50% 50%',
+    overflow: 'hidden', // Masquer les bordures qui dépassent lors de la rotation
+  });
+  gsap.set(media, {
+    backfaceVisibility: 'hidden',
+    transformOrigin: '50% 50%',
+    transformStyle: 'preserve-3d', // Assurer la cohérence 3D
+  });
 
   const xTo = gsap.quickTo(card, 'x', { duration: 1, ease: 'power4' });
   const yTo = gsap.quickTo(card, 'y', { duration: 1, ease: 'power4' });
   const rotationYTo = gsap.quickTo(card, 'rotationY', { duration: 1, ease: 'power4' });
   const rotationXTo = gsap.quickTo(card, 'rotationX', { duration: 1, ease: 'power4' });
-  const scaleXTo = gsap.quickTo(media, 'scaleX', { duration: 2, ease: 'power1' });
-  const scaleYTo = gsap.quickTo(media, 'scaleY', { duration: 2, ease: 'power1' });
-  const mediaRotationYTo = gsap.quickTo(media, 'rotationY', { duration: 1, ease: 'power4' });
-  const mediaRotationXTo = gsap.quickTo(media, 'rotationX', { duration: 1, ease: 'power4' });
+  // L'image suit naturellement la rotation de la carte (pas besoin de rotations séparées)
+  // On garde seulement le scale pour l'effet de zoom
+  const scaleXTo = gsap.quickTo(media, 'scaleX', { duration: 1, ease: 'power4' });
+  const scaleYTo = gsap.quickTo(media, 'scaleY', { duration: 1, ease: 'power4' });
 
   let isMoving: number | undefined;
   let oldPosX: number | null = null;
   let oldPosY: number | null = null;
+  let isMouseInside = false;
+
+  // Fonction pour vérifier si la souris est dans l'un des éléments déclencheurs
+  const isMouseInsideTrigger = (x: number, y: number): boolean => {
+    if (trigger) {
+      const rect = trigger.getBoundingClientRect();
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        return true;
+      }
+    }
+    if (navbar) {
+      const rect = navbar.getBoundingClientRect();
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const onMouseMove = (e: MouseEvent): void => {
+    // Vérifier si la souris est dans l'un des éléments déclencheurs
+    const inside = isMouseInsideTrigger(e.clientX, e.clientY);
+
+    // Si on vient de quitter la zone, réinitialiser
+    if (isMouseInside && !inside) {
+      isMouseInside = false;
+      rotationYTo(0);
+      rotationXTo(0);
+      scaleXTo(1.2);
+      scaleYTo(1.2);
+      xTo(0);
+      yTo(0);
+      oldPosX = null;
+      oldPosY = null;
+      if (isMoving) {
+        window.clearTimeout(isMoving);
+      }
+      return;
+    }
+
+    // Si on vient d'entrer dans la zone
+    if (!isMouseInside && inside) {
+      isMouseInside = true;
+      oldPosX = null;
+      oldPosY = null;
+      return;
+    }
+
+    // Ne rien faire si la souris n'est pas dans la section
+    if (!isMouseInside) return;
+
     if (oldPosX === null || oldPosY === null) {
       oldPosX = e.clientX;
       oldPosY = e.clientY;
@@ -58,10 +119,9 @@ export const animFooter = (rootSelector: string = '.footer-2_content'): (() => v
 
     // Facteur pour amplifier l'effet de rotation 3D
     const rotationFactor = 2.5;
+    // On applique la rotation uniquement sur la carte, l'image suivra naturellement
     rotationYTo(deltaX * rotationFactor);
     rotationXTo(-deltaY * rotationFactor);
-    mediaRotationYTo(deltaX * rotationFactor);
-    mediaRotationXTo(-deltaY * rotationFactor);
 
     const cardRect = card.getBoundingClientRect();
     const cardCenterX = cardRect.left + cardRect.width / 2;
@@ -86,22 +146,24 @@ export const animFooter = (rootSelector: string = '.footer-2_content'): (() => v
     isMoving = window.setTimeout(() => {
       rotationYTo(0);
       rotationXTo(0);
-      mediaRotationYTo(0);
-      mediaRotationXTo(0);
       scaleXTo(1.2);
       scaleYTo(1.2);
     }, 66);
   };
 
+  // Écouter les événements de mouvement de souris globalement
   window.addEventListener('mousemove', onMouseMove, { passive: true });
 
   const cleanup = (): void => {
     window.removeEventListener('mousemove', onMouseMove);
     // Réinitialiser l'état et les transformations pour éviter les résidus entre pages
     root.dataset.animFooterInited = 'false';
+    if (isMoving) {
+      window.clearTimeout(isMoving);
+    }
     gsap.killTweensOf([card, media]);
     gsap.set(card, { x: 0, y: 0, rotationX: 0, rotationY: 0 });
-    gsap.set(media, { rotationX: 0, rotationY: 0, scaleX: 1, scaleY: 1 });
+    gsap.set(media, { scaleX: 1, scaleY: 1 });
   };
 
   return cleanup;

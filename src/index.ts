@@ -24,6 +24,7 @@ import { initWhoSlider } from '$utils/animations/home/whoSlider';
 import { whyAssetAnimations } from '$utils/animations/home/whyAnimations';
 import { initBaselineDates } from '$utils/animations/home-v2/baselineDates';
 import { initHomeProjectsSlider } from '$utils/animations/home-v2/projectsSlider';
+import { initStrategicDecoRotate } from '$utils/animations/home-v2/strategicDecoRotate';
 import { initVideoSynchro } from '$utils/animations/home-v2/videoSynchro';
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
 import { initCardsBorder } from '$utils/animations/pricing/cardsBorder';
@@ -197,6 +198,7 @@ barba.init({
         requestAnimationFrame(() => {
           initWhereProjectsScroll();
           initHeartBeat();
+          initStrategicDecoRotate();
           // initIntroParallax();
           // initServicesParallaxV2();
         });
@@ -321,7 +323,7 @@ barba.hooks.beforeLeave(() => {
   destroyAllCarousels(350);
 
   // Nettoyer les effets glass
-  destroyGlassEffect();
+  // destroyGlassEffect();
 
   // Kill all ScrollTriggers and reset inline styles
   ScrollTrigger.getAll().forEach((trigger) => {

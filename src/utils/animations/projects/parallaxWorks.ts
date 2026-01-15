@@ -3,6 +3,7 @@ import gsap from 'gsap';
 // Store matchMedia instances to clean them up properly
 let heroMatchMedia: gsap.MatchMedia | null = null;
 let contentMatchMedia: gsap.MatchMedia | null = null;
+let videoMatchMedia: gsap.MatchMedia | null = null;
 
 export const initWorksParallax = (): void => {
   // Clean up previous instances
@@ -13,6 +14,10 @@ export const initWorksParallax = (): void => {
   if (contentMatchMedia) {
     contentMatchMedia.kill();
     contentMatchMedia = null;
+  }
+  if (videoMatchMedia) {
+    videoMatchMedia.kill();
+    videoMatchMedia = null;
   }
 
   // Try multiple possible class names
@@ -124,11 +129,74 @@ export const initWorksParallax = (): void => {
             ease: 'none',
             scrollTrigger: {
               markers: false,
-              trigger: '.projects_content_main-parallax',
+              trigger: '.projects_content_main',
               start: 'top bottom',
               end: 'bottom top',
               scrub: true,
               invalidateOnRefresh: true,
+            },
+          }
+        );
+      }
+    );
+  }
+
+  // Animation 3: Video section animation
+  const videoWrapper = document.querySelector('.projects_content_video_wrapper');
+  const videoDescription = document.querySelector('.projects_content_video_description');
+  const videoTrigger = document.querySelector('.projects_content_video');
+
+  if (videoWrapper && videoDescription && videoTrigger) {
+    // Set initial state
+    gsap.set(videoWrapper, { y: '10rem', opacity: 0 });
+    gsap.set(videoDescription, { x: '0rem', opacity: 0 });
+
+    videoMatchMedia = gsap.matchMedia();
+
+    videoMatchMedia.add(
+      {
+        isMobile: '(max-width: 991px)',
+        isDesktop: '(min-width: 992px)',
+      },
+      () => {
+        // Animation for wrapper: y 10rem to 0rem + opacity 0 to 1
+        gsap.fromTo(
+          videoWrapper,
+          {
+            y: '10rem',
+            opacity: 0,
+          },
+          {
+            y: '0rem',
+            opacity: 1,
+            ease: 'power2.out',
+            duration: 1,
+            scrollTrigger: {
+              trigger: videoTrigger,
+              start: 'top 70%',
+              toggleActions: 'play none none reverse',
+              markers: false,
+            },
+          }
+        );
+
+        // Animation for description: x 0rem to 0rem + opacity 0 to 1
+        gsap.fromTo(
+          videoDescription,
+          {
+            x: '10rem',
+            opacity: 0,
+          },
+          {
+            x: '0rem',
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: videoTrigger,
+              start: 'top 70%',
+              toggleActions: 'play none none reverse',
+              markers: false,
             },
           }
         );

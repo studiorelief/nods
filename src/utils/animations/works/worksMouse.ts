@@ -1,3 +1,5 @@
+import { initGlassEffect } from '$utils/global/glassEffect';
+
 /**
  * Fonction pour transformer .works-mouse_component en souris
  * et gérer l'affichage du texte au survol des éléments .works_collection-item
@@ -21,6 +23,9 @@ export function worksMouse(): () => void {
   const initMouse = () => {
     if (isActive) return;
     isActive = true;
+
+    // Vérifier si l'élément a l'effet glass (déclaré ici pour être accessible dans toutes les fonctions)
+    const hasGlassEffect = mouseComponent.getAttribute('decorative') === 'glasseffect';
 
     // S'assurer que le composant n'est pas dans un conteneur transformé (Barba anime les containers)
     // position: fixed est relatif au viewport uniquement si l'élément est enfant direct de <body>
@@ -105,6 +110,10 @@ export function worksMouse(): () => void {
 
       if (mouseIcon) {
         mouseIcon.style.transform = 'rotate(360deg)';
+        // Remettre la marge à 0rem au survol
+        if (hasGlassEffect) {
+          mouseIcon.style.marginLeft = '0rem';
+        }
       }
 
       // Changer la largeur du composant
@@ -124,6 +133,10 @@ export function worksMouse(): () => void {
 
       if (mouseIcon) {
         mouseIcon.style.transform = 'rotate(0deg)';
+        // Remettre la marge à 0.75rem quand on quitte le survol
+        if (hasGlassEffect) {
+          mouseIcon.style.marginLeft = '0.75rem';
+        }
       }
 
       // Restaurer la largeur par défaut du composant
@@ -138,6 +151,32 @@ export function worksMouse(): () => void {
     mouseComponent.style.left = '0px';
     mouseComponent.style.top = '0px';
     mouseComponent.style.opacity = '1';
+
+    // Initialiser l'effet glass si l'élément a l'attribut decorative='glasseffect'
+    // On utilise requestAnimationFrame pour s'assurer que le composant est bien dans le DOM
+    // et qu'il a une taille définie (nécessaire pour l'effet glass)
+    if (hasGlassEffect) {
+      // Utiliser un double requestAnimationFrame pour s'assurer que le composant a une taille
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          initGlassEffect();
+          // Réappliquer les styles critiques après l'initialisation de l'effet glass
+          // car setupGlassElement applique position: relative et overflow: hidden
+          // On garde overflow: hidden pour l'effet glass mais on remet position: fixed
+          mouseComponent.style.position = 'fixed';
+          // S'assurer que pointer-events reste none pour ne pas bloquer les interactions
+          mouseComponent.style.pointerEvents = 'none';
+          // S'assurer que z-index reste élevé pour que le curseur soit visible
+          mouseComponent.style.zIndex = '10';
+
+          // Ajouter une marge à gauche sur l'icône pour tester
+          const mouseIcon = mouseComponent.querySelector('.works-mouse_icon') as HTMLElement;
+          if (mouseIcon) {
+            mouseIcon.style.marginLeft = '0.75rem';
+          }
+        });
+      });
+    }
 
     // Cacher le curseur par défaut
     document.body.style.cursor = 'none';

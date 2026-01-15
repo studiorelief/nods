@@ -29,10 +29,15 @@ export const initClientsAnimation = (): (() => void) => {
     const medias = item.querySelectorAll('.clients_preview') as NodeListOf<HTMLElement>;
     if (!medias.length) return;
 
-    // Create a timeline() and set it to paused, except for the first row
-    const tl = gsap.timeline({ paused: index !== 0 ? true : false });
+    // Set initial state for all medias to ensure reverse works correctly
+    // Medias start hidden (offset down)
+    gsap.set(medias, { y: '100%' });
+
+    // Create a timeline() and set it to paused for all rows
+    // We'll play the first one manually after a short delay
+    const tl = gsap.timeline({ paused: true });
     tl.to(medias, {
-      y: 0, // Center the media
+      y: 0, // Center the media (make it visible)
       stagger: {
         each: 0.04, // Each media will appear every 0.04s
         from: 'random', // In a random order
@@ -44,13 +49,42 @@ export const initClientsAnimation = (): (() => void) => {
     tls.push(tl); // Add each timeline to an array
 
     const handleMouseEnter = () => {
-      // Reverse the media of the previously active row
-      tls[lastIndexEntered]?.timeScale(3).reverse();
+      // Only reverse if it's a different row
+      if (lastIndexEntered !== index) {
+        const prevTl = tls[lastIndexEntered];
+        if (prevTl) {
+          // Reset timeScale to normal
+          prevTl.timeScale(1);
+          // If timeline is reversed, we need to reset it first
+          if (prevTl.reversed()) {
+            // Play forward to reset the reversed state
+            prevTl.play();
+            // Force it to the end immediately
+            prevTl.progress(1);
+          }
+          // Now reverse with faster speed (only if it has progress)
+          if (prevTl.progress() > 0) {
+            prevTl.timeScale(3).reverse();
+          }
+        }
+      }
+
       // Update the index of the last hovered row
       lastIndexEntered = index;
 
       // Play the timeline of the new active row's media
-      tls[index]?.timeScale(1).play();
+      const currentTl = tls[index];
+      if (currentTl) {
+        // Reset timeScale
+        currentTl.timeScale(1);
+        // If timeline is reversed, reset it to start
+        if (currentTl.reversed()) {
+          currentTl.play();
+          currentTl.progress(0);
+        }
+        // Play the timeline
+        currentTl.play();
+      }
 
       // Réduire tous les items à 4rem
       gsap.to(items, {
@@ -83,6 +117,14 @@ export const initClientsAnimation = (): (() => void) => {
       leaveHandler: handleMouseLeave,
     });
   });
+
+  // Play the first timeline after a short delay to ensure all timelines are initialized
+  if (tls.length > 0) {
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      tls[0]?.play();
+    });
+  }
 
   // Fonction de cleanup
   const cleanup = (): void => {
