@@ -18512,7 +18512,7 @@
       loop: true,
       initialSlide: 1,
       centeredSlides: false,
-      slidesPerView: 4,
+      slidesPerView: 5,
       spaceBetween: 3 * 16,
       speed: 1e3,
       grabCursor: true,
@@ -18541,7 +18541,7 @@
       touchEventsTarget: "wrapper",
       breakpoints: {
         992: {
-          slidesPerView: 4,
+          slidesPerView: 5,
           spaceBetween: 3 * 16
         },
         768: {
@@ -19777,6 +19777,10 @@
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (prefersReducedMotion.matches) return () => {
     };
+    if (window.innerWidth <= 479) {
+      return () => {
+      };
+    }
     const root = document.querySelector(".footer-2_scroll");
     if (!root) {
       console.error("[FooterScrollAnimation] .footer-2_scroll not found");

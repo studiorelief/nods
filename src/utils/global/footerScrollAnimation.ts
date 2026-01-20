@@ -19,6 +19,11 @@ export const initFooterScrollAnimation = (): (() => void) => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (prefersReducedMotion.matches) return () => {};
 
+  // Ne lancer l'animation que si l'écran est > 479px
+  if (window.innerWidth <= 479) {
+    return () => {};
+  }
+
   const root = document.querySelector('.footer-2_scroll') as HTMLElement | null;
   if (!root) {
     console.error('[FooterScrollAnimation] .footer-2_scroll not found');
