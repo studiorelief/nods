@@ -10,9 +10,11 @@ import Swiper from 'swiper/bundle';
 
 // Store the swiper instances to destroy them on subsequent calls
 const swiperInstances = new Map<HTMLElement, Swiper>();
+let resizeListener: (() => void) | null = null;
 
-export function initNavbarSlider() {
-  // Destroy previous instances if they exist
+const BREAKPOINT_PC = 991;
+
+function destroyAllInstances() {
   swiperInstances.forEach((instance) => {
     try {
       instance.destroy(true, true);
@@ -21,6 +23,17 @@ export function initNavbarSlider() {
     }
   });
   swiperInstances.clear();
+}
+
+function initializeSliders() {
+  // Only initialize on PC (>991px)
+  if (window.innerWidth <= BREAKPOINT_PC) {
+    destroyAllInstances();
+    return;
+  }
+
+  // Destroy previous instances if they exist
+  destroyAllInstances();
 
   // Get all .swiper elements with is-navbar class
   const swiperElements = document.querySelectorAll('.swiper.is-navbar');
@@ -109,4 +122,20 @@ export function initNavbarSlider() {
     // Store the instance
     swiperInstances.set(element, swiperInstance);
   });
+}
+
+export function initNavbarSlider() {
+  // Remove existing resize listener if any
+  if (resizeListener) {
+    window.removeEventListener('resize', resizeListener);
+  }
+
+  // Initialize on first call
+  initializeSliders();
+
+  // Add resize listener to handle window resizing
+  resizeListener = () => {
+    initializeSliders();
+  };
+  window.addEventListener('resize', resizeListener);
 }

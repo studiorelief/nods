@@ -323,7 +323,7 @@ barba.hooks.beforeLeave(() => {
   destroyAllCarousels(350);
 
   // Nettoyer les effets glass
-  // destroyGlassEffect();
+  destroyGlassEffect();
 
   // Kill all ScrollTriggers and reset inline styles
   ScrollTrigger.getAll().forEach((trigger) => {

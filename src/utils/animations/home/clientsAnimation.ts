@@ -94,7 +94,7 @@ export const initClientsAnimation = (): (() => void) => {
       });
       // Agrandir l'item survolé à 10rem
       gsap.to(item, {
-        height: '10rem',
+        height: window.matchMedia('(max-width: 479px)').matches ? '7rem' : '10rem',
         duration: 0.2,
         ease: 'power2.inOut',
       });

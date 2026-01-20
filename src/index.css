@@ -18,6 +18,7 @@
 @import './utils/global/transition.css';
 @import './utils/animations/home-v2/projects-slider.css';
 @import './utils/animations/home/clients-animation.css';
+@import './utils/global/responsive.css';
 
 /* Hide model viewer progress bar */
 model-viewer::part(default-progress-bar) {

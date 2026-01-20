@@ -170,6 +170,13 @@ export const initSentenceScroll = (): void => {
     }
   });
 
+  // Detect mobile device (using common mobile breakpoint)
+  const mobileMediaQuery = window.matchMedia('(max-width: 991px)');
+  const isMobile = mobileMediaQuery.matches;
+
+  // Spacing between sentences: 10rem on desktop, 5rem on mobile
+  const spacing = isMobile ? 5 : 10;
+
   // Container movement: automatic loop every 2 seconds
   // Sequence: Sentence 1 -> Sentence 2 -> Sentence 3 -> Sentence 4 -> Sentence 1 (loop)
   const containerTimeline = gsap.timeline({
@@ -179,23 +186,23 @@ export const initSentenceScroll = (): void => {
   // Start at sentence 1 (y: 0)
   gsap.set(containerEl, { y: '0rem' });
 
-  // Transition to sentence 2 (y: -10rem) - 2 seconds
+  // Transition to sentence 2 - 2 seconds
   containerTimeline.to(containerEl, {
-    y: '-10rem',
+    y: `-${spacing}rem`,
     ease: 'power4.inOut',
     duration: 2,
   });
 
-  // Transition to sentence 3 (y: -20rem) - 2 seconds
+  // Transition to sentence 3 - 2 seconds
   containerTimeline.to(containerEl, {
-    y: '-20rem',
+    y: `-${spacing * 2}rem`,
     ease: 'power4.inOut',
     duration: 2,
   });
 
-  // Transition to sentence 4 (y: -30rem) - 2 seconds
+  // Transition to sentence 4 - 2 seconds
   containerTimeline.to(containerEl, {
-    y: '-30rem',
+    y: `-${spacing * 3}rem`,
     ease: 'power4.inOut',
     duration: 2,
   });

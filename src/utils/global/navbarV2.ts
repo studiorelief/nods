@@ -19,6 +19,11 @@ let navLinks: HTMLElement[] = [];
 let logoScrollTrigger: ScrollTrigger | null = null;
 let logoAnimation: gsap.core.Tween | null = null;
 
+// Fonction helper pour obtenir le scale initial du logo selon la taille d'écran
+function getInitialLogoScale(): number {
+  return window.innerWidth < 991 ? 2 : 5;
+}
+
 // Fonction pour fermer le side nav (appelable depuis l'extérieur)
 export function closeNavbarV2() {
   if (!navButton || !navMenu) {
@@ -52,6 +57,26 @@ export function closeNavbarV2() {
   if (navProjectWrapper) {
     gsap.killTweensOf(navProjectWrapper);
   }
+  // Ne pas tuer les animations du logo ici car on va les gérer manuellement
+  // et recréer le ScrollTrigger après la fermeture
+
+  // Calculer la valeur de scale cible selon la position de scroll
+  // On calcule manuellement sans réactiver le ScrollTrigger (car le scroll est bloqué)
+  let targetScale = 1;
+  let targetMixBlendMode: string = 'difference';
+  if (logoComponent) {
+    // Calculer la progression du scroll (0 à 1) basée sur la position actuelle
+    const { scrollY } = window;
+    const maxScroll = window.innerHeight * 0.5;
+    const progress = Math.min(scrollY / maxScroll, 1);
+
+    // Calculer le scale cible (de initialScale à 1)
+    const initialScale = getInitialLogoScale();
+    targetScale = initialScale - (initialScale - 1) * progress;
+
+    // Calculer le mixBlendMode cible
+    targetMixBlendMode = progress >= 1 ? 'difference' : 'normal';
+  }
 
   // Timeline de fermeture : stagger inverse sur les liens + fade-out du background et du project wrapper
   const tl = gsap.timeline({
@@ -67,16 +92,6 @@ export function closeNavbarV2() {
         gsap.set(navProjectWrapper, { clearProps: 'all' });
       }
 
-      // Remettre le logo à sa taille selon la position de scroll
-      if (logoComponent && logoScrollTrigger) {
-        // Réactiver le ScrollTrigger et forcer la mise à jour
-        logoScrollTrigger.enable();
-        // Forcer le recalcul pour appliquer les bonnes valeurs selon le scroll actuel
-        logoScrollTrigger.refresh();
-        // Mettre à jour immédiatement les valeurs selon la position de scroll
-        logoScrollTrigger.update();
-      }
-
       // Retirer la classe is-active du bouton
       navButton!.classList.remove('is-active');
 
@@ -85,6 +100,13 @@ export function closeNavbarV2() {
 
       // Réactiver le scroll de la page
       document.body.style.overflow = '';
+
+      // Recréer complètement le ScrollTrigger du logo après avoir réactivé le scroll
+      // Utiliser requestAnimationFrame pour s'assurer que le DOM est prêt
+      requestAnimationFrame(() => {
+        // Recréer le ScrollTrigger pour qu'il se synchronise correctement avec le scroll actuel
+        initLogoScrollTrigger();
+      });
     },
   });
 
@@ -120,6 +142,28 @@ export function closeNavbarV2() {
       navProjectWrapper,
       {
         opacity: 0,
+        duration: 0.6,
+        ease: 'power2.in',
+      },
+      0
+    );
+  }
+
+  // Animer le logo pour qu'il descale en même temps que la fermeture
+  if (logoComponent) {
+    // Tuer toute animation en cours sur le logo (y compris celle du ScrollTrigger)
+    gsap.killTweensOf(logoComponent);
+
+    // S'assurer que le ScrollTrigger est désactivé pendant l'animation
+    if (logoScrollTrigger) {
+      logoScrollTrigger.disable();
+    }
+
+    tl.to(
+      logoComponent,
+      {
+        scale: targetScale,
+        mixBlendMode: targetMixBlendMode,
         duration: 0.6,
         ease: 'power2.in',
       },
@@ -209,12 +253,19 @@ export function openNavbarV2() {
 
   // Animer le logo
   if (logoComponent) {
-    // Désactiver temporairement le ScrollTrigger pour forcer le scale
+    // Tuer toute animation en cours sur le logo (y compris celle du ScrollTrigger)
+    gsap.killTweensOf(logoComponent);
+
+    // Désactiver le ScrollTrigger pendant que le menu est ouvert
+    // (le scroll est bloqué de toute façon, donc le ScrollTrigger ne peut pas fonctionner)
     if (logoScrollTrigger) {
       logoScrollTrigger.disable();
     }
+
+    // Animer le logo vers le scale initial
     gsap.to(logoComponent, {
-      scale: 5,
+      scale: getInitialLogoScale(),
+      mixBlendMode: 'normal',
       duration: 0.3,
       ease: 'power2.out',
     });
@@ -269,6 +320,7 @@ export function navbarV2() {
   // Handler du clic sur le wrapper de fermeture
   function handleCloseClick(e: Event) {
     e.preventDefault();
+    e.stopPropagation();
     closeNavbarV2();
   }
 
@@ -291,6 +343,22 @@ export function navbarV2() {
 
   // Initialiser le logo avec ScrollTrigger
   initLogoScrollTrigger();
+
+  // Réinitialiser le ScrollTrigger lors du redimensionnement pour adapter le scale
+  let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+  window.addEventListener('resize', () => {
+    // Debounce pour éviter trop de recalculs
+    if (resizeTimeout) {
+      clearTimeout(resizeTimeout);
+    }
+    resizeTimeout = setTimeout(() => {
+      // Ne recréer le ScrollTrigger que si le menu n'est pas ouvert
+      // (sinon il sera recréé à la fermeture)
+      if (!isMenuOpen && logoComponent) {
+        initLogoScrollTrigger();
+      }
+    }, 150);
+  });
 }
 
 // Fonction pour initialiser/réinitialiser le ScrollTrigger du logo
@@ -314,27 +382,37 @@ function initLogoScrollTrigger() {
     return;
   }
 
-  // État initial : en haut de page = scale(5) + normal
+  // Obtenir le scale initial selon la taille d'écran
+  const initialScale = getInitialLogoScale();
+
+  // État initial : en haut de page = scale(initialScale) + normal
   gsap.set(logoComponent, {
-    scale: 5,
+    scale: initialScale,
     mixBlendMode: 'normal',
   });
 
   // Créer l'animation ScrollTrigger pour le scale et mixBlendMode
   // L'animation se déclenche de 0 à 50vh de scroll
-  logoAnimation = gsap.to(logoComponent, {
-    scale: 1,
-    // duration: 0.3,
-    mixBlendMode: 'difference',
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: document.body,
-      start: 'top top',
-      end: () => `+=${window.innerHeight * 0.5}`,
-      scrub: true,
-      markers: false,
+  // Utiliser fromTo pour être explicite sur les valeurs de départ et d'arrivée
+  logoAnimation = gsap.fromTo(
+    logoComponent,
+    {
+      scale: initialScale,
+      mixBlendMode: 'normal',
     },
-  });
+    {
+      scale: 1,
+      mixBlendMode: 'difference',
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: document.body,
+        start: 'top top',
+        end: () => `+=${window.innerHeight * 0.5}`,
+        scrub: true,
+        markers: false,
+      },
+    }
+  );
 
   // Stocker la référence au ScrollTrigger pour pouvoir le rafraîchir
   logoScrollTrigger = logoAnimation.scrollTrigger || null;

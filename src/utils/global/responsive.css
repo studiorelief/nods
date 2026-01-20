@@ -1,0 +1,6 @@
+@media (min-width: 120rem) {
+  .page-wrapper {
+    border-left: 4px solid var(--_theme---border-color--primary);
+    border-right: 4px solid var(--_theme---border-color--primary);
+  }
+}

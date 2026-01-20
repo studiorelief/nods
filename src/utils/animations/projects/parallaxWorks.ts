@@ -48,12 +48,12 @@ export const initWorksParallax = (): void => {
   }
 
   if (heroSection && heroTrigger) {
-    // Filter out null values to avoid issues
-    const heroElements = [heroSection, heroLogo].filter(Boolean) as HTMLElement[];
-
     // Set initial state before animating to avoid visual glitches
     // Don't clear all props as it can cause jumps if page is already visible
-    gsap.set(heroElements, { y: '0rem' });
+    gsap.set(heroSection, { y: '0rem' });
+    if (heroLogo) {
+      gsap.set(heroLogo, { y: '0rem' });
+    }
 
     heroMatchMedia = gsap.matchMedia();
 
@@ -67,8 +67,9 @@ export const initWorksParallax = (): void => {
         // Different values for mobile and desktop
         const yValue = isMobile ? '8rem' : '12rem';
 
+        // Animation pour heroSection
         const animation = gsap.fromTo(
-          heroElements,
+          heroSection,
           {
             y: '0rem',
           },
@@ -87,6 +88,27 @@ export const initWorksParallax = (): void => {
 
         console.error('[ParallaxWorks] Animation created:', animation);
         console.error('[ParallaxWorks] ScrollTrigger:', animation.scrollTrigger);
+
+        // Animation parallaxe séparée pour le logo : y0 à y5rem
+        if (heroLogo) {
+          gsap.fromTo(
+            heroLogo,
+            {
+              y: '0rem',
+            },
+            {
+              y: '15rem',
+              ease: 'none',
+              scrollTrigger: {
+                trigger: heroTrigger,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true,
+                markers: false,
+              },
+            }
+          );
+        }
       }
     );
   } else {

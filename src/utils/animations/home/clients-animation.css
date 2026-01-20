@@ -2,6 +2,13 @@
   height: 10rem;
 }
 
+@media (max-width: 479px) {
+
+  .clients_collection-item:first-child .clients_cards {
+    height: 7rem;
+  }
+}
+
 .clients_collection-item:not(:first-child) .clients_cards {
   height: 4rem;
 }
