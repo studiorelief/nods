@@ -1,6 +1,9 @@
 import gsap from 'gsap';
 
 export const initServicesParallaxV2 = (): void => {
+  // Only run if screen width is greater than 479px
+  if (window.innerWidth <= 479) return;
+
   const cards = gsap.utils.toArray<HTMLElement>([
     '.home_services_card-1',
     '.home_services_card-2',
