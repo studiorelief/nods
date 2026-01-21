@@ -46,6 +46,7 @@ type InitOptions = {
 };
 
 const BASE_SPACE = 32;
+const SERVICES_LOOP_SPACE = '0.75rem'; // Espacement pour .is-services-loop
 const PIXELS_PER_SECOND = 50; // Vitesse constante en pixels/seconde pour tous les marquees
 const DUPLICATION_MULTIPLIER = 4; // Multiplier pour assurer un loop fluide
 const MAX_DUPLICATION_ITERATIONS = 100; // Limite de sécurité pour la duplication
@@ -53,6 +54,27 @@ const MAX_DUPLICATION_ITERATIONS = 100; // Limite de sécurité pour la duplicat
 // Store instances globally for cleanup
 const swiperInstances = new Map<HTMLElement, Swiper>();
 let destroyTimeout: ReturnType<typeof setTimeout> | null = null;
+
+/**
+ * Convertit une valeur rem en pixels
+ */
+function remToPixels(rem: string): number {
+  const remValue = parseFloat(rem);
+  const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  return remValue * rootFontSize;
+}
+
+/**
+ * Obtient l'espacement (spaceBetween) pour un élément root donné
+ * Retourne la valeur en pixels pour les calculs et la valeur originale pour Swiper
+ */
+function getSpaceBetween(root: HTMLElement): { value: number | string; pixels: number } {
+  if (root.classList.contains('is-services-loop')) {
+    const pixels = remToPixels(SERVICES_LOOP_SPACE);
+    return { value: SERVICES_LOOP_SPACE, pixels };
+  }
+  return { value: BASE_SPACE, pixels: BASE_SPACE };
+}
 
 /**
  * Nettoie tous les clones précédents dans le wrapper
@@ -96,12 +118,12 @@ function duplicateUntilWideEnough(root: HTMLElement, wrapper: HTMLElement): void
  * Calcule la durée de transition pour maintenir une vitesse constante
  * Vitesse constante = même nombre de pixels par seconde, peu importe la longueur du contenu
  */
-function computeSpeedForConstantVelocity(wrapper: HTMLElement): number {
+function computeSpeedForConstantVelocity(wrapper: HTMLElement, spaceBetweenPixels: number): number {
   const slideWidth = wrapper.querySelector('.swiper-slide')?.clientWidth || 0;
   if (slideWidth === 0) return 5000; // Fallback
 
   // Calculer le temps nécessaire pour parcourir UN slide à vitesse constante
-  const timePerSlide = ((slideWidth + BASE_SPACE) / PIXELS_PER_SECOND) * 1000;
+  const timePerSlide = ((slideWidth + spaceBetweenPixels) / PIXELS_PER_SECOND) * 1000;
 
   return Math.max(1000, Math.round(timePerSlide));
 }
@@ -186,8 +208,11 @@ function initLoopSwiperForRoot(root: HTMLElement): void {
   // Dupliquer les slides pour un loop fluide
   duplicateUntilWideEnough(root, wrapper);
 
+  // Obtenir l'espacement approprié pour ce carousel
+  const { value: spaceBetween, pixels: spaceBetweenPixels } = getSpaceBetween(root);
+
   // Calculer la vitesse pour que tous les marquees aillent à la même vitesse
-  const speed = computeSpeedForConstantVelocity(wrapper);
+  const speed = computeSpeedForConstantVelocity(wrapper, spaceBetweenPixels);
 
   // Initialiser Swiper
   const swiper = new Swiper(root, {
@@ -195,7 +220,7 @@ function initLoopSwiperForRoot(root: HTMLElement): void {
     loop: true,
     centeredSlides: true,
     speed,
-    spaceBetween: BASE_SPACE,
+    spaceBetween,
     slidesPerView: 'auto',
     autoplay: {
       delay: 0,
@@ -231,7 +256,8 @@ function initLoopSwiperForRoot(root: HTMLElement): void {
         we.style.transitionTimingFunction = 'linear';
       }
       // Recalculer la vitesse pour maintenir la vélocité constante
-      const newSpeed = computeSpeedForConstantVelocity(wrapper);
+      const { pixels: spaceBetweenPixels } = getSpaceBetween(root);
+      const newSpeed = computeSpeedForConstantVelocity(wrapper, spaceBetweenPixels);
       (s.params as unknown as { speed: number }).speed = newSpeed;
       s.update();
     }, 150);
@@ -285,7 +311,7 @@ export function initLoopWordSwiper(
  * ```
  */
 export function initLoopStudiosSwiper(
-  options: InitOptions = { rootSelector: '.swiper.is-studios-loop' }
+  options: InitOptions = { rootSelector: '.swiper.is-studios-loop, .swiper.is-services-loop' }
 ): void {
   const swipers = document.querySelectorAll(options.rootSelector);
   if (swipers.length === 0) return;

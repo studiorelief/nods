@@ -1,0 +1,22 @@
+.pricing_border {
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+}
+
+.pricing-v3_hero_cards:hover .pricing_border {
+    opacity: 1;
+}
+
+.pricing-v3_hero_bullet {
+    transition: color 0.2s ease-out, rotate 0.2s ease-out;
+}
+
+.pricing-v3_hero_accordion-item:hover .pricing-v3_hero_bullet {
+    color: #ff07df;
+    rotate: 90deg;
+}
+
+.pricing-v3_hero_accordion-item.is-active-accordion .pricing-v3_hero_bullet {
+    color: #ff07df;
+    rotate: 90deg;
+}

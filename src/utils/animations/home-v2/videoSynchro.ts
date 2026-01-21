@@ -1,4 +1,29 @@
+// Stockage des timeouts et event listeners pour le nettoyage
+const videoSynchroCleanups: Array<() => void> = [];
+const videoSynchroTimeouts: number[] = [];
+
+/**
+ * Nettoie toutes les synchronisations vidéo précédentes
+ */
+export const cleanupVideoSynchro = (): void => {
+  // Nettoyer tous les timeouts
+  videoSynchroTimeouts.forEach((timeoutId) => {
+    window.clearTimeout(timeoutId);
+  });
+  videoSynchroTimeouts.length = 0;
+
+  // Exécuter toutes les fonctions de nettoyage
+  videoSynchroCleanups.forEach((cleanup) => {
+    cleanup();
+  });
+  videoSynchroCleanups.length = 0;
+};
+
 export const initVideoSynchro = (): void => {
+  // Nettoyer les synchronisations précédentes avant d'en créer de nouvelles
+  cleanupVideoSynchro();
+
+  // Chercher TOUS les wrappers dans le document (dans et hors du container Barba)
   const wrappers = document.querySelectorAll('.loop-word_dragon-wrapper');
 
   if (wrappers.length === 0) return;
@@ -12,6 +37,11 @@ export const initVideoSynchro = (): void => {
 
     let readyCount = 0;
     let started = false;
+    const videoEventListeners: Array<{
+      video: HTMLVideoElement;
+      event: string;
+      handler: () => void;
+    }> = [];
 
     const startAllVideos = () => {
       if (started) return;
@@ -58,20 +88,53 @@ export const initVideoSynchro = (): void => {
         video.removeEventListener('canplaythrough', onCanPlay);
         video.removeEventListener('loadeddata', onCanPlay);
 
+        // Retirer de la liste des listeners
+        const index = videoEventListeners.findIndex(
+          (listener) => listener.video === video && listener.handler === onCanPlay
+        );
+        if (index > -1) {
+          videoEventListeners.splice(index, 1);
+        }
+
         readyCount += 1;
         tryStartWhenReady();
       };
 
       video.addEventListener('canplaythrough', onCanPlay);
       video.addEventListener('loadeddata', onCanPlay);
+
+      // Stocker les listeners pour le nettoyage
+      videoEventListeners.push(
+        { video, event: 'canplaythrough', handler: onCanPlay },
+        { video, event: 'loadeddata', handler: onCanPlay }
+      );
     });
 
     // Sécurité : même si une vidéo ne se charge jamais, on lance tout après un délai
-    window.setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       if (!started) {
         startAllVideos();
       }
     }, maxWaitMs);
+
+    videoSynchroTimeouts.push(timeoutId);
+
+    // Fonction de nettoyage pour ce wrapper
+    const cleanup = () => {
+      // Retirer tous les event listeners
+      videoEventListeners.forEach(({ video, event, handler }) => {
+        video.removeEventListener(event, handler);
+      });
+      videoEventListeners.length = 0;
+
+      // Mettre en pause toutes les vidéos
+      videos.forEach((video) => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    };
+
+    videoSynchroCleanups.push(cleanup);
   };
 
   // Initialiser chaque wrapper indépendamment

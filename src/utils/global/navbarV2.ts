@@ -220,7 +220,7 @@ export function openNavbarV2() {
       navProjectWrapper,
       {
         opacity: 1,
-        duration: 0.6,
+        duration: 1.2,
         ease: 'power2.out',
       },
       0

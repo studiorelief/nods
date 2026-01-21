@@ -27,7 +27,7 @@ import { initHomeProjectsSlider } from '$utils/animations/home-v2/projectsSlider
 import { initStrategicDecoRotate } from '$utils/animations/home-v2/strategicDecoRotate';
 import { initVideoSynchro } from '$utils/animations/home-v2/videoSynchro';
 import { initNetworkGradiant } from '$utils/animations/network/networkGradient';
-import { initCardsBorder } from '$utils/animations/pricing/cardsBorder';
+// import { initCardsBorder } from '$utils/animations/pricing/cardsBorder';
 import { initOtherProjectsSlider } from '$utils/animations/projects/OtherProjectsSlider';
 import { initWorksParallax } from '$utils/animations/projects/parallaxWorks';
 import { initProjectsNav } from '$utils/animations/projects/projectsNav';
@@ -80,6 +80,12 @@ const initGlobalFunctions = (namespace?: string): void => {
   initLoopWordSwiper();
 
   initGlassEffect();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // ScrollTrigger.refresh();
+      initServicesParallaxV2();
+    });
+  });
 
   // Script
   initMarker();
@@ -241,11 +247,11 @@ barba.init({
     {
       namespace: 'pricings',
       beforeEnter() {
-        initCardsBorder();
-        requestAnimationFrame(() => {
-          ScrollTrigger.refresh();
-          initServicesParallaxV2();
-        });
+        // initCardsBorder();
+        // requestAnimationFrame(() => {
+        //   // ScrollTrigger.refresh();
+        //   initServicesParallaxV2();
+        // });
       },
     },
     {

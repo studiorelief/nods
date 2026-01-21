@@ -16049,7 +16049,7 @@
     let slidesPerRow;
     let numFullColumns;
     let wasMultiRow;
-    const getSpaceBetween = () => {
+    const getSpaceBetween2 = () => {
       let spaceBetween = swiper.params.spaceBetween;
       if (typeof spaceBetween === "string" && spaceBetween.indexOf("%") >= 0) {
         spaceBetween = parseFloat(spaceBetween.replace("%", "")) / 100 * swiper.size;
@@ -16092,7 +16092,7 @@
       const {
         slidesPerGroup
       } = swiper.params;
-      const spaceBetween = getSpaceBetween();
+      const spaceBetween = getSpaceBetween2();
       const {
         rows,
         fill
@@ -16134,7 +16134,7 @@
         centeredSlides,
         roundLengths
       } = swiper.params;
-      const spaceBetween = getSpaceBetween();
+      const spaceBetween = getSpaceBetween2();
       const {
         rows
       } = swiper.params.grid;
@@ -18338,7 +18338,20 @@
 
   // src/utils/animations/home-v2/videoSynchro.ts
   init_live_reload();
+  var videoSynchroCleanups = [];
+  var videoSynchroTimeouts = [];
+  var cleanupVideoSynchro = () => {
+    videoSynchroTimeouts.forEach((timeoutId) => {
+      window.clearTimeout(timeoutId);
+    });
+    videoSynchroTimeouts.length = 0;
+    videoSynchroCleanups.forEach((cleanup) => {
+      cleanup();
+    });
+    videoSynchroCleanups.length = 0;
+  };
   var initVideoSynchro = () => {
+    cleanupVideoSynchro();
     const wrappers = document.querySelectorAll(".loop-word_dragon-wrapper");
     if (wrappers.length === 0) return;
     const maxWaitMs = 5e3;
@@ -18347,6 +18360,7 @@
       if (videos.length === 0) return;
       let readyCount = 0;
       let started = false;
+      const videoEventListeners = [];
       const startAllVideos = () => {
         if (started) return;
         started = true;
@@ -18378,17 +18392,39 @@
         const onCanPlay = () => {
           video.removeEventListener("canplaythrough", onCanPlay);
           video.removeEventListener("loadeddata", onCanPlay);
+          const index = videoEventListeners.findIndex(
+            (listener) => listener.video === video && listener.handler === onCanPlay
+          );
+          if (index > -1) {
+            videoEventListeners.splice(index, 1);
+          }
           readyCount += 1;
           tryStartWhenReady();
         };
         video.addEventListener("canplaythrough", onCanPlay);
         video.addEventListener("loadeddata", onCanPlay);
+        videoEventListeners.push(
+          { video, event: "canplaythrough", handler: onCanPlay },
+          { video, event: "loadeddata", handler: onCanPlay }
+        );
       });
-      window.setTimeout(() => {
+      const timeoutId = window.setTimeout(() => {
         if (!started) {
           startAllVideos();
         }
       }, maxWaitMs);
+      videoSynchroTimeouts.push(timeoutId);
+      const cleanup = () => {
+        videoEventListeners.forEach(({ video, event: event2, handler }) => {
+          video.removeEventListener(event2, handler);
+        });
+        videoEventListeners.length = 0;
+        videos.forEach((video) => {
+          video.pause();
+          video.currentTime = 0;
+        });
+      };
+      videoSynchroCleanups.push(cleanup);
     };
     wrappers.forEach(initWrapperVideos);
   };
@@ -18448,42 +18484,6 @@
     observer.observe(document.body, {
       childList: true,
       subtree: true
-    });
-  };
-
-  // src/utils/animations/pricing/cardsBorder.ts
-  init_live_reload();
-  var initCardsBorder = () => {
-    const tabMappings = [
-      { href: "#product-design", borderClass: "is-product-design" },
-      { href: "#company-rebranding", borderClass: "is-company-rebranding" },
-      { href: "#marketing-campaign", borderClass: "is-marketing-campaign" }
-    ];
-    const updateBorderStates = () => {
-      tabMappings.forEach(({ href, borderClass }) => {
-        const link = document.querySelector(`[href="${href}"]`);
-        const border = document.querySelector(`.pricing_border.${borderClass}`);
-        if (link && border) {
-          if (link.classList.contains("w--current")) {
-            border.classList.remove("is-border-unactive");
-          } else {
-            border.classList.add("is-border-unactive");
-          }
-        }
-      });
-    };
-    updateBorderStates();
-    tabMappings.forEach(({ href }) => {
-      const link = document.querySelector(`[href="${href}"]`);
-      if (link) {
-        const observer = new MutationObserver(() => {
-          updateBorderStates();
-        });
-        observer.observe(link, {
-          attributes: true,
-          attributeFilter: ["class"]
-        });
-      }
     });
   };
 
@@ -19418,11 +19418,24 @@
   // src/utils/global/carousel.ts
   init_live_reload();
   var BASE_SPACE = 32;
+  var SERVICES_LOOP_SPACE = "0.75rem";
   var PIXELS_PER_SECOND = 50;
   var DUPLICATION_MULTIPLIER = 4;
   var MAX_DUPLICATION_ITERATIONS = 100;
   var swiperInstances2 = /* @__PURE__ */ new Map();
   var destroyTimeout = null;
+  function remToPixels(rem) {
+    const remValue = parseFloat(rem);
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return remValue * rootFontSize;
+  }
+  function getSpaceBetween(root) {
+    if (root.classList.contains("is-services-loop")) {
+      const pixels = remToPixels(SERVICES_LOOP_SPACE);
+      return { value: SERVICES_LOOP_SPACE, pixels };
+    }
+    return { value: BASE_SPACE, pixels: BASE_SPACE };
+  }
   function cleanupClones(wrapper) {
     const clones = wrapper.querySelectorAll('[data-cloned="true"]');
     clones.forEach((clone) => clone.remove());
@@ -19446,10 +19459,10 @@
       safety += 1;
     }
   }
-  function computeSpeedForConstantVelocity(wrapper) {
+  function computeSpeedForConstantVelocity(wrapper, spaceBetweenPixels) {
     const slideWidth = wrapper.querySelector(".swiper-slide")?.clientWidth || 0;
     if (slideWidth === 0) return 5e3;
-    const timePerSlide = (slideWidth + BASE_SPACE) / PIXELS_PER_SECOND * 1e3;
+    const timePerSlide = (slideWidth + spaceBetweenPixels) / PIXELS_PER_SECOND * 1e3;
     return Math.max(1e3, Math.round(timePerSlide));
   }
   function destroySwiperInstance(root) {
@@ -19500,13 +19513,14 @@
     const slides = wrapper.querySelectorAll(".swiper-slide");
     if (slides.length === 0) return;
     duplicateUntilWideEnough(root, wrapper);
-    const speed = computeSpeedForConstantVelocity(wrapper);
+    const { value: spaceBetween, pixels: spaceBetweenPixels } = getSpaceBetween(root);
+    const speed = computeSpeedForConstantVelocity(wrapper, spaceBetweenPixels);
     const swiper = new Swiper(root, {
       direction: "horizontal",
       loop: true,
       centeredSlides: true,
       speed,
-      spaceBetween: BASE_SPACE,
+      spaceBetween,
       slidesPerView: "auto",
       autoplay: {
         delay: 0,
@@ -19535,7 +19549,8 @@
         if (we) {
           we.style.transitionTimingFunction = "linear";
         }
-        const newSpeed = computeSpeedForConstantVelocity(wrapper);
+        const { pixels: spaceBetweenPixels2 } = getSpaceBetween(root);
+        const newSpeed = computeSpeedForConstantVelocity(wrapper, spaceBetweenPixels2);
         s.params.speed = newSpeed;
         s.update();
       }, 150);
@@ -19551,7 +19566,7 @@
       }
     });
   }
-  function initLoopStudiosSwiper(options = { rootSelector: ".swiper.is-studios-loop" }) {
+  function initLoopStudiosSwiper(options = { rootSelector: ".swiper.is-studios-loop, .swiper.is-services-loop" }) {
     const swipers = document.querySelectorAll(options.rootSelector);
     if (swipers.length === 0) return;
     swipers.forEach((el) => {
@@ -19952,16 +19967,19 @@
       ".footer-2_scroll"
     ];
     const isHomePage = namespace === "home-v2";
+    const isMobile = window.innerWidth < 479;
     sectionsToHide.forEach((selector3) => {
       const element = footerSection.querySelector(selector3);
       if (element) {
+        if (selector3 === ".footer-2_scroll" && isMobile) {
+          element.style.display = "none";
+          return;
+        }
         if (isHomePage) {
-          if (element.style.display === "none") {
-            element.style.removeProperty("display");
-            const computedStyle = window.getComputedStyle(element);
-            if (computedStyle.display === "none") {
-              element.style.display = "flex";
-            }
+          element.style.removeProperty("display");
+          const computedStyle = window.getComputedStyle(element);
+          if (computedStyle.display === "none") {
+            element.style.display = "flex";
           }
         } else {
           element.style.display = "none";
@@ -20467,7 +20485,7 @@
         navProjectWrapper,
         {
           opacity: 1,
-          duration: 0.6,
+          duration: 1.2,
           ease: "power2.out"
         },
         0
@@ -20924,6 +20942,11 @@
     initCloudLoop();
     initLoopWordSwiper();
     initGlassEffect();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        initServicesParallaxV2();
+      });
+    });
     initMarker();
     loadModelViewerScript();
     loadScript("https://cdn.jsdelivr.net/npm/@finsweet/attributes-accordion@1/accordion.js");
@@ -21055,11 +21078,6 @@
       {
         namespace: "pricings",
         beforeEnter() {
-          initCardsBorder();
-          requestAnimationFrame(() => {
-            ScrollTrigger2.refresh();
-            initServicesParallaxV2();
-          });
         }
       },
       {
