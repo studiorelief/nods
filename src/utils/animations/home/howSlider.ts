@@ -73,9 +73,9 @@ export function initHowSlider() {
       swiperInstance = new Swiper(swiperEl as HTMLElement, {
         direction: 'horizontal',
         loop: true,
-        centeredSlides: false,
-        slidesPerView: 0.4,
-        spaceBetween: 1.5 * 16,
+        centeredSlides: true,
+        slidesPerView: 1,
+        spaceBetween: 0 * 16,
         speed: 500,
         grabCursor: true,
         allowTouchMove: true,

@@ -74,13 +74,13 @@ export function initOtherProjectsSlider() {
         spaceBetween: 3 * 16,
       },
       768: {
-        slidesPerView: 2,
+        slidesPerView: 2.5,
         spaceBetween: 2.5 * 16,
       },
       240: {
-        slidesPerView: 1,
+        slidesPerView: 2.5,
         centeredSlides: true,
-        spaceBetween: 2.5 * 16,
+        spaceBetween: 1.5 * 16,
       },
     },
   });
