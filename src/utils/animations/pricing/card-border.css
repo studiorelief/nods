@@ -11,12 +11,42 @@
     transition: color 0.2s ease-out, rotate 0.2s ease-out;
 }
 
-.pricing-v3_hero_accordion-item:hover .pricing-v3_hero_bullet {
-    color: #ff07df;
+.pricing-v3_hero_cards.is-1 .pricing-v3_hero_accordion-item:hover .pricing-v3_hero_bullet {
+    color: #FF9500;
     rotate: 90deg;
 }
 
-.pricing-v3_hero_accordion-item.is-active-accordion .pricing-v3_hero_bullet {
-    color: #ff07df;
+.pricing-v3_hero_cards.is-1 .pricing-v3_hero_accordion-item.is-active-accordion .pricing-v3_hero_bullet {
+    color: #FF9500;
+    rotate: 90deg;
+}
+
+.pricing-v3_hero_cards.is-2 .pricing-v3_hero_accordion-item:hover .pricing-v3_hero_bullet {
+    color: #00CC8C;
+    rotate: 90deg;
+}
+
+.pricing-v3_hero_cards.is-2 .pricing-v3_hero_accordion-item.is-active-accordion .pricing-v3_hero_bullet {
+    color: #00CC8C;
+    rotate: 90deg;
+}
+
+.pricing-v3_hero_cards.is-3 .pricing-v3_hero_accordion-item:hover .pricing-v3_hero_bullet {
+    color:#FF00F2 ;
+    rotate: 90deg;
+}
+
+.pricing-v3_hero_cards.is-3 .pricing-v3_hero_accordion-item.is-active-accordion .pricing-v3_hero_bullet {
+    color:#FF00F2;
+    rotate: 90deg;
+}
+
+.pricing-v3_abo_cards .pricing-v3_hero_accordion-item:hover .pricing-v3_hero_bullet {
+    color: #FF0000;
+    rotate: 90deg;
+}
+
+.pricing-v3_abo_cards .pricing-v3_hero_accordion-item.is-active-accordion .pricing-v3_hero_bullet {
+    color:#FF0000;
     rotate: 90deg;
 }
