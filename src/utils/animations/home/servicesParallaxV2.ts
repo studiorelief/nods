@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export const initServicesParallaxV2 = (): void => {
   // Only run if screen width is greater than 479px
@@ -37,5 +38,61 @@ export const initServicesParallaxV2 = (): void => {
         },
       }
     );
+  });
+
+  // Fonction pour rafraîchir ScrollTrigger avec debounce
+  let refreshTimeout: ReturnType<typeof setTimeout> | null = null;
+  const refreshScrollTrigger = () => {
+    if (refreshTimeout) {
+      clearTimeout(refreshTimeout);
+    }
+    refreshTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+  };
+
+  // ResizeObserver pour détecter les changements de hauteur du document
+  // Cela capture tous les changements de taille, y compris ceux causés par les dropdowns
+  const resizeObserver = new ResizeObserver(() => {
+    refreshScrollTrigger();
+  });
+
+  resizeObserver.observe(document.body);
+  resizeObserver.observe(document.documentElement);
+
+  // MutationObserver pour détecter les changements de style (display, height, etc.)
+  // qui peuvent affecter la hauteur de la page
+  const styleObserver = new MutationObserver((mutations) => {
+    let shouldRefresh = false;
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes') {
+        const target = mutation.target as HTMLElement;
+        // Détecter les changements de style inline (display, height, max-height, etc.)
+        if (mutation.attributeName === 'style') {
+          const { display, height, maxHeight, visibility, overflow } = target.style;
+          // Vérifier si un changement de style peut affecter la hauteur
+          if (display || height || maxHeight || visibility || overflow) {
+            shouldRefresh = true;
+          }
+        }
+        // Détecter les changements d'attributs qui peuvent indiquer un toggle
+        if (
+          mutation.attributeName === 'aria-expanded' ||
+          mutation.attributeName === 'aria-hidden'
+        ) {
+          shouldRefresh = true;
+        }
+      }
+    });
+    if (shouldRefresh) {
+      refreshScrollTrigger();
+    }
+  });
+
+  // Observer tous les éléments du document pour les changements de style
+  styleObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['style', 'aria-expanded', 'aria-hidden'],
+    subtree: true,
   });
 };

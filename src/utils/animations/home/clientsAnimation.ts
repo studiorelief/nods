@@ -9,6 +9,10 @@ export const initClientsAnimation = (): (() => void) => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (prefersReducedMotion.matches) return () => {};
 
+  // Ne lance l'animation que si la fenêtre est supérieure à 479px
+  const isMobile = window.matchMedia('(max-width: 479px)');
+  if (isMobile.matches) return () => {};
+
   const root = document.querySelector('.section_clients .clients_collection-list') as HTMLElement;
   if (!root) return () => {};
 
