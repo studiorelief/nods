@@ -9,32 +9,34 @@
     gap: 3vw;
 } */
 
-.section_home_why img {
-  width: 15vw;
-  height: 15vw;
-  position: absolute;
-  object-fit: cover;
-  border-radius: 4%;
-  z-index: 1;
-  pointer-events: none;
-}
+@media (min-width: 479px) {
+  .section_home_why img {
+    width: 15vw;
+    height: 15vw;
+    position: absolute;
+    object-fit: cover;
+    border-radius: 4%;
+    z-index: 1;
+    pointer-events: none;
+  }
 
-.home_why_component img {
-  width: 2.75rem !important;
-  height: 2.75rem !important;
-  position: static;
-  object-fit: cover;
-  border-radius: auto;
-  z-index: auto;
-  pointer-events: none;
-}
+  .home_why_component img {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    position: static;
+    object-fit: cover;
+    border-radius: auto;
+    z-index: auto;
+    pointer-events: none;
+  }
 
-.section_home_why .home_why_medias img {
-  width: 1px;
-  height: 1px;
-  top: 0;
-  left: 0;
-  position: absolute;
-  visibility: hidden;
-  pointer-events: none;
+  .section_home_why .home_why_medias img {
+    width: 1px;
+    height: 1px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }

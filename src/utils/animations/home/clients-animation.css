@@ -3,7 +3,6 @@
 }
 
 @media (max-width: 479px) {
-
   .clients_collection-item:first-child .clients_cards {
     height: 7rem;
   }
@@ -18,9 +17,10 @@
 }
 
 .clients_logo-wrapper {
-  transition: transform 0.2s ease-in-out, padding-left 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    padding-left 0.2s ease-in-out;
   transform-origin: center center;
-
 }
 
 @media (min-width: 479px) {
@@ -28,7 +28,6 @@
     transform: scale(2);
   }
 }
-
 
 @media (max-width: 479px) {
   .clients_collection-item:hover .clients_logo-wrapper {

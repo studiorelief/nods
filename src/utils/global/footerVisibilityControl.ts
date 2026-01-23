@@ -44,4 +44,16 @@ export const controlFooterVisibility = (namespace: string): void => {
       }
     }
   });
+
+  // Contrôle du positionnement sticky du button wrapper mobile
+  const buttonWrapper = footerSection.querySelector('.footer-2_button-wrapper') as HTMLElement;
+  if (buttonWrapper && isMobile) {
+    if (isHomePage) {
+      // Sur la homepage mobile, forcer sticky
+      buttonWrapper.style.position = 'sticky';
+    } else {
+      // Sur les autres pages mobile, retirer sticky
+      buttonWrapper.style.position = 'static';
+    }
+  }
 };
