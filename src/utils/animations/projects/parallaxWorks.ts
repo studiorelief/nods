@@ -118,17 +118,11 @@ export const initWorksParallax = (): void => {
     });
   }
 
-  // Animation 2: .projects_content_main-parallax avec trigger .section_projects_content
+  // Animation 2: parallaxe sur le bloc contenu
   const contentParallax = document.querySelector('.projects_content_main-parallax');
   const contentTrigger = document.querySelector('.section_projects_content');
 
   if (contentParallax && contentTrigger) {
-    // Set initial state before animating to avoid visual glitches
-    // Don't clear all props as it can cause jumps if page is already visible
-    const isMobile = window.matchMedia('(max-width: 991px)').matches;
-    const yStartValue = isMobile ? '0rem' : '-5rem';
-    gsap.set(contentParallax, { y: yStartValue });
-
     contentMatchMedia = gsap.matchMedia();
 
     contentMatchMedia.add(
@@ -138,27 +132,52 @@ export const initWorksParallax = (): void => {
       },
       (context) => {
         const { isMobile } = context.conditions as { isMobile: boolean };
-        const yStartValue = isMobile ? '0rem' : '-5rem';
-        const yEndValue = isMobile ? '0em' : '5rem';
 
-        gsap.fromTo(
-          contentParallax,
-          {
-            y: yStartValue,
-          },
-          {
-            y: yEndValue,
-            ease: 'none',
-            scrollTrigger: {
-              markers: false,
-              trigger: '.projects_content_main',
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-              invalidateOnRefresh: true,
+        if (isMobile) {
+          // MOBILE (& small mobile) : l'image fait ~200vw
+          // On démarre à 0 (on voit le premier 100vw) et on slide les 100vw restants vers la gauche
+          const xStartPercent = 0;
+          const xEndPercent = -50;
+
+          gsap.fromTo(
+            contentParallax,
+            {
+              xPercent: xStartPercent,
             },
-          }
-        );
+            {
+              xPercent: xEndPercent,
+              ease: 'none',
+              scrollTrigger: {
+                markers: false,
+                trigger: '.projects_content_main',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        } else {
+          // DESKTOP : garder l’ancienne parallaxe verticale
+          gsap.fromTo(
+            contentParallax,
+            {
+              y: '-5rem',
+            },
+            {
+              y: '5rem',
+              ease: 'none',
+              scrollTrigger: {
+                markers: false,
+                trigger: '.projects_content_main',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        }
       }
     );
   }
