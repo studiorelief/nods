@@ -65,13 +65,14 @@ function remToPixels(rem: string): number {
 }
 
 /**
- * Obtient l'espacement (spaceBetween) pour un élément root donné
- * Retourne la valeur en pixels pour les calculs et la valeur originale pour Swiper
+ * Obtient l'espacement (spaceBetween) pour un élément root donné.
+ * Retourne toujours un nombre (pixels) pour Swiper : les unités rem ne sont pas
+ * gérées par Swiper et provoquent un espace quasi nul sur mobile.
  */
-function getSpaceBetween(root: HTMLElement): { value: number | string; pixels: number } {
+function getSpaceBetween(root: HTMLElement): { value: number; pixels: number } {
   if (root.classList.contains('is-services-loop')) {
-    const pixels = remToPixels(SERVICES_LOOP_SPACE);
-    return { value: SERVICES_LOOP_SPACE, pixels };
+    const pixels = Math.round(remToPixels(SERVICES_LOOP_SPACE));
+    return { value: pixels, pixels };
   }
   return { value: BASE_SPACE, pixels: BASE_SPACE };
 }

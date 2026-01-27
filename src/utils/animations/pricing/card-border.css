@@ -7,6 +7,12 @@
   opacity: 1;
 }
 
+@media (max-width: 479px) {
+  .pricing_border {
+    opacity: 1;
+  }
+}
+
 .pricing-v3_hero_bullet {
   transition:
     color 0.2s ease-out,

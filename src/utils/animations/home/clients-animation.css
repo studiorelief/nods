@@ -26,7 +26,7 @@
 @media (max-width: 479px) {
   .clients_collection-item:hover .clients_logo-wrapper {
     padding-left: 0.75rem;
-    transform: scale(1.25);
+    transform: scale(1);
   }
 
   .clients_collection-item:first-child .clients_cards {

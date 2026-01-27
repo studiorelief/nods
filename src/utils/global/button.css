@@ -221,3 +221,13 @@
 .nav-2_button-side.is-active {
   transform: rotateZ(45deg);
 }
+
+/* 
+*==========================================
+* SMALL INVERT
+*==========================================
+*/
+
+[data-wf--button-v2--variant='invert---small']:hover .button_v2_background {
+  opacity: 0;
+}
