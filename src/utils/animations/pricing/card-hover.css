@@ -1,0 +1,43 @@
+@media (min-width: 992px) {
+  .pricing-v3_hero_cards {
+    transition: height 0.3s ease-out;
+    /* margin 0.3s ease-out; */
+  }
+
+  .pricing-v3_approach {
+    transition: margin-top 0.3s ease-out;
+  }
+
+  .pricing-v3_hero_cards:hover {
+    height: 100%;
+    /* margin-bottom: 1.5rem; */
+  }
+
+  .pricing-v3_hero_cards.is-1:hover ~ .pricing-v3_approach.is-1 {
+    margin-top: 3rem;
+  }
+
+  .pricing-v3_hero_cards.is-2:hover ~ .pricing-v3_approach.is-2 {
+    margin-top: 3rem;
+  }
+
+  .pricing-v3_hero_cards.is-3:hover ~ .pricing-v3_approach.is-3 {
+    margin-top: 3rem;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1254px) {
+  .pricing-v3_hero_cards {
+    height: 100% !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .pricing-v3_hero_button {
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: var(--_layout---spacing--small);
+    row-gap: var(--_layout---spacing--small);
+    /* background-color: red; */
+  }
+}

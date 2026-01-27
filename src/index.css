@@ -20,6 +20,7 @@
 @import './utils/animations/home/clients-animation.css';
 @import './utils/global/responsive.css';
 @import './utils/animations/pricing/card-border.css';
+@import './utils/animations/pricing/card-hover.css';
 
 /* Hide model viewer progress bar */
 model-viewer::part(default-progress-bar) {
